@@ -14,7 +14,7 @@ namespace webwork {
 
     template <class ...T>
     void Log(LogLevel level, std::format_string<T...> message, T ...args) {
-        Log(level, std::format(message, std::forward<T...>(args)...));
+        Log(level, std::format(message, std::forward<T>(args)...));
     }
 }
 
