@@ -4,13 +4,11 @@
 #include <string>
 
 namespace webwork {
-
-struct Response {
-    int code;
-    std::string body;
-    std::map<std::string, std::string> headers;
-};
-
+    struct Response {
+        int code;
+        std::string body;
+        std::map<std::string, std::string> headers;
+    };
 } // webwork
 
 #endif //RESPONSE_H
