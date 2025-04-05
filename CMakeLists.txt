@@ -8,6 +8,7 @@ find_package(cppzmq REQUIRED)
 add_executable(cpp-webwork src/main.cpp
         src/Route.h
         src/Response.h
-        src/Request.h)
+        src/Request.h
+        src/Server/Server.h)
 
 target_link_libraries(cpp-webwork cppzmq)
