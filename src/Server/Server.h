@@ -1,8 +1,12 @@
-//
-// Created by user on 05.04.2025.
-//
-
 #ifndef SERVER_H
 #define SERVER_H
+#include "ServerConfig.h"
+#include "../Request.h"
+
+namespace webwork {
+    void RunServer(const ServerConfig &config);
+    Request ParseRequest(std::string requestString);
+    void StopServer();
+}
 
 #endif //SERVER_H
