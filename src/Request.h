@@ -1,7 +1,3 @@
-//
-// Created by Kacper on 4/5/25.
-//
-
 #ifndef REQUEST_H
 #define REQUEST_H
 #include <map>

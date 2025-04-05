@@ -1,7 +1,3 @@
-//
-// Created by Kacper on 4/5/25.
-//
-
 #ifndef RESPONSE_H
 #define RESPONSE_H
 #include <map>

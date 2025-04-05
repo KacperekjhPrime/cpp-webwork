@@ -1,7 +1,3 @@
-//
-// Created by Kacper on 4/5/25.
-//
-
 #ifndef ROUTE_H
 #define ROUTE_H
 #include <memory>
