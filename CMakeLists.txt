@@ -3,6 +3,8 @@ project(cpp-webwork)
 
 set(CMAKE_CXX_STANDARD 23)
 
+find_package(cppzmq REQUIRED)
+
 add_executable(cpp-webwork src/main.cpp
         src/Route.h
         src/Response.cxx
@@ -11,3 +13,5 @@ add_executable(cpp-webwork src/main.cpp
         src/Request.h
         src/Request.cxx
         src/Request.h)
+
+target_link_libraries(cpp-webwork cppzmq)
