@@ -11,6 +11,9 @@ add_executable(cpp-webwork src/main.cpp
         src/Request.h
         src/Server/Server.h
         src/Server/ServerConfig.h
-        src/Server/Server.cpp)
+        src/Server/Server.cpp
+        src/Request.h
+        src/Logging.h
+        src/Logging.cxx)
 
 target_link_libraries(cpp-webwork cppzmq)
