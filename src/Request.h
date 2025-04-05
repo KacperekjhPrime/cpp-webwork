@@ -5,14 +5,24 @@
 #include <string>
 
 namespace webwork {
+    enum class RequestType {
+        GET,
+        HEAD,
+        POST,
+        PUT,
+        DELETE,
+        CONNECT,
+        OPTIONS,
+        TRACE,
+        PATCH,
+    };
 
-struct Request {
-    std::string method;
-    std::string url;
-    std::optional<std::string> body;
-    std::map<std::string, std::string> headers;
-};
-
+    struct Request {
+        RequestType method;
+        std::string url;
+        std::optional<std::string> body;
+        std::map<std::string, std::string> headers;
+    };
 } // webwork
 
 #endif //REQUEST_H
