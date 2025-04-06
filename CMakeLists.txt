@@ -27,6 +27,7 @@ add_executable(cpp-webwork src/main.cpp
         src/Loading/Module.h
         src/Mime.h
         src/Mime.cpp)
+        src/StatusCodes.h
 
 include_directories(cpp-webwork ${CPPZMQ_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
 target_link_libraries(cpp-webwork ${CPPZMQ_LIBRARIES} ${MAGIC_LIBRARIES})
