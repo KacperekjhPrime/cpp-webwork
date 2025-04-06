@@ -1,6 +1,10 @@
 #include <iostream>
 
+#include "Logging.h"
+#include "Mime.h"
+#include "Loading/Loader.h"
+
 int main() {
-    std::cout << "Hello to cpp-websack!" << std::endl;
+    webwork::LoadModules();
     return 0;
 }
