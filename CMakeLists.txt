@@ -19,7 +19,10 @@ add_executable(cpp-webwork src/main.cpp
         src/Response.h
         src/Request.h
         src/Logging.h
-        src/Logging.cxx)
+        src/Logging.cxx
+        src/Loading/Loader.h
+        src/Loading/Loader.cpp
+        src/Loading/Module.h)
 
 include_directories(cpp-webwork ${CPPZMQ_INCLUDE_DIRS})
 target_link_libraries(cpp-webwork ${CPPZMQ_LIBRARIES})
