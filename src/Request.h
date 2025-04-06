@@ -3,6 +3,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include "URL.h"
 
 namespace webwork {
     enum class RequestType {
@@ -19,7 +20,7 @@ namespace webwork {
 
     struct Request {
         RequestType method;
-        std::string url;
+        URL url;
         std::optional<std::string> body;
         std::map<std::string, std::string> headers;
     };
