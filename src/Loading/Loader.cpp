@@ -1,15 +1,16 @@
 #include "Loader.h"
 
 #include "../Logging.h"
+#include "../Mime.h"
 
 namespace webwork {
 #ifdef linux
 #include <dlfcn.h>
-    constexpr std::string_view moduleExtension = ".so";
+    constexpr std::string_view moduleMime = "application/x-sharedlib";
 #elifdef WIN32
 #include <libloaderapi.h>
 #include <errhandlingapi.h>
-    constexpr std::string_view moduleExtension = ".dll";
+    constexpr std::string_view moduleMime = "application/vnd.microsoft.portable-executable";
 #else
 #error Unsupported platform. Currently supported platforms are Windows and Linux.
 #endif
@@ -68,11 +69,12 @@ namespace webwork {
         }
 
         for (const auto &entry : std::filesystem::directory_iterator(moduleDirectory)) {
+            if (!entry.is_regular_file()) continue;
+
             const auto &path = entry.path();
-            if (entry.is_regular_file() && path.extension().compare(moduleExtension) == 0) {
-                if (auto module = LoadModule(path)) {
-                    modules.push_back(module);
-                }
+            if (GetFileMime(path) != moduleMime) continue;
+            if (auto module = LoadModule(path)) {
+                modules.push_back(module);
             }
         }
 
