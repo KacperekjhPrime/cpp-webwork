@@ -13,6 +13,7 @@ namespace webwork {
         std::vector<std::string> path;
         std::multimap<std::string, std::string> searchParameters;
 
+        URL();
         URL(std::string_view url);
     };
 } // webwork

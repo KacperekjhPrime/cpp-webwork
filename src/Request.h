@@ -15,7 +15,19 @@ namespace webwork {
         CONNECT,
         OPTIONS,
         TRACE,
-        PATCH,
+        PATCH
+    };
+
+    const std::map<std::string, RequestType> RequestMethods{
+        {"GET", RequestType::GET},
+        {"HEAD", RequestType::HEAD},
+        {"POST", RequestType::POST},
+        {"PUT", RequestType::PUT},
+        {"DELETE", RequestType::DELETE},
+        {"CONNECT", RequestType::CONNECT},
+        {"OPTIONS", RequestType::OPTIONS},
+        {"TRACE", RequestType::TRACE},
+        {"PATCH", RequestType::PATCH}
     };
 
     struct Request {

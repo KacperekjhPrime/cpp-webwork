@@ -3,6 +3,8 @@
 #include "Logging.h"
 
 namespace webwork {
+    URL::URL() {}
+
     URL::URL(std::string_view url) {
         this -> url = url;
 

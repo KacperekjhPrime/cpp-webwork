@@ -1,4 +1,6 @@
 #include "Helper.h"
+
+#include <cstring>
 #include <string>
 #include <map>
 
@@ -10,6 +12,27 @@ namespace webwork {
         size_t previousFound = 0;
         while (i < input.length()) {
             if (input[i] == delimiter) {
+                output.push_back(std::string(input.substr(previousFound, i - previousFound)));
+                previousFound = i + 1;
+            }
+
+            i++;
+        }
+
+        if (previousFound != input.size() - 1) {
+            output.push_back(std::string(input).substr(previousFound, input.size() - 1));
+        }
+
+        return output;
+    }
+
+    std::vector<std::string> SplitString(std::string_view input, std::string delimiter) {
+        std::vector<std::string> output;
+
+        size_t i = 0;
+        size_t previousFound = 0;
+        while (i < input.length() - delimiter.size()) {
+            if (input.substr(i, delimiter.size()) == delimiter) {
                 output.push_back(std::string(input.substr(previousFound, i - previousFound)));
                 previousFound = i + 1;
             }
