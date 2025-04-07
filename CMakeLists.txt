@@ -13,7 +13,7 @@ include(FindPkgConfig)
 find_package(PkgConfig REQUIRED)
 set(CMAKE_CXX_FLAGS "-Wall -g")
 
-pkg_check_modules(CPPZMQ "cppzmq" REQUIRED)
+pkg_check_modules(ASIO "asio" REQUIRED)
 pkg_check_modules(MAGIC "libmagic" REQUIRED)
 
 add_executable(cpp-webwork src/main.cpp
@@ -26,8 +26,30 @@ add_executable(cpp-webwork src/main.cpp
         src/Loading/Loader.cpp
         src/Loading/Module.h
         src/Mime.h
-        src/Mime.cpp)
+        src/Mime.cpp
+        src/Parser/Parser.h
+        src/Parser/Parser.cpp
+        src/Parser/Token.h
+        src/Parser/BasicToken.h
+        src/Parser/TokenTree.h
+        src/Parser/TokenTree.cpp
+        src/Parser/Tokens/Variable.cpp
+        src/Parser/Tokens/Variable.h
+        src/Parser/Tokens/Text.cpp
+        src/Parser/Tokens/Text.h
+        src/Parser/Block.h
+        src/Parser/Tokens/If.cpp
+        src/Parser/Tokens/If.h
+        src/Parser/Tokens/For.cpp
+        src/Parser/Tokens/For.h
+        src/Parser/Tokens/Root.cpp
+        src/Parser/Tokens/Root.h
+        src/Parser/TokenMergeRules.h
+        src/Parser/TokenMergeRules.cpp
+        src/Parser/Block.cpp
+        src/Parser/Token.cpp
+)
 
-include_directories(cpp-webwork ${CPPZMQ_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
-target_link_libraries(cpp-webwork ${CPPZMQ_LIBRARIES} ${MAGIC_LIBRARIES})
+include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
+target_link_libraries(cpp-webwork ${ASIO_LIBRARIES} ${MAGIC_LIBRARIES})
 message(${CMAKE_BUILD_TYPE})

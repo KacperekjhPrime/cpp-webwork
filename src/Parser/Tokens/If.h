@@ -1,0 +1,17 @@
+#ifndef IF_H
+#define IF_H
+#include "../Block.h"
+#include "../Token.h"
+
+namespace webwork {
+    class If final : public Token, public Block {
+    public:
+        const std::string condition;
+
+        If(size_t startIndex, std::string_view condition);
+
+        std::string GetContent() const override;
+    };
+} // webwork
+
+#endif //IF_H
