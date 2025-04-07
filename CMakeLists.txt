@@ -31,7 +31,10 @@ add_executable(cpp-webwork src/main.cpp
         src/Server/Server.cpp
         src/StatusCodes.h
         src/URL.cpp
-        src/URL.h)
+        src/URL.h
+        src/Helper.cpp
+        src/Helper.h
+        src/Response.cpp)
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
 target_link_libraries(cpp-webwork ${ASIO_LIBRARIES} ${MAGIC_LIBRARIES})

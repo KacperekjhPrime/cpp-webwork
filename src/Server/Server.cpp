@@ -2,6 +2,7 @@
 #include <asio.hpp>
 #include <map>
 #include <fstream>
+#include <string_view>
 #include "../Logging.h"
 #include "../Response.h"
 
@@ -33,8 +34,9 @@ namespace webwork {
         }
     }
 
-    Request ParseRequest(std::string requestString) {
-        return Request{RequestType::GET, URL("/hello/world/aaaa/index.html"), std::nullopt, std::map<std::string, std::string>{}};
+    Request ParseRequest(std::string_view requestString) {
+
+        return Request{RequestType::GET, URL("/hello/world/aaaa/index.html?test=adasdasda&fuck=me"), std::nullopt, std::map<std::string, std::string>{}};
     }
 
     void StopServer() {

@@ -1,6 +1,7 @@
 #ifndef URL_H
 #define URL_H
 #include <string>
+#include <string_view>
 #include <vector>
 #include <map>
 #include <iostream>
@@ -10,7 +11,7 @@ namespace webwork {
     public:
         std::string url;
         std::vector<std::string> path;
-        std::map<std::string, std::string> searchParameters;
+        std::multimap<std::string, std::string> searchParameters;
 
         URL(std::string_view url);
     };

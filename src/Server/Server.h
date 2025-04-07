@@ -5,7 +5,7 @@
 
 namespace webwork {
     void RunServer(const ServerConfig &config);
-    Request ParseRequest(std::string requestString);
+    Request ParseRequest(std::string_view requestString);
     void StopServer();
 }
 
