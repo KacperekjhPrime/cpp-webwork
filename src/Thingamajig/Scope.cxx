@@ -2,9 +2,9 @@
 #include "../Logging.h"
 
 namespace webwork {
-    Scope::Scope(const std::shared_ptr<properties::Object> &object, const std::shared_ptr<Scope> &previous) : object(object), previous(previous) {}
+    Scope::Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous) : object(object), previous(previous) {}
 
-    std::shared_ptr<Property> Scope::GetProperty(const std::string &name) const {
+    std::shared_ptr<const Property> Scope::GetProperty(const std::string &name) const {
         if (object) {
             const auto property = object->GetProperty(name);
             if (property) {

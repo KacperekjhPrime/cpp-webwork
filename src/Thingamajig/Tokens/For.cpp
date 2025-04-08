@@ -9,7 +9,7 @@ namespace webwork::tokens {
         Block(TokenType::EndFor, "for"), variable(variable), collection(collection), index(index) {}
 
     std::string For::GetContent(const std::shared_ptr<Scope> &scope) const {
-        const auto array = std::dynamic_pointer_cast<properties::Array>(scope->GetProperty(collection));
+        const auto array = std::dynamic_pointer_cast<const properties::Array>(scope->GetProperty(collection));
         if (array == nullptr) {
             Log(LogLevel::Warning, "Property {} is not an Array.", collection);
             return "";

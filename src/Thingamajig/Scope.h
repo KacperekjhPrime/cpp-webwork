@@ -7,12 +7,12 @@
 namespace webwork {
     class Scope {
     public:
-        std::shared_ptr<properties::Object> object;
-        std::shared_ptr<Scope> previous;
+        std::shared_ptr<const properties::Object> object;
+        std::shared_ptr<const Scope> previous;
 
-        explicit Scope(const std::shared_ptr<properties::Object> &object, const std::shared_ptr<Scope> &previous = nullptr);
+        explicit Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous = nullptr);
 
-        std::shared_ptr<Property> GetProperty(const std::string &name) const;
+        std::shared_ptr<const Property> GetProperty(const std::string &name) const;
     };
 }
 
