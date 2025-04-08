@@ -14,9 +14,6 @@ namespace webwork::properties {
         std::shared_ptr<Property> GetProperty(const std::string &key) const;
 
         std::string ToString() const override;
-
-        template <class T>
-        auto CreateProperty(const T &value);
     };
 }
 
