@@ -4,7 +4,7 @@ namespace webwork::properties {
     Number::Number(double data) : data(data) {}
 
     std::string Number::ToString() const {
-        return std::to_string(data);
+        return std::format("{}", data);
     }
 
     bool Number::GetBoolValue() const {
