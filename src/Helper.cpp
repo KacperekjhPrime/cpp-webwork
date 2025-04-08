@@ -19,9 +19,7 @@ namespace webwork {
             i++;
         }
 
-        if (previousFound != input.size() - 1) {
-            output.push_back(std::string(input).substr(previousFound, input.size() - 1));
-        }
+        output.push_back(std::string(input).substr(previousFound, input.size()));
 
         return output;
     }
@@ -31,18 +29,16 @@ namespace webwork {
 
         size_t i = 0;
         size_t previousFound = 0;
-        while (i < input.length() - delimiter.size()) {
+        while (i < input.length() - delimiter.size() + 1) {
             if (input.substr(i, delimiter.size()) == delimiter) {
                 output.push_back(std::string(input.substr(previousFound, i - previousFound)));
-                previousFound = i + 1;
+                previousFound = i + delimiter.size();
             }
 
             i++;
         }
 
-        if (previousFound != input.size() - 1) {
-            output.push_back(std::string(input).substr(previousFound, input.size() - 1));
-        }
+        output.push_back(std::string(input).substr(previousFound, input.size()));
 
         return output;
     }
@@ -61,6 +57,26 @@ namespace webwork {
             parameter.second = parameterString.substr(splitIndex + 1);
 
             output.insert(parameter);
+        }
+
+        return output;
+    }
+
+    std::string VectorToPath(std::vector<std::string> input) {
+        std::string output;
+
+        for (const auto &string : input) {
+            if (&string != &input.back()) {
+                output += string + "/";
+            }
+            else {
+                if (string == "") {
+                    output += "index.html";
+                }
+                else {
+                    output += string;
+                }
+            }
         }
 
         return output;
