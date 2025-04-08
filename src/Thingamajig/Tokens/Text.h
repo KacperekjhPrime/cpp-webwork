@@ -9,7 +9,7 @@ namespace webwork::tokens {
 
         Text(size_t startIndex, std::string_view text);
 
-        std::string GetContent() const override;
+        std::string GetContent(const std::shared_ptr<Scope> &) const override;
     };
 }
 

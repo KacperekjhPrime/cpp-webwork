@@ -10,7 +10,7 @@ namespace webwork::tokens {
 
         If(size_t startIndex, std::string_view condition);
 
-        std::string GetContent() const override;
+        std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
     };
 } // webwork
 

@@ -2,11 +2,19 @@
 
 #include <format>
 
+#include "../../Logging.h"
+
 namespace webwork::tokens {
     Variable::Variable(size_t startIndex, std::string_view variableName) : Token(startIndex), variableName(variableName) {}
 
-    std::string Variable::GetContent() const {
+    std::string Variable::GetContent(const std::shared_ptr<Scope> &scope) const {
         // TODO: Display variables here
-        return std::format("[{}]", variableName);
+        const auto property = scope->GetProperty(variableName);
+        if (property) {
+            return property->ToString();
+
+        }
+        Log(LogLevel::Warning, "Undefined variable: {}", variableName);
+        return "undefined";
     }
 }

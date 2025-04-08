@@ -8,7 +8,7 @@ namespace webwork::tokens {
     public:
         Root();
 
-        std::string GetContent() const override;
+        std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
     };
 } // webwork
 

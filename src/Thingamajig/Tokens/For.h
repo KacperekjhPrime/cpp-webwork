@@ -12,7 +12,7 @@ namespace webwork::tokens {
 
         For(size_t startIndex, std::string_view variable, std::string_view collection, const std::optional<std::string_view> &index);
 
-        std::string GetContent() const override;
+        std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
     };
 } // webwork
 
