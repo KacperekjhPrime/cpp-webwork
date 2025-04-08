@@ -6,6 +6,7 @@
 
 namespace webwork {
     class Scope {
+    public:
         std::shared_ptr<properties::Object> object;
         std::shared_ptr<Scope> previous;
 
