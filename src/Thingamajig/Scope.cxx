@@ -1,4 +1,5 @@
 #include "Scope.h"
+#include "../Logging.h"
 
 namespace webwork {
     Scope::Scope(const std::shared_ptr<properties::Object> &object, const std::shared_ptr<Scope> &previous) : object(object), previous(previous) {}
@@ -14,6 +15,8 @@ namespace webwork {
         if (previous) {
             return previous->GetProperty(name);
         }
+
+        Log(LogLevel::Warning, "Property {} is undefined.", name);
         return nullptr;
     }
 }

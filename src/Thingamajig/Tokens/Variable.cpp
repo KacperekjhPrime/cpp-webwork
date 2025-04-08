@@ -14,7 +14,6 @@ namespace webwork::tokens {
             return property->ToString();
 
         }
-        Log(LogLevel::Warning, "Undefined variable: {}", variableName);
         return "undefined";
     }
 }
