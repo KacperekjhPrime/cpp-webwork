@@ -1,6 +1,6 @@
 #include "For.h"
 
-namespace webwork {
+namespace webwork::tokens {
     For::For(size_t startIndex, std::string_view variable, std::string_view collection, const std::optional<std::string_view> &index) : Token(startIndex),
         Block(TokenType::EndFor, "for"), variable(variable), collection(collection), index(index) {}
 

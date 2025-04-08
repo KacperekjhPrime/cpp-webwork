@@ -22,7 +22,7 @@ namespace webwork {
      * @param rules <c>TokenTree</c> of rules used to merge the tokens and convert them into <c>Token</c>s
      * @return Tree of <c>Token</c>s starting with <c>Root</c>
      */
-    std::shared_ptr<Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const MergeRules &rules);
+    std::shared_ptr<tokens::Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const MergeRules &rules);
 }
 
 #endif //PARSER_H

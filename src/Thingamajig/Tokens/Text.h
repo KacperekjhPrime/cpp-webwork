@@ -2,7 +2,7 @@
 #define TEXT_H
 #include "../Token.h"
 
-namespace webwork {
+namespace webwork::tokens {
     class Text final : public Token {
     public:
         std::string text;

@@ -3,7 +3,7 @@
 
 #include "../Token.h"
 
-namespace webwork {
+namespace webwork::tokens {
     class Variable final : public Token {
     public:
         std::string_view variableName;

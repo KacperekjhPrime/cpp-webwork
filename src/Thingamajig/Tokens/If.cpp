@@ -1,6 +1,6 @@
 #include "If.h"
 
-namespace webwork {
+namespace webwork::tokens {
     If::If(size_t startIndex, std::string_view condition) : Token(startIndex), Block(TokenType::EndIf, "if"), condition(condition) {}
 
     std::string If::GetContent() const {

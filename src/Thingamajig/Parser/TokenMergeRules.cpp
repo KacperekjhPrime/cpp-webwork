@@ -5,6 +5,8 @@
 #include "../Tokens/For.h"
 
 namespace webwork {
+    using namespace tokens;
+
     struct TokenMergeRules {
         MergeRules rules = {};
 

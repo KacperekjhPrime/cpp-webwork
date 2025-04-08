@@ -3,7 +3,7 @@
 #include "../Token.h"
 #include "../Block.h"
 
-namespace webwork {
+namespace webwork::tokens {
     class Root final : public Token, public Block {
     public:
         Root();

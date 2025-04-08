@@ -3,7 +3,7 @@
 #include "../Block.h"
 #include "../Token.h"
 
-namespace webwork {
+namespace webwork::tokens {
     class For final : public Token, public Block {
     public:
         const std::string variable;

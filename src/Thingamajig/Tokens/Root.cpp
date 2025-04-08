@@ -1,6 +1,6 @@
 #include "Root.h"
 
-namespace webwork {
+namespace webwork::tokens {
     Root::Root() : Token(0), Block(TokenType::EndOfFile, "root") {}
 
     std::string Root::GetContent() const {
