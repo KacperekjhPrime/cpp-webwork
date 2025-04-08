@@ -2,7 +2,7 @@
 
 #include <stack>
 
-#include "Tokens/Text.h"
+#include "../Tokens/Text.h"
 
 namespace webwork {
     void PushText(std::vector<BasicToken> &tokens, std::string_view text, size_t i, size_t depth, size_t tokenStart) {

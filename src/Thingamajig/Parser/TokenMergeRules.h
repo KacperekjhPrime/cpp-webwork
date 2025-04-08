@@ -5,8 +5,8 @@
 #include <map>
 
 #include "BasicToken.h"
-#include "Block.h"
-#include "Token.h"
+#include "../Block.h"
+#include "../Token.h"
 
 namespace webwork {
     using TokenCreator = std::function<std::shared_ptr<Token>(const std::vector<BasicToken> &tokens, size_t textIndex, size_t lastIndex)>;

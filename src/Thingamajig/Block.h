@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "BasicToken.h"
+#include "Parser/BasicToken.h"
 #include "Token.h"
 
 namespace webwork {

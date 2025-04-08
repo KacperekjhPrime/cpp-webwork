@@ -5,7 +5,7 @@
 #include "BasicToken.h"
 #include "TokenMergeRules.h"
 #include "TokenTree.h"
-#include "Tokens/Root.h"
+#include "../Tokens/Root.h"
 
 namespace webwork {
     /**

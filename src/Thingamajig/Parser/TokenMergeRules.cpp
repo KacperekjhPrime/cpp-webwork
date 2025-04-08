@@ -1,9 +1,8 @@
 #include "TokenMergeRules.h"
 
-#include "Tokens/Variable.h"
-#include "Tokens/If.h"
-#include "Tokens/For.h"
-#include "Tokens/Text.h"
+#include "../Tokens/Variable.h"
+#include "../Tokens/If.h"
+#include "../Tokens/For.h"
 
 namespace webwork {
     struct TokenMergeRules {

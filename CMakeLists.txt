@@ -27,27 +27,38 @@ add_executable(cpp-webwork src/main.cpp
         src/Loading/Module.h
         src/Mime.h
         src/Mime.cpp
-        src/Parser/Parser.h
-        src/Parser/Parser.cpp
-        src/Parser/Token.h
-        src/Parser/BasicToken.h
-        src/Parser/TokenTree.h
-        src/Parser/TokenTree.cpp
-        src/Parser/Tokens/Variable.cpp
-        src/Parser/Tokens/Variable.h
-        src/Parser/Tokens/Text.cpp
-        src/Parser/Tokens/Text.h
-        src/Parser/Block.h
-        src/Parser/Tokens/If.cpp
-        src/Parser/Tokens/If.h
-        src/Parser/Tokens/For.cpp
-        src/Parser/Tokens/For.h
-        src/Parser/Tokens/Root.cpp
-        src/Parser/Tokens/Root.h
-        src/Parser/TokenMergeRules.h
-        src/Parser/TokenMergeRules.cpp
-        src/Parser/Block.cpp
-        src/Parser/Token.cpp
+        src/Thingamajig/Parser/Parser.h
+        src/Thingamajig/Parser/Parser.cpp
+        src/Thingamajig/Token.h
+        src/Thingamajig/Parser/BasicToken.h
+        src/Thingamajig/Parser/TokenTree.h
+        src/Thingamajig/Parser/TokenTree.cpp
+        src/Thingamajig/Tokens/Variable.cpp
+        src/Thingamajig/Tokens/Variable.h
+        src/Thingamajig/Tokens/Text.cpp
+        src/Thingamajig/Tokens/Text.h
+        src/Thingamajig/Block.h
+        src/Thingamajig/Tokens/If.cpp
+        src/Thingamajig/Tokens/If.h
+        src/Thingamajig/Tokens/For.cpp
+        src/Thingamajig/Tokens/For.h
+        src/Thingamajig/Tokens/Root.cpp
+        src/Thingamajig/Tokens/Root.h
+        src/Thingamajig/Parser/TokenMergeRules.h
+        src/Thingamajig/Parser/TokenMergeRules.cpp
+        src/Thingamajig/Block.cpp
+        src/Thingamajig/Token.cpp
+        src/Thingamajig/Property.h
+        src/Thingamajig/Properties/Object.h
+        src/Thingamajig/Properties/Object.cpp
+        src/Thingamajig/Properties/Number.h
+        src/Thingamajig/Properties/Number.cpp
+        src/Thingamajig/Properties/Text.h
+        src/Thingamajig/Properties/Text.cxx
+        src/Thingamajig/Properties/Array.cxx
+        src/Thingamajig/Properties/Array.h
+        src/Thingamajig/Scope.cxx
+        src/Thingamajig/Scope.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
