@@ -5,6 +5,7 @@
 
 #include "Parser/BasicToken.h"
 #include "Token.h"
+#include "Parser/TokenType.h"
 
 namespace webwork {
     class Block {

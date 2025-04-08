@@ -4,22 +4,9 @@
 #include <string_view>
 
 namespace webwork {
-    enum class TokenType {
-        Text,
-        VariableOpening,
-        VariableClosing,
-        If,
-        For,
-        In,
-        EndIf,
-        EndFor,
-        Comma,
-        Escape,
-        EndOfFile
-    };
-
+    template <class T>
     struct BasicToken {
-        TokenType type;
+        T type;
         std::string_view text;
     };
 }

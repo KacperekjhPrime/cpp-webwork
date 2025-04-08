@@ -1,14 +1,14 @@
-#ifndef TEXT_H
-#define TEXT_H
+#ifndef STRING_H
+#define STRING_H
 
 #include "../Property.h"
 
 namespace webwork::properties {
-    class Text final : public Property {
+    class String final : public Property {
     public:
         std::string data;
 
-        explicit Text(std::string_view data = "");
+        explicit String(std::string_view data = "");
 
         std::string ToString() const override;
     };

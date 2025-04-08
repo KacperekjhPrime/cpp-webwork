@@ -2,7 +2,7 @@
 
 namespace webwork {
     struct DefaultTree {
-        TokenTree tree = {
+        TokenTree<TokenType> tree = {
             .children = {
                 {'{', {TokenType::VariableOpening}},
                 {'}', {TokenType::VariableClosing}},
@@ -22,28 +22,7 @@ namespace webwork {
 
     const DefaultTree defaultTree{};
 
-    void AddTextBranch(TokenTree &tree, std::string_view text, TokenType type) {
-        if (text.empty()) return;
-
-        auto *branch = &tree;
-        for (size_t i = 0; i < text.size() - 1; i++) {
-            const auto &nextBranch = branch->children.find(text[i]);
-            if (nextBranch == branch->children.end()) {
-                branch->children[text[i]] = TokenTree{};
-                branch = &std::get<TokenTree>(branch->children[text[i]]);
-            } else {
-                if (std::holds_alternative<TokenType>(nextBranch->second)) {
-                    const auto oldType = std::get<TokenType>(nextBranch->second);
-                    nextBranch->second = TokenTree{{}, oldType};
-                }
-                std::get<TokenTree>(nextBranch->second).children.insert(std::make_pair(text[i], TokenTree{}));
-                branch = &std::get<TokenTree>(branch->children[text[i]]);
-            }
-        }
-        branch->children[text.back()] = type;
-    }
-
-    const TokenTree &GetDefaultTokenTree() {
+    const TokenTree<TokenType> &GetDefaultTokenTree() {
         return defaultTree.tree;
     }
 }

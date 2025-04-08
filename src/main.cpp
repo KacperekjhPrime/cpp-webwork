@@ -1,10 +1,11 @@
 #include "Logging.h"
 #include "Loading/Loader.h"
+#include "Thingamajig/Tokenizer.h"
 #include "Thingamajig/Parser/Parser.h"
 #include "Thingamajig/Properties/Array.h"
 #include "Thingamajig/Properties/Boolean.h"
 #include "Thingamajig/Properties/Number.h"
-#include "Thingamajig/Properties/Text.h"
+#include "Thingamajig/Properties/String.h"
 
 const std::string test =
     "\nHello {sus}\n"
@@ -18,26 +19,26 @@ const std::string test =
     "\tconditional value\n"
     "{endif}";
 
-using namespace webwork::properties;
+using namespace webwork;
 
 int main() {
-    webwork::LoadModules();
-    const auto tokens = ParseTokens(test, webwork::GetDefaultTokenTree());
-    const auto root = AssembleTokenTree(tokens, webwork::GetDefaultMergeRules());
+    LoadModules();
+    const auto tokens = TokenizeText(test, GetDefaultTokenTree());
+    const auto root = AssembleTokenTree(tokens, GetDefaultMergeRules());
 
-    const auto data = std::make_shared<Object>();
-    data->GetProperty("condition1") = std::make_shared<Boolean>(false);
-    data->GetProperty("condition2") = std::make_shared<Number>(0);
+    const auto data = std::make_shared<properties::Object>();
+    data->GetProperty("condition1") = std::make_shared<properties::Boolean>(false);
+    data->GetProperty("condition2") = std::make_shared<properties::Number>(0);
 
-    const auto &array = std::make_shared<Array>();
+    const auto &array = std::make_shared<properties::Array>();
     data->GetProperty("array") = array;
 
-    array->array.push_back(std::make_shared<Number>(28));
-    array->array.push_back(std::make_shared<Number>(9.28));
-    array->array.push_back(std::make_shared<Text>(":3"));
-    array->array.push_back(std::make_shared<Boolean>(false));
+    array->array.push_back(std::make_shared<properties::Number>(28));
+    array->array.push_back(std::make_shared<properties::Number>(9.28));
+    array->array.push_back(std::make_shared<properties::String>(":3"));
+    array->array.push_back(std::make_shared<properties::Boolean>(false));
 
-    Log(webwork::LogLevel::Info, root->GetContent(std::make_shared<webwork::Scope>(data, nullptr)));
+    Log(LogLevel::Info, root->GetContent(std::make_shared<webwork::Scope>(data, nullptr)));
 
     return 0;
 }
