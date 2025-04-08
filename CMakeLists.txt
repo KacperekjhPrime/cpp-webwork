@@ -59,6 +59,9 @@ add_executable(cpp-webwork src/main.cpp
         src/Thingamajig/Properties/Array.h
         src/Thingamajig/Scope.cxx
         src/Thingamajig/Scope.h
+        src/Thingamajig/Properties/Boolean.cxx
+        src/Thingamajig/Properties/Boolean.h
+        src/Thingamajig/Properties/Interfaces/IBoolean.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

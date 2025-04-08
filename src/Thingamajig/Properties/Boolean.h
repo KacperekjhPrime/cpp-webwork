@@ -1,19 +1,18 @@
-#ifndef NUMBER_H
-#define NUMBER_H
-#include <memory>
+#ifndef BOOLEAN_H
+#define BOOLEAN_H
 #include "../Property.h"
 #include "Interfaces/IBoolean.h"
 
 namespace webwork::properties {
-    class Number final : public Property, public IBoolean {
+    class Boolean final : public Property, public IBoolean {
     public:
-        double data{};
+        bool value;
 
-        explicit Number(double data = 0);
+        explicit Boolean(bool value = false);
 
         std::string ToString() const override;
         bool GetBoolValue() const override;
     };
 }
 
-#endif //NUMBER_H
+#endif //BOOLEAN_H
