@@ -11,33 +11,44 @@ namespace webwork {
     template <class T>
     class TokenTree {
     public:
-        std::map<char, std::variant<TokenTree, T>> children;
+        std::map<char, std::variant<std::shared_ptr<TokenTree>, T>> children;
         std::optional<T> type;
+
+        TokenTree() = default;
     };
 
     template <class T>
-    constexpr void AddTextBranch(TokenTree<T> &tree, std::string_view text, T type) {
+    void AddTextBranch(const std::shared_ptr<TokenTree<T>> &tree, std::string_view text, const std::variant<std::shared_ptr<TokenTree<T>>, T> &ending) {
+        using TreePtr = std::shared_ptr<TokenTree<T>>;
+
         if (text.empty()) return;
 
-        auto *branch = &tree;
+        auto branch = tree;
+
         for (size_t i = 0; i < text.size() - 1; i++) {
-            const auto &nextBranch = branch->children.find(text[i]);
-            if (nextBranch == branch->children.end()) {
-                branch->children[text[i]] = TokenTree<T>{};
-                branch = &std::get<TokenTree<T>>(branch->children[text[i]]);
-            } else {
-                if (std::holds_alternative<TokenType>(nextBranch->second)) {
-                    const auto oldType = std::get<TokenType>(nextBranch->second);
-                    nextBranch->second = TokenTree<T>{{}, oldType};
+            const auto existingBranch = branch->children.find(text[i]);
+            if (existingBranch != branch->children.end()) {
+                const auto &value = existingBranch->second;
+                if (std::holds_alternative<T>(value)) {
+                    // Replace the ending branch with a new one and set type;
+                    const auto type = std::get<T>(value);
+                    const auto newBranch = std::make_shared<TokenTree<T>>();
+                    newBranch->type = type;
+                    existingBranch->second = branch = newBranch;
+                } else {
+                    branch = std::get<TreePtr>(value);
                 }
-                std::get<TokenTree<T>>(nextBranch->second).children.insert(std::make_pair(text[i], TokenTree<T>{}));
-                branch = &std::get<TokenTree<T>>(branch->children[text[i]]);
+            } else {
+                const auto newBranch = std::make_shared<TokenTree<T>>();
+                branch->children[text[i]] = newBranch;
+                branch = newBranch;
             }
         }
-        branch->children[text.back()] = type;
+
+        branch->children[text.back()] = ending;
     }
 
-    const TokenTree<TokenType> &GetDefaultTokenTree();
+    const std::shared_ptr<TokenTree<TokenType>> &GetDefaultTokenTree();
 }
 
 #endif //TOKENTREE_H

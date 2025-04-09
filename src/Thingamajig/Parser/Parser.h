@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include <vector>
-#include <stack>
 
 #include "BasicToken.h"
 #include "TokenMergeRules.h"

@@ -1,5 +1,8 @@
 #include "Parser.h"
 
+#include <utility>
+#include <stack>
+
 namespace webwork {
     using namespace tokens;
 

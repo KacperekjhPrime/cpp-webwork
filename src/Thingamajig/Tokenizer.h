@@ -27,10 +27,10 @@ namespace webwork {
      * @return <c>std::vector</c> of parsed tokens
      */
     template <class T>
-    std::vector<BasicToken<T>> TokenizeText(std::string_view text, const TokenTree<T> &tree) {
+    std::vector<BasicToken<T>> TokenizeText(std::string_view text, const std::shared_ptr<TokenTree<T>> &tree) {
         std::vector<BasicToken<T>> tokens;
 
-        const TokenTree<T> *currentTree = &tree;
+        std::shared_ptr<const TokenTree<T>> currentTree = tree;
         size_t tokenStart = 0;
         size_t depth = 0;
         std::optional<std::pair<size_t, T>> lastValidToken = std::nullopt;
@@ -46,8 +46,8 @@ namespace webwork {
                     tokenStart = index + 1;
                     i = index;
                     lastValidToken = std::nullopt;
-                } else if (currentTree != &tree) {
-                    currentTree = &tree;
+                } else if (currentTree != tree) {
+                    currentTree = tree;
                     i--;
                 }
                 depth = 0;
@@ -62,7 +62,7 @@ namespace webwork {
                 depth = 0;
                 lastValidToken = std::nullopt;
             } else {
-                currentTree = &std::get<TokenTree<T>>(value);
+                currentTree = std::get<std::shared_ptr<TokenTree<T>>>(value);
                 depth++;
                 if (currentTree->type.has_value()) {
                     lastValidToken = {{i, currentTree->type.value()}};
