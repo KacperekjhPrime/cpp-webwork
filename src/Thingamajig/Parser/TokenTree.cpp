@@ -1,31 +1,29 @@
 #include "TokenTree.h"
 
+#include "ExpressionToken.h"
 #include "TokenType.h"
 
 namespace webwork {
+    std::shared_ptr<TokenTree> MakeRecursiveTrailingSpace(TokenT type) {
+        const auto tree = std::make_shared<TokenTree>();
+        tree->children[' '] = tree;
+        tree->type = type;
+        return tree;
+    }
+
     struct DefaultTree {
         std::shared_ptr<TokenTree> tree = std::make_shared<TokenTree>();
 
         DefaultTree() {
-            const auto recursiveIfEnding = std::make_shared<TokenTree>();
-            recursiveIfEnding->children[' '] = recursiveIfEnding;
-            recursiveIfEnding->type = TokenType::If;
-
-            const auto recursiveForEnding = std::make_shared<TokenTree>();
-            recursiveForEnding->children[' '] = recursiveForEnding;
-            recursiveForEnding->type = TokenType::For;
-
-            const auto recursiveInEnding = std::make_shared<TokenTree>();
-            recursiveInEnding->children[' '] = recursiveInEnding;
-            recursiveInEnding->type = TokenType::In;
+            const auto recursiveIfEnding = MakeRecursiveTrailingSpace(TokenType::If);
+            const auto recursiveForEnding = MakeRecursiveTrailingSpace(TokenType::For);
+            const auto recursiveInEnding = MakeRecursiveTrailingSpace(TokenType::In);
 
             const auto in = std::make_shared<TokenTree>();
             in->children[' '] = in;
             AddTextBranch(in, "in", {recursiveInEnding});
 
-            const auto recursiveCommaEnding = std::make_shared<TokenTree>();
-            recursiveCommaEnding->children[' '] = recursiveCommaEnding;
-            recursiveCommaEnding->type = TokenType::Comma;
+            const auto recursiveCommaEnding = MakeRecursiveTrailingSpace(TokenType::Comma);
 
             tree->children = {
                 {'{', TokenType::VariableOpening},
@@ -42,7 +40,51 @@ namespace webwork {
         }
     };
 
+    struct ExpressionTree {
+        std::shared_ptr<TokenTree> tree = std::make_shared<TokenTree>();
+
+        ExpressionTree() {
+            const auto addition = MakeRecursiveTrailingSpace(ExpressionToken::Addition);
+            const auto subtraction = MakeRecursiveTrailingSpace(ExpressionToken::Subtraction);
+            const auto multiplication = MakeRecursiveTrailingSpace(ExpressionToken::Multiplication);
+            const auto division = MakeRecursiveTrailingSpace(ExpressionToken::Division);
+            const auto modulus = MakeRecursiveTrailingSpace(ExpressionToken::Modulus);
+
+            constexpr auto digits = std::array{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+            const auto numberTrailingSpace = MakeRecursiveTrailingSpace(ExpressionToken::Number);
+            numberTrailingSpace->type = ExpressionToken::Number;
+
+            const auto numberEnding = std::make_shared<TokenTree>();
+            numberEnding->children[' '] = numberTrailingSpace;
+            numberEnding->type = ExpressionToken::Number;
+
+            const auto number = std::make_shared<TokenTree>();
+            number->children[' '] = numberTrailingSpace;
+            number->children['.'] = numberEnding;
+            number->type = ExpressionToken::Number;
+
+            tree->children = {
+                {' ', tree},
+                {'+', addition},
+                {'-', subtraction},
+                {'*', multiplication},
+                {'/', division},
+                {'%', modulus},
+                {'(', ExpressionToken::LeftParenthesis},
+                {')', ExpressionToken::RightParenthesis}
+            };
+
+            for (auto digit : digits) {
+                tree->children[digit] = number;
+                number->children[digit] = number;
+                numberEnding->children[digit] = numberEnding;
+            }
+        }
+    };
+
     const DefaultTree defaultTree{};
+    const ExpressionTree expressionTree{};
 
     void AddTextBranch(const std::shared_ptr<TokenTree> &tree, std::string_view text, const TokenTree::Child &ending) {
         if (text.empty()) return;
@@ -74,5 +116,9 @@ namespace webwork {
 
     const std::shared_ptr<TokenTree> &GetDefaultTokenTree() {
         return defaultTree.tree;
+    }
+
+    const std::shared_ptr<TokenTree> &GetExpressionTokenTree() {
+        return expressionTree.tree;
     }
 }

@@ -32,9 +32,9 @@ namespace webwork {
                     i = index;
                     lastValidToken = std::nullopt;
                 } else if (currentTree != tree) {
-                    currentTree = tree;
                     i--;
                 }
+                currentTree = tree;
                 depth = 0;
                 continue;
             }
@@ -54,7 +54,13 @@ namespace webwork {
                 }
             }
         }
-        PushText(tokens, text, text.length(), depth, tokenStart);
+
+        if (lastValidToken.has_value()) {
+            const auto [index, type] = lastValidToken.value();
+            PushToken(tokens, text, type, text.length(), depth);
+        } else {
+            PushText(tokens, text, text.length(), depth, tokenStart);
+        }
 
         return tokens;
     }

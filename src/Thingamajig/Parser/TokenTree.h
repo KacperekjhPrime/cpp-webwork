@@ -21,6 +21,7 @@ namespace webwork {
     void AddTextBranch(const std::shared_ptr<TokenTree> &tree, std::string_view text, const TokenTree::Child &ending);
 
     const std::shared_ptr<TokenTree> &GetDefaultTokenTree();
+    const std::shared_ptr<TokenTree> &GetExpressionTokenTree();
 }
 
 #endif //TOKENTREE_H
