@@ -28,45 +28,62 @@ namespace webwork {
             size_t bytesRead = socket.read_some(asio::buffer(rawRequestContent));
             rawRequestContent.resize(bytesRead);
 
-            Request request = ParseRequest(rawRequestContent);
-
-            std::filesystem::path filePath = VectorToPath(request.url.path);
-            std::ifstream file{filePath, std::ios::binary};
-            if (!file.is_open()) throw HTTPException(StatusCode::NotFound);
-
-            std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), {});
-            file.close();
-
-            std::string mimeType;
-            if (filePath.extension() == ".css") mimeType = "text/css";
-            else if (filePath.extension() == ".js") mimeType = "application/javascript";
-            else mimeType = GetFileMime(filePath);
-
-            Response response{StatusCode::OK, buffer};
+            Response response;
+            try {
+                Request request = ParseRequest(rawRequestContent);
+                response = CreateResponse(request);
+            }
+            catch (HTTPException &e) {
+                response.code = e.statusCode;
+            }
+            catch (std::exception &e) {
+                response.code = StatusCode::InternalServerError;
+            }
             response.headers["Server"] = config.serverName;
-            response.headers["Content-Type"] = mimeType;
 
             std::error_code error;
             asio::write(socket, asio::buffer(response.ToString()), error);
         }
     }
 
+    Response CreateResponse(const Request &request) {
+        Response response{StatusCode::OK};
+
+        std::filesystem::path filePath = VectorToPath(request.url.path);
+        std::ifstream file{filePath, std::ios::binary};
+        if (!file.is_open()) throw HTTPException(StatusCode::NotFound);
+
+        std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), {});
+        file.close();
+
+        response.body = buffer;
+
+        std::string mimeType;
+        if (filePath.extension() == ".css") mimeType = "text/css";
+        else if (filePath.extension() == ".js") mimeType = "application/javascript";
+        else mimeType = GetFileMime(filePath);
+
+        response.headers["Content-Type"] = mimeType;
+
+        return response;
+    }
+
     Request ParseRequest(std::string_view requestString) {
         Request request{};
 
         size_t requestHeaderLength = requestString.find("\r\n\r\n");
-        if (requestHeaderLength == std::string_view::npos) throw std::invalid_argument("Invalid request");
+        if (requestHeaderLength == std::string_view::npos) throw HTTPException(StatusCode::BadRequest);
 
         size_t requestStartLineLength = requestString.find("\r\n");
-        if (requestStartLineLength == std::string_view::npos) throw std::invalid_argument("Invalid request");
+        if (requestStartLineLength == std::string_view::npos) throw HTTPException(StatusCode::BadRequest);
 
         auto splitRequestStartLine = SplitString(requestString.substr(0, requestStartLineLength), ' ');
 
-        if (splitRequestStartLine.size() != 3) throw std::invalid_argument("Invalid request");
+        if (splitRequestStartLine.size() != 3) throw HTTPException(StatusCode::BadRequest);
         std::string requestMethod = splitRequestStartLine[0];
 
         auto requestMethodIterator = RequestMethods.find(requestMethod);
-        if (requestMethodIterator == RequestMethods.end()) throw std::invalid_argument("Invalid request");
+        if (requestMethodIterator == RequestMethods.end()) throw HTTPException(StatusCode::BadRequest);
         request.method = RequestMethods.at(requestMethod);
 
         request.url = URL(splitRequestStartLine[1]);
@@ -74,7 +91,7 @@ namespace webwork {
         auto splitHeaders = SplitString(requestString.substr(requestStartLineLength + 2, requestHeaderLength - requestStartLineLength - 2), "\r\n");
         for (auto header : splitHeaders) {
             auto splitHeader = SplitString(header, ": ");
-            if (splitHeader.size() != 2) throw new std::invalid_argument("Invalid request");
+            if (splitHeader.size() != 2) throw HTTPException(StatusCode::BadRequest);
             request.headers[splitHeader[0]] = splitHeader[1];
         }
 
