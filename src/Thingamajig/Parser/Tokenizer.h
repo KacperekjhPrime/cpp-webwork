@@ -2,8 +2,8 @@
 #define TOKENIZER_H
 #include <vector>
 
-#include "Parser/BasicToken.h"
-#include "Parser/TokenTree.h"
+#include "./BasicToken.h"
+#include "./TokenTree.h"
 
 namespace webwork {
     template <class T>

@@ -1,6 +1,6 @@
 #include "Logging.h"
 #include "Loading/Loader.h"
-#include "Thingamajig/Tokenizer.h"
+#include "Thingamajig/Parser/Tokenizer.h"
 #include "Thingamajig/Parser/Parser.h"
 #include "Thingamajig/Properties/Array.h"
 #include "Thingamajig/Properties/Boolean.h"

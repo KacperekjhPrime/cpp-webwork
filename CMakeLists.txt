@@ -63,8 +63,8 @@ add_executable(cpp-webwork src/main.cpp
         src/Thingamajig/Properties/Interfaces/IBoolean.h
         src/Thingamajig/Parser/TokenType.h
         src/Thingamajig/Parser/Parser.cpp
-        src/Thingamajig/Tokenizer.h
-        src/Thingamajig/Tokenizer.cpp
+        src/Thingamajig/Parser/Tokenizer.h
+        src/Thingamajig/Parser/Tokenizer.cpp
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
