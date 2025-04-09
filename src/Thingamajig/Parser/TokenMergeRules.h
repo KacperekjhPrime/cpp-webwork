@@ -10,13 +10,13 @@
 #include "../Token.h"
 
 namespace webwork {
-    using TokenCreator = std::function<std::shared_ptr<Token>(const std::vector<BasicToken<TokenType>> &tokens, size_t textIndex, size_t lastIndex)>;
+    using TokenCreator = std::function<std::shared_ptr<Token>(const std::vector<BasicToken> &tokens, size_t textIndex, size_t lastIndex)>;
 
     struct MergeRules {
-        std::map<TokenType, std::variant<MergeRules, TokenCreator>> children;
+        std::map<TokenT, std::variant<MergeRules, TokenCreator>> children;
     };
 
-    constexpr void AddMergeBranch(MergeRules &rules, std::span<const TokenType> tokens, const TokenCreator &createToken) {
+    constexpr void AddMergeBranch(MergeRules &rules, std::span<const TokenT> tokens, const TokenCreator &createToken) {
         if (tokens.empty()) return;
 
         auto *branch = &rules;

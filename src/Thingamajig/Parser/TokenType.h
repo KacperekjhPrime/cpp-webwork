@@ -2,8 +2,8 @@
 #define TOKENTYPE_H
 #include "TokenTypeConstants.h"
 
-namespace webwork {
-    enum class TokenType : unsigned int {
+namespace webwork::TokenType {
+    enum TokenType : unsigned int {
         Text = TokenText,
         Escape = TokenEscape,
 

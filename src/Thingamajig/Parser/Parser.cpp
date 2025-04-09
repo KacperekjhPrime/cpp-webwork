@@ -1,12 +1,24 @@
 #include "Parser.h"
 
-#include <utility>
 #include <stack>
 
 namespace webwork {
     using namespace tokens;
 
-    std::shared_ptr<Root> AssembleTokenTree(const std::vector<BasicToken<TokenType>> &tokens, const MergeRules &rules) {
+    size_t GetTextIndex(const std::vector<BasicToken> &tokens, size_t tokenIndex) {
+        return tokens[tokenIndex].text.data() - tokens[0].text.data();
+    }
+
+    void EscapeTokens(std::vector<std::shared_ptr<Token>> &merged, const std::vector<BasicToken> &tokens, size_t escapeFrom, size_t i) {
+        const auto *ptr = tokens[escapeFrom].text.data();
+        size_t textLength = 0;
+        for (size_t j = escapeFrom; j <= i; j++) {
+            textLength += tokens[j].text.size();
+        }
+        merged.push_back(std::make_shared<Text>(GetTextIndex(tokens, i), std::string_view(ptr, textLength)));
+    }
+
+    std::shared_ptr<Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const MergeRules &rules) {
         const auto root = std::make_shared<Root>();
 
         auto *currentRules = &rules;
@@ -17,7 +29,7 @@ namespace webwork {
         parents.push(root);
 
         for (size_t i = 0; i < tokens.size(); i++) {
-            if (std::to_underlying(tokens[i].type) == TokenEscape && !escapeFrom.has_value()) {
+            if (tokens[i].type == TokenEscape && !escapeFrom.has_value()) {
                 escapeFrom = i + 1;
                 continue;
             }
@@ -45,8 +57,8 @@ namespace webwork {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", tokens[i].text.data() - tokens[0].text.data(), tokens[i].text));
                 } else if (tokens[i].type == parents.top()->closingToken) {
                     parents.pop();
-                } else if (tokens[i].type == TokenType::Text || (std::to_underlying(tokens[i].type) & TokenAllowStrayBit) > 0) {
-                    parents.top()->children.push_back(std::make_shared<tokens::Text>(GetTextIndex(tokens, i), tokens[i].text));
+                } else if (tokens[i].type == TokenType::Text || (tokens[i].type & TokenAllowStrayBit) > 0) {
+                    parents.top()->children.push_back(std::make_shared<Text>(GetTextIndex(tokens, i), tokens[i].text));
                 } else {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", tokens[i].text.data() - tokens[0].text.data(), tokens[i].text));
                 }
@@ -75,7 +87,7 @@ namespace webwork {
         }
 
         if (escapeFrom.has_value()) {
-            parents.top()->children.push_back(std::make_shared<tokens::Text>(GetTextIndex(tokens, escapeFrom.value() - 1), tokens[escapeFrom.value() - 1].text));
+            parents.top()->children.push_back(std::make_shared<Text>(GetTextIndex(tokens, escapeFrom.value() - 1), tokens[escapeFrom.value() - 1].text));
         }
 
         if (parents.size() > 1) {

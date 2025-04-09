@@ -3,10 +3,11 @@
 
 #include <string_view>
 
+#include "TokenTypeConstants.h"
+
 namespace webwork {
-    template <class T>
     struct BasicToken {
-        T type;
+        TokenT type;
         std::string_view text;
     };
 }
