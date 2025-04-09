@@ -37,10 +37,13 @@ namespace webwork {
             std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), {});
             file.close();
 
-            auto mimeType = GetFileMime(filePath);
+            std::string mimeType;
+            if (filePath.extension() == ".css") mimeType = "text/css";
+            else if (filePath.extension() == ".js") mimeType = "application/javascript";
+            else mimeType = GetFileMime(filePath);
 
             Response response{StatusCode::OK, buffer};
-            response.headers["Server"] = "The machine that turns your tears into c++ code";
+            response.headers["Server"] = config.serverName;
             response.headers["Content-Type"] = mimeType;
 
             std::error_code error;

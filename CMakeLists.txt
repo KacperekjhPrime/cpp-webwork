@@ -35,7 +35,6 @@ add_executable(cpp-webwork src/main.cpp
         src/Helper.cpp
         src/Helper.h
         src/Response.cpp
-        src/HTTPException.cpp
         src/HTTPException.h
 )
 
