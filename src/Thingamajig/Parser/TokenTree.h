@@ -6,9 +6,10 @@
 
 #include "BasicToken.h"
 #include "TokenType.h"
+#include "TokenTypeConstants.h"
 
 namespace webwork {
-    template <class T>
+    template <TokenT T>
     class TokenTree {
     public:
         std::map<char, std::variant<std::shared_ptr<TokenTree>, T>> children;
@@ -17,7 +18,7 @@ namespace webwork {
         TokenTree() = default;
     };
 
-    template <class T>
+    template <TokenT T>
     void AddTextBranch(const std::shared_ptr<TokenTree<T>> &tree, std::string_view text, const std::variant<std::shared_ptr<TokenTree<T>>, T> &ending) {
         using TreePtr = std::shared_ptr<TokenTree<T>>;
 

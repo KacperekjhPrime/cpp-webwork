@@ -6,7 +6,7 @@
 #include "./TokenTree.h"
 
 namespace webwork {
-    template <class T>
+    template <TokenT T>
     void PushText(std::vector<BasicToken<T>> &tokens, std::string_view text, size_t i, size_t depth, size_t tokenStart) {
         const ssize_t length = i - depth - tokenStart;
         if (length > 0) {
@@ -14,7 +14,7 @@ namespace webwork {
         }
     }
 
-    template <class T>
+    template <TokenT T>
     void PushToken(std::vector<BasicToken<T>> &tokens, std::string_view text, T type, size_t i, size_t depth) {
         tokens.emplace_back(type, std::string_view(text.data() + i - depth, depth + 1));
     }
@@ -26,7 +26,7 @@ namespace webwork {
      * @param tree <c>TokenTree</c> of rules used divide the text. Unmatched string become <c>TokenType::Text</c>
      * @return <c>std::vector</c> of parsed tokens
      */
-    template <class T>
+    template <TokenT T>
     std::vector<BasicToken<T>> TokenizeText(std::string_view text, const std::shared_ptr<TokenTree<T>> &tree) {
         std::vector<BasicToken<T>> tokens;
 

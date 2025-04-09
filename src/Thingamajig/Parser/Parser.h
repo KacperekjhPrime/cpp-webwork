@@ -9,12 +9,12 @@
 #include "../Tokens/Text.h"
 
 namespace webwork {
-    template <class T>
+    template <TokenT T>
     size_t GetTextIndex(const std::vector<BasicToken<T>> &tokens, size_t tokenIndex) {
         return tokens[tokenIndex].text.data() - tokens[0].text.data();
     }
 
-    template <class T>
+    template <TokenT T>
     void EscapeTokens(std::vector<std::shared_ptr<Token>> &merged, const std::vector<BasicToken<T>> &tokens, size_t escapeFrom, size_t i) {
         const auto *ptr = tokens[escapeFrom].text.data();
         size_t textLength = 0;

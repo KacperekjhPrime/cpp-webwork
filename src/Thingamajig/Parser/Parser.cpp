@@ -17,7 +17,7 @@ namespace webwork {
         parents.push(root);
 
         for (size_t i = 0; i < tokens.size(); i++) {
-            if (tokens[i].type == TokenType::Escape && !escapeFrom.has_value()) {
+            if (std::to_underlying(tokens[i].type) == TokenEscape && !escapeFrom.has_value()) {
                 escapeFrom = i + 1;
                 continue;
             }
@@ -45,7 +45,7 @@ namespace webwork {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", tokens[i].text.data() - tokens[0].text.data(), tokens[i].text));
                 } else if (tokens[i].type == parents.top()->closingToken) {
                     parents.pop();
-                } else if (tokens[i].type == TokenType::Text) {
+                } else if (tokens[i].type == TokenType::Text || (std::to_underlying(tokens[i].type) & TokenAllowStrayBit) > 0) {
                     parents.top()->children.push_back(std::make_shared<tokens::Text>(GetTextIndex(tokens, i), tokens[i].text));
                 } else {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", tokens[i].text.data() - tokens[0].text.data(), tokens[i].text));

@@ -1,19 +1,22 @@
 #ifndef TOKENTYPE_H
 #define TOKENTYPE_H
+#include "TokenTypeConstants.h"
 
 namespace webwork {
-    enum class TokenType {
-        Text,
-        VariableOpening,
+    enum class TokenType : unsigned int {
+        Text = TokenText,
+        Escape = TokenEscape,
+
+        VariableOpening = TokensStart,
         VariableClosing,
         If,
         For,
-        In,
         EndIf,
         EndFor,
         Comma,
-        Escape,
-        EndOfFile
+        EndOfFile,
+
+        In = TokenAllowStrayBit + 1
     };
 }
 
