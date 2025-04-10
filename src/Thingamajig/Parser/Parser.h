@@ -6,7 +6,6 @@
 #include "TokenMergeRules.h"
 #include "TokenTree.h"
 #include "../Tokens/Root.h"
-#include "../Tokens/Text.h"
 
 namespace webwork {
     size_t GetTextIndex(const std::vector<BasicToken> &tokens, size_t tokenIndex);
@@ -19,7 +18,7 @@ namespace webwork {
      * @param rules <c>TokenTree</c> of rules used to merge the tokens and convert them into <c>Token</c>s
      * @return Tree of <c>Token</c>s starting with <c>Root</c>
      */
-    std::shared_ptr<tokens::Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const MergeRules &rules);
+    std::shared_ptr<tokens::Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const std::shared_ptr<MergeRules> &rules);
 }
 
 #endif //PARSER_H

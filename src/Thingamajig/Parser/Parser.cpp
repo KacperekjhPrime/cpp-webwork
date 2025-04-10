@@ -1,6 +1,7 @@
 #include "Parser.h"
 
 #include <stack>
+#include "../Tokens/Text.h"
 
 namespace webwork {
     using namespace tokens;
@@ -18,10 +19,10 @@ namespace webwork {
         merged.push_back(std::make_shared<Text>(GetTextIndex(tokens, i), std::string_view(ptr, textLength)));
     }
 
-    std::shared_ptr<Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const MergeRules &rules) {
+    std::shared_ptr<Root> AssembleTokenTree(const std::vector<BasicToken> &tokens, const std::shared_ptr<MergeRules> &rules) {
         const auto root = std::make_shared<Root>();
 
-        auto *currentRules = &rules;
+        auto currentRules = rules;
         size_t depth = 0;
         std::optional<size_t> escapeFrom = std::nullopt;
 
@@ -37,9 +38,9 @@ namespace webwork {
             const auto &nextTree = currentRules->children.find(tokens[i].type);
             if (nextTree == currentRules->children.end()) {
                 if (escapeFrom.has_value()) {
-                    if (currentRules != &rules) {
+                    if (currentRules != rules) {
                         EscapeTokens(parents.top()->children, tokens, escapeFrom.value(), i - 1);
-                        currentRules = &rules;
+                        currentRules = rules;
                         depth = 0;
                         i--;
                     } else {
@@ -47,13 +48,13 @@ namespace webwork {
                             const auto index = escapeFrom.value() - 1;
                             auto mergedText = std::string(tokens[index].text);
                             mergedText += tokens[i].text;
-                            parents.top()->children.push_back(std::make_shared<tokens::Text>(GetTextIndex(tokens, index), mergedText));
+                            parents.top()->children.push_back(std::make_shared<Text>(GetTextIndex(tokens, index), mergedText));
                         } else {
-                            parents.top()->children.push_back(std::make_shared<tokens::Text>(GetTextIndex(tokens, i), tokens[i].text));
+                            parents.top()->children.push_back(std::make_shared<Text>(GetTextIndex(tokens, i), tokens[i].text));
                         }
                     }
                     escapeFrom.reset();
-                } else if (currentRules != &rules) {
+                } else if (currentRules != rules) {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", tokens[i].text.data() - tokens[0].text.data(), tokens[i].text));
                 } else if (tokens[i].type == parents.top()->closingToken) {
                     parents.pop();
@@ -70,7 +71,8 @@ namespace webwork {
                     EscapeTokens(parents.top()->children, tokens, escapeFrom.value(), i);
                     escapeFrom.reset();
                 } else {
-                    const auto token = std::get<TokenCreator>(nextTree->second)(tokens, GetTextIndex(tokens, i - depth), i);
+                    const auto tokenPtr = tokens.data() + i - depth;
+                    const auto token = std::get<TokenCreator>(nextTree->second)(GetTextIndex(tokens, i - depth), std::span(tokenPtr, depth));
                     parents.top()->children.push_back(token);
 
                     const auto parent = std::dynamic_pointer_cast<Block>(token);
@@ -78,10 +80,10 @@ namespace webwork {
                         parents.push(parent);
                     }
                 }
-                currentRules = &rules;
+                currentRules = rules;
                 depth = 0;
             } else {
-                currentRules = &std::get<MergeRules>(nextTree->second);
+                currentRules = std::get<std::shared_ptr<MergeRules>>(nextTree->second);
                 depth++;
             }
         }

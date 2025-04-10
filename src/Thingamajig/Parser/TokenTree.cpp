@@ -21,7 +21,7 @@ namespace webwork {
 
             const auto in = std::make_shared<TokenTree>();
             in->children[' '] = in;
-            AddTextBranch(in, "in", {recursiveInEnding});
+            in->AddBranch(std::string("in"), {recursiveInEnding});
 
             const auto recursiveCommaEnding = MakeRecursiveTrailingSpace(TokenType::Comma);
 
@@ -32,11 +32,11 @@ namespace webwork {
                 {' ', in}
             };
 
-            AddTextBranch(tree, "{if", {recursiveIfEnding});
-            AddTextBranch(tree, "{for", {recursiveForEnding});
-            AddTextBranch(tree, "{endif}", {TokenType::EndIf});
-            AddTextBranch(tree, "{endfor}", {TokenType::EndFor});
-            AddTextBranch(tree, ",", {recursiveCommaEnding});
+            tree->AddBranch(std::string("{if"), {recursiveIfEnding});
+            tree->AddBranch(std::string("{for"), {recursiveForEnding});
+            tree->AddBranch(std::string("{endif}"), {TokenType::EndIf});
+            tree->AddBranch(std::string("{endfor}"), {TokenType::EndFor});
+            tree->AddBranch(std::string(","), {recursiveCommaEnding});
         }
     };
 
@@ -85,34 +85,6 @@ namespace webwork {
 
     const DefaultTree defaultTree{};
     const ExpressionTree expressionTree{};
-
-    void AddTextBranch(const std::shared_ptr<TokenTree> &tree, std::string_view text, const TokenTree::Child &ending) {
-        if (text.empty()) return;
-
-        auto branch = tree;
-
-        for (size_t i = 0; i < text.size() - 1; i++) {
-            const auto existingBranch = branch->children.find(text[i]);
-            if (existingBranch != branch->children.end()) {
-                const auto &value = existingBranch->second;
-                if (std::holds_alternative<TokenT>(value)) {
-                    // Replace the ending branch with a new one and set type;
-                    const auto type = std::get<TokenT>(value);
-                    const auto newBranch = std::make_shared<TokenTree>();
-                    newBranch->type = type;
-                    existingBranch->second = branch = newBranch;
-                } else {
-                    branch = std::get<std::shared_ptr<TokenTree>>(value);
-                }
-            } else {
-                const auto newBranch = std::make_shared<TokenTree>();
-                branch->children[text[i]] = newBranch;
-                branch = newBranch;
-            }
-        }
-
-        branch->children[text.back()] = ending;
-    }
 
     const std::shared_ptr<TokenTree> &GetDefaultTokenTree() {
         return defaultTree.tree;

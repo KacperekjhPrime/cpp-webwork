@@ -6,34 +6,16 @@
 
 #include "BasicToken.h"
 #include "TokenType.h"
+#include "Tree.h"
 #include "../Block.h"
 #include "../Token.h"
 
 namespace webwork {
-    using TokenCreator = std::function<std::shared_ptr<Token>(const std::vector<BasicToken> &tokens, size_t textIndex, size_t lastIndex)>;
+    using TokenCreator = std::function<std::shared_ptr<Token>(size_t textIndex, std::span<const BasicToken> tokens)>;
 
-    struct MergeRules {
-        std::map<TokenT, std::variant<MergeRules, TokenCreator>> children;
-    };
+    using MergeRules = Tree<TokenT, TokenCreator>;
 
-    constexpr void AddMergeBranch(MergeRules &rules, std::span<const TokenT> tokens, const TokenCreator &createToken) {
-        if (tokens.empty()) return;
-
-        auto *branch = &rules;
-        for (size_t i = 0; i < tokens.size() - 1; i++) {
-            auto it = branch->children.find(tokens[i]);
-            if (it == branch->children.end()) {
-                branch->children.insert({tokens[i], MergeRules{}});
-                branch = &std::get<MergeRules>(branch->children[tokens[i]]);
-            } else {
-                branch = &std::get<MergeRules>(it->second);
-            }
-        }
-
-        branch->children[tokens.back()] = createToken;
-    }
-
-    const MergeRules &GetDefaultMergeRules();
+    const std::shared_ptr<MergeRules> &GetDefaultMergeRules();
 }
 
 #endif //TOKENMERGERULES_H
