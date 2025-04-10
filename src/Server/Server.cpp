@@ -21,23 +21,26 @@ namespace webwork {
 
         while (isServerRunning) {
             tcp::socket socket(io_context);
-            acceptor.accept(socket);
-
-            //TODO: Resize buffer to request size
-            std::string rawRequestContent(2048, '\0');
-            size_t bytesRead = socket.read_some(asio::buffer(rawRequestContent));
-            rawRequestContent.resize(bytesRead);
 
             Response response;
             try {
+                acceptor.accept(socket);
+
+                //TODO: Resize buffer to request size
+                std::string rawRequestContent(2048, '\0');
+                size_t bytesRead = socket.read_some(asio::buffer(rawRequestContent));
+
+                rawRequestContent.resize(bytesRead);
                 Request request = ParseRequest(rawRequestContent);
                 response = CreateResponse(request);
             }
             catch (HTTPException &e) {
                 response.code = e.statusCode;
+                Log(LogLevel::Error, "Error");
             }
             catch (std::exception &e) {
                 response.code = StatusCode::InternalServerError;
+                Log(LogLevel::Error, e.what());
             }
             response.headers["Server"] = config.serverName;
 
