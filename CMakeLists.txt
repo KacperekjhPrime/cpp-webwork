@@ -17,7 +17,6 @@ pkg_check_modules(ASIO "asio" REQUIRED)
 pkg_check_modules(MAGIC "libmagic" REQUIRED)
 
 add_executable(cpp-webwork src/main.cpp
-        src/Route.h
         src/Response.h
         src/Request.h
         src/Logging.h
@@ -36,6 +35,9 @@ add_executable(cpp-webwork src/main.cpp
         src/Helper.h
         src/Response.cpp
         src/HTTPException.h
+        src/Router/Route.h
+        src/Router/RequestHandlers.cpp
+        src/Router/RequestHandlers.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
