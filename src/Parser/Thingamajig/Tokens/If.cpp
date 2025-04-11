@@ -13,11 +13,8 @@ namespace webwork::tokens {
 
     std::string If::GetContent(const std::shared_ptr<Scope> &scope) const {
         // TODO: Parse condition properly instead of treating it as a property name
-        const auto boolean = std::dynamic_pointer_cast<const IBoolean>(scope->GetProperty(condition));
-        if (boolean == nullptr) {
-            Log(LogLevel::Warning, "Property {} does not implement IBoolean.", condition);
-            return "";
-        }
+        const auto boolean = scope->GetProperty<IBoolean>(condition);
+        if (!boolean) return "";
 
         if (boolean->GetBoolValue()) {
             std::string text = "";

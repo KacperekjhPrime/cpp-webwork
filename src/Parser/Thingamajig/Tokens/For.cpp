@@ -16,11 +16,8 @@ namespace webwork::tokens {
     }
 
     std::string For::GetContent(const std::shared_ptr<Scope> &scope) const {
-        const auto array = std::dynamic_pointer_cast<const properties::Array>(scope->GetProperty(collection));
-        if (array == nullptr) {
-            Log(LogLevel::Warning, "Property {} is not an Array.", collection);
-            return "";
-        }
+        const auto array = scope->GetProperty<properties::Array>(collection);
+        if (!array) return "";
 
         const auto object = std::make_shared<properties::Object>();
         std::shared_ptr<properties::Number> index = nullptr;
