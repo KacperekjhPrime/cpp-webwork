@@ -2,14 +2,15 @@
 #define TOKENTYPECONSTATNTS_H
 
 namespace webwork {
-    using TokenT = unsigned int;
+    using TokenT = unsigned;
 
-    constexpr TokenT TokenText = 0;
+    constexpr TokenT TokenStrayToTextBit = 1<<16;
+    constexpr TokenT TokenInescapableBit = 1<<17;
+
+    constexpr TokenT TokenText = TokenStrayToTextBit | TokenInescapableBit;
     constexpr TokenT TokenEscape = 1;
 
     constexpr TokenT TokensStart = 2;
-
-    constexpr TokenT TokenAllowStrayBit = 1<<16;
 
     constexpr TokenT TokenEmpty = -1u;
 }

@@ -3,16 +3,16 @@
 #include <memory>
 #include <vector>
 
-#include "Token.h"
-#include "Parser/TokenType.h"
+#include "TokenTypeConstants.h"
 
 namespace webwork {
+    template <class T>
     class Block {
     protected:
-        Block(TokenT closingToken, std::string_view name);
+        Block(TokenT closingToken, std::string_view name) : closingToken(closingToken), name(name) {}
 
     public:
-        std::vector<std::shared_ptr<Token>> children;
+        std::vector<std::shared_ptr<T>> children;
         const TokenT closingToken;
         const std::string name;
 

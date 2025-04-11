@@ -1,14 +1,15 @@
 #ifndef IF_H
 #define IF_H
-#include "../Block.h"
 #include "../Token.h"
+#include "../../Block.h"
+#include "../../Chunk.h"
 
 namespace webwork::tokens {
-    class If final : public Token, public Block {
+    class If final : public Token, public Block<Token> {
     public:
         const std::string condition;
 
-        If(size_t startIndex, std::string_view condition);
+        If(std::string_view text, const Chunk &chunk);
 
         std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
     };

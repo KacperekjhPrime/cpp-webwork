@@ -1,7 +1,9 @@
 #include "Root.h"
 
+#include "../../TokenTypeConstants.h"
+
 namespace webwork::tokens {
-    Root::Root() : Token(0), Block(TokenType::EndOfFile, "root") {}
+    Root::Root() : Token(0), Block(TokenEmpty, "root") {}
 
     std::string Root::GetContent(const std::shared_ptr<Scope> &scope) const {
         std::string text = "";

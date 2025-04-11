@@ -1,10 +1,15 @@
 #include "If.h"
 
-#include "../../Logging.h"
+#include <cassert>
+
+#include "../Thingamajig.h"
 #include "../Properties/Interfaces/IBoolean.h"
+#include "../../../Logging.h"
 
 namespace webwork::tokens {
-    If::If(size_t startIndex, std::string_view condition) : Token(startIndex), Block(TokenType::EndIf, "if"), condition(condition) {}
+    If::If(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), Block(thingamajig::TokenType::TokenType::EndIf, "if"), condition(chunk.tokens[1].text) {
+        assert(chunk.tokens.size() == 3);
+    }
 
     std::string If::GetContent(const std::shared_ptr<Scope> &scope) const {
         // TODO: Parse condition properly instead of treating it as a property name

@@ -1,5 +1,5 @@
 #include "Scope.h"
-#include "../Logging.h"
+#include "../../Logging.h"
 
 namespace webwork {
     Scope::Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous) : object(object), previous(previous) {}

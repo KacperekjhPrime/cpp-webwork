@@ -1,12 +1,19 @@
 #include "For.h"
 
+#include <cassert>
+
 #include "../Properties/Array.h"
-#include "../../Logging.h"
+#include "../Thingamajig.h"
 #include "../Properties/Number.h"
+#include "../../Chunk.h"
+#include "../../../Logging.h"
 
 namespace webwork::tokens {
-    For::For(size_t startIndex, std::string_view variable, std::string_view collection, const std::optional<std::string_view> &index) : Token(startIndex),
-        Block(TokenType::EndFor, "for"), variable(variable), collection(collection), index(index) {}
+    For::For(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), Block(thingamajig::TokenType::EndFor, "for"),
+        variable(chunk.tokens[1].text), collection(chunk.tokens[chunk.tokens.size() == 5 ? 3 : 5].text),
+        index(chunk.tokens.size() == 5 ? std::nullopt : std::optional<std::string>(chunk.tokens[5].text)) {
+        assert(chunk.tokens.size() == 5 || chunk.tokens.size() == 7);
+    }
 
     std::string For::GetContent(const std::shared_ptr<Scope> &scope) const {
         const auto array = std::dynamic_pointer_cast<const properties::Array>(scope->GetProperty(collection));

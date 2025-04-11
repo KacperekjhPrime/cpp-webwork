@@ -1,11 +1,13 @@
 #include "Variable.h"
 
-#include <format>
+#include <cassert>
 
-#include "../../Logging.h"
+#include "../../../Logging.h"
 
 namespace webwork::tokens {
-    Variable::Variable(size_t startIndex, std::string_view variableName) : Token(startIndex), variableName(variableName) {}
+    Variable::Variable(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), variableName(chunk.tokens[1].text) {
+        assert(chunk.tokens.size() == 3);
+    }
 
     std::string Variable::GetContent(const std::shared_ptr<Scope> &scope) const {
         // TODO: Display variables here

@@ -1,7 +1,9 @@
 #include "Text.h"
 
+#include "../../Parser.h"
+
 namespace webwork::tokens {
-    Text::Text(size_t startIndex, std::string_view text) : Token(startIndex), text(text) {}
+    Text::Text(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), text(chunk.GetText()) {}
 
     std::string Text::GetContent(const std::shared_ptr<Scope> &) const {
         return std::string(text);
