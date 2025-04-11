@@ -1,5 +1,5 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef THINGAMAJIG_TOKEN_H
+#define THINGAMAJIG_TOKEN_H
 #include <string>
 
 #include "Scope.h"

@@ -1,5 +1,5 @@
-#ifndef FOR_H
-#define FOR_H
+#ifndef THINGAMAJIG_FOR_H
+#define THINGAMAJIG_FOR_H
 #include "../Token.h"
 #include "../../Block.h"
 

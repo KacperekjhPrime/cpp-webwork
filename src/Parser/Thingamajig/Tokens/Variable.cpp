@@ -10,7 +10,6 @@ namespace webwork::tokens {
     }
 
     std::string Variable::GetContent(const std::shared_ptr<Scope> &scope) const {
-        // TODO: Display variables here
         const auto property = scope->GetProperty(variableName);
         if (property) {
             return property->ToString();

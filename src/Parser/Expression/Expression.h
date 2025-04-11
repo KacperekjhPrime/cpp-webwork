@@ -2,8 +2,10 @@
 #define EXPRESSION_H
 #include <memory>
 
+#include "Token.h"
 #include "../Parser.h"
 #include "../TokenTypeConstants.h"
+#include "Tokens/Parenthesis.h"
 
 namespace webwork::expression {
     namespace ExpressionToken {
@@ -17,11 +19,15 @@ namespace webwork::expression {
             Modulus,
             LeftParenthesis,
             RightParenthesis,
-            Number
+            Number,
+            Comma
         };
     }
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree();
+    const std::map<TokenT, TokenCreator<Token>> &GetExpressionTokenMap();
+
+    std::shared_ptr<Parenthesis> ParseExpression(std::string_view text);
 }
 
 #endif //EXPRESSION_H

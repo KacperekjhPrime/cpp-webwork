@@ -1,5 +1,5 @@
-#ifndef VARIABLE_H
-#define VARIABLE_H
+#ifndef THINGAMAJIG_VARIABLE_H
+#define THINGAMAJIG_VARIABLE_H
 
 #include "../Token.h"
 #include "../../Chunk.h"

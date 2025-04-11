@@ -1,5 +1,5 @@
-#ifndef TEXT_H
-#define TEXT_H
+#ifndef THINGAMAJIG_TEXT_H
+#define THINGAMAJIG_TEXT_H
 #include "../Token.h"
 #include "../../Chunk.h"
 

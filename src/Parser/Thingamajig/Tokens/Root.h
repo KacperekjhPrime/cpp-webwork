@@ -1,5 +1,5 @@
-#ifndef ROOT_H
-#define ROOT_H
+#ifndef THINGAMAJIG_ROOT_H
+#define THINGAMAJIG_ROOT_H
 #include "../Token.h"
 #include "../../Block.h"
 

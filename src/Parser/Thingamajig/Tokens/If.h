@@ -1,5 +1,5 @@
-#ifndef IF_H
-#define IF_H
+#ifndef THINGAMAJIG_IF_H
+#define THINGAMAJIG_IF_H
 #include "../Token.h"
 #include "../../Block.h"
 #include "../../Chunk.h"
