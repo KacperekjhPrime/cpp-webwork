@@ -73,6 +73,10 @@ namespace webwork::expression {
         return tree;
     }
 
+    const std::shared_ptr<MergeRules> &GetExpressionMergeRules() {
+        return rules;
+    }
+
     const std::map<TokenT, TokenCreator<Token>> &GetExpressionTokenMap() {
         return map;
     }

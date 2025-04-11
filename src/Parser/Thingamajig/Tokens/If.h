@@ -3,13 +3,14 @@
 #include "../Token.h"
 #include "../../Block.h"
 #include "../../Chunk.h"
+#include "../../Expression/Tokens/Parenthesis.h"
 
 namespace webwork::tokens {
     class If final : public Token, public Block<Token> {
     public:
-        const std::string condition;
+        const std::shared_ptr<expression::Parenthesis> expression;
 
-        If(std::string_view text, const Chunk &chunk);
+        If(size_t textIndex, const std::shared_ptr<expression::Parenthesis> &expression);
 
         std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
     };

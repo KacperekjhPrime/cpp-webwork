@@ -1,5 +1,9 @@
 #include "Thingamajig.h"
-#include "Tokens/Variable.h"
+
+#include <assert.h>
+
+#include "../Expression/Expression.h"
+#include "Tokens/Expression.h"
 #include "Tokens/If.h"
 #include "Tokens/For.h"
 
@@ -57,8 +61,14 @@ namespace webwork::thingamajig {
     const auto rules = MakeThingamajigMergeRules();
 
     const auto tokenMap = std::map<TokenT, TokenCreator<Token>> {
-        {TokenType::VariableOpening, GetTokenCreator<Variable>()},
-        {TokenType::If, GetTokenCreator<If>()},
+        {TokenType::VariableOpening, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+            assert(chunk.tokens.size() == 3);
+            return std::make_shared<Expression>(chunk.GetTextIndex(text), expression::ParseExpression(chunk.tokens[1].text));
+        }},
+        {TokenType::If, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+            assert(chunk.tokens.size() == 3);
+            return std::make_shared<If>(chunk.GetTextIndex(text), expression::ParseExpression(chunk.tokens[1].text));
+        }},
         {TokenType::For, GetTokenCreator<For>()},
     };
 

@@ -25,6 +25,7 @@ namespace webwork::expression {
     }
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree();
+    const std::shared_ptr<MergeRules> &GetExpressionMergeRules();
     const std::map<TokenT, TokenCreator<Token>> &GetExpressionTokenMap();
 
     std::shared_ptr<Parenthesis> ParseExpression(std::string_view text);
