@@ -69,6 +69,7 @@ namespace webwork {
             throw std::runtime_error(std::format("Unclosed {} block", block->name));
         }
 
+        root->CloseBlock();
         return root;
     }
 }
