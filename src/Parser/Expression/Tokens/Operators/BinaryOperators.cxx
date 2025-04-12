@@ -12,4 +12,16 @@ namespace webwork::expression {
     double Divide(double lhs, double rhs) {
         return lhs / rhs;
     }
+
+    bool LogicAnd(bool lhs, bool rhs) {
+        return lhs && rhs;
+    }
+
+    bool LogicOr(bool lhs, bool rhs) {
+        return lhs || rhs;
+    }
+
+    bool LogicXor(bool lhs, bool rhs) {
+        return lhs ^ rhs;
+    }
 }

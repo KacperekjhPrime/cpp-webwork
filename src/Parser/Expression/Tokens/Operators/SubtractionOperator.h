@@ -6,7 +6,7 @@
 namespace webwork::expression {
     double Subtract(double lhs, double rhs);
 
-    class SubtractionOperator final : public NumericBinaryOperator<Subtract, "-">, public IUnaryOperator {
+    class SubtractionOperator final : public NumericBinaryOperator<Subtract, "subtraction">, public IUnaryOperator {
     public:
         std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &prop) const override;
     };

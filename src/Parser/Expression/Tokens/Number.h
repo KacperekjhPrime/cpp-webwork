@@ -8,7 +8,7 @@
 namespace webwork::expression {
     class Number final : public Token, public IEvaluable {
     public:
-        const std::shared_ptr<properties::Number> value = nullptr;
+        const std::shared_ptr<properties::Number> value;
 
         Number(std::string_view text, const Chunk &chunk);
 

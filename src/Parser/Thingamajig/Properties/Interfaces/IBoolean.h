@@ -1,7 +1,7 @@
 #ifndef IBOOLEAN_H
 #define IBOOLEAN_H
 
-namespace webwork {
+namespace webwork::properties {
     class IBoolean {
     public:
         virtual ~IBoolean() = default;

@@ -14,4 +14,8 @@ namespace webwork::properties {
     bool Boolean::GetBoolValue() const {
         return value;
     }
+
+    double Boolean::GetNumberValue() const {
+        return value ? 1.0 : 0.0;
+    }
 }

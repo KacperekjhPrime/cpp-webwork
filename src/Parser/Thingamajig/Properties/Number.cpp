@@ -8,6 +8,10 @@ namespace webwork::properties {
     }
 
     bool Number::GetBoolValue() const {
-        return static_cast<bool>(value);
+        return value != 0;
+    }
+
+    double Number::GetNumberValue() const {
+        return value;
     }
 }

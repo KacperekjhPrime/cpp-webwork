@@ -97,7 +97,7 @@ namespace webwork {
             const auto [index, type] = lastValidToken.value();
             PushToken(tokens, text, type, text.length(), depth);
         } else {
-            PushTextToken(tokens, text, text.length(), depth, tokenStart);
+            PushTextToken(tokens, text, text.length(), 0, tokenStart);
         }
 
         return tokens;

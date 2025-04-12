@@ -1,8 +1,10 @@
 #include "Expression.h"
 
+#include "Tokens/Boolean.h"
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
+#include "Tokens/Operators/LogicNegationOperator.h"
 #include "Tokens/Operators/SubtractionOperator.h"
 
 namespace webwork::expression {
@@ -14,17 +16,9 @@ namespace webwork::expression {
     std::shared_ptr<TokenTree> MakeTokenTree() {
         const auto tree = std::make_shared<TokenTree>();
 
-        const auto addition = MakeRecursiveTrailingSpace(ExpressionToken::Addition);
-        const auto subtraction = MakeRecursiveTrailingSpace(ExpressionToken::Subtraction);
-        const auto multiplication = MakeRecursiveTrailingSpace(ExpressionToken::Multiplication);
-        const auto division = MakeRecursiveTrailingSpace(ExpressionToken::Division);
-        const auto modulus = MakeRecursiveTrailingSpace(ExpressionToken::Modulus);
-        const auto comma = MakeRecursiveTrailingSpace(ExpressionToken::Comma);
-
         constexpr auto digits = std::array{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
         const auto numberTrailingSpace = MakeRecursiveTrailingSpace(ExpressionToken::Number);
-        numberTrailingSpace->type = ExpressionToken::Number;
 
         const auto numberEnding = std::make_shared<TokenTree>();
         numberEnding->children[' '] = numberTrailingSpace;
@@ -37,15 +31,22 @@ namespace webwork::expression {
 
         tree->children = {
             {' ', tree},
-            {'+', addition},
-            {'-', subtraction},
-            {'*', multiplication},
-            {'/', division},
-            {'%', modulus},
+            {'+', ExpressionToken::Addition},
+            {'-', ExpressionToken::Subtraction},
+            {'*', ExpressionToken::Multiplication},
+            {'/', ExpressionToken::Division},
+            {'%', ExpressionToken::Modulus},
             {'(', ExpressionToken::LeftParenthesis},
             {')', ExpressionToken::RightParenthesis},
-            {',', comma}
+            {',', ExpressionToken::Comma},
+            {'^', ExpressionToken::LogicXor},
+            {'!', ExpressionToken::LogicNegation}
         };
+
+        tree->AddBranch(std::string_view("&&"), ExpressionToken::LogicAnd);
+        tree->AddBranch(std::string_view("||"), ExpressionToken::LogicOr);
+        tree->AddBranch(std::string_view("true"), ExpressionToken::True);
+        tree->AddBranch(std::string_view("false"), ExpressionToken::False);
 
         for (auto digit : digits) {
             tree->children[digit] = number;
@@ -67,7 +68,17 @@ namespace webwork::expression {
         {ExpressionToken::Division, GetOperatorCreator<DivisionOperator>()},
         {ExpressionToken::Modulus, GetOperatorCreator<ModulusOperator>()},
         {ExpressionToken::Number, GetTokenCreator<Number>()},
-        {ExpressionToken::LeftParenthesis, GetTokenCreator<Parenthesis>()}
+        {ExpressionToken::LeftParenthesis, GetTokenCreator<Parenthesis>()},
+        {ExpressionToken::LogicAnd, GetOperatorCreator<LogicAndOperator>()},
+        {ExpressionToken::LogicOr, GetOperatorCreator<LogicOrOperator>()},
+        {ExpressionToken::LogicXor, GetOperatorCreator<LogicXorOperator>()},
+        {ExpressionToken::LogicNegation, GetOperatorCreator<LogicNegationOperator>()},
+        {ExpressionToken::True, [](std::string_view, const Chunk &) {
+            return std::make_shared<Boolean>(true);
+        }},
+        {ExpressionToken::False, [](std::string_view, const Chunk &) {
+            return std::make_shared<Boolean>(false);
+        }}
     };
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree() {

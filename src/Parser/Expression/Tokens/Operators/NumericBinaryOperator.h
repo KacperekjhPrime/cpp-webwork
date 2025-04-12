@@ -12,18 +12,18 @@ namespace webwork::expression {
     class NumericBinaryOperator : public Token, public IBinaryOperator {
     public:
         std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const override {
-            const auto left = std::dynamic_pointer_cast<const properties::Number>(a);
+            const auto left = std::dynamic_pointer_cast<const properties::INumber>(a);
             if (left == nullptr) {
-                Log(LogLevel::Warning, "Left side of binary {} operator is not required type {}.", Name.data, GetTypeName<properties::Number>());
+                Log(LogLevel::Warning, "Left side of binary {} operator is not required type {}.", Name.data, GetTypeName<properties::INumber>());
                 return nullptr;
             }
-            const auto right = std::dynamic_pointer_cast<const properties::Number>(b);
+            const auto right = std::dynamic_pointer_cast<const properties::INumber>(b);
             if (right == nullptr) {
-                Log(LogLevel::Warning, "Right side of binary {} operator is not required type {}.", Name.data, GetTypeName<properties::Number>());
+                Log(LogLevel::Warning, "Right side of binary {} operator is not required type {}.", Name.data, GetTypeName<properties::INumber>());
                 return nullptr;
             }
 
-            return std::make_shared<properties::Number>(Calculate(left->value, right->value));
+            return std::make_shared<properties::Number>(Calculate(left->GetNumberValue(), right->GetNumberValue()));
         }
 
         static double Calculate(double lhs, double rhs) {

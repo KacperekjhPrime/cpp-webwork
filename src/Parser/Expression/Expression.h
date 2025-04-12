@@ -17,10 +17,17 @@ namespace webwork::expression {
             Multiplication,
             Division,
             Modulus,
+            LogicAnd,
+            LogicOr,
+            LogicXor,
+            LogicNegation,
+
             LeftParenthesis,
             RightParenthesis,
             Number,
-            Comma
+            Comma,
+            True,
+            False
         };
     }
 

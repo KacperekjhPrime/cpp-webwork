@@ -2,9 +2,10 @@
 #define BOOLEAN_H
 #include "../Property.h"
 #include "Interfaces/IBoolean.h"
+#include "Interfaces/INumber.h"
 
 namespace webwork::properties {
-    class Boolean final : public Property, public IBoolean {
+    class Boolean final : public Property, public IBoolean, public INumber {
     public:
         bool value;
 
@@ -12,6 +13,7 @@ namespace webwork::properties {
 
         std::string ToString() const override;
         bool GetBoolValue() const override;
+        double GetNumberValue() const override;
     };
 }
 

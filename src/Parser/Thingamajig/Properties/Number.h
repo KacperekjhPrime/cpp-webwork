@@ -3,9 +3,10 @@
 #include <memory>
 #include "../Property.h"
 #include "Interfaces/IBoolean.h"
+#include "Interfaces/INumber.h"
 
 namespace webwork::properties {
-    class Number final : public Property, public IBoolean {
+    class Number final : public Property, public IBoolean, public INumber {
     public:
         double value{};
 
@@ -13,6 +14,7 @@ namespace webwork::properties {
 
         std::string ToString() const override;
         bool GetBoolValue() const override;
+        double GetNumberValue() const override;
     };
 }
 
