@@ -3,7 +3,7 @@
 #include "BlockBase.h"
 #include "../Token.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     class Root final : public Token, public BlockBase {
     public:
         Root();

@@ -6,7 +6,7 @@ namespace webwork {
     class Token;
 }
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     class BlockBase : public Block<Token> {
     protected:
         std::vector<std::shared_ptr<Token>> children;

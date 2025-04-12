@@ -8,8 +8,6 @@
 #include "Tokens/For.h"
 
 namespace webwork::thingamajig {
-    using namespace tokens;
-
     std::shared_ptr<TokenTree> MakeThingamajigTreeTree() {
         const auto tree = std::make_shared<TokenTree>();
 

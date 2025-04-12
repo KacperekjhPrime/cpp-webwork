@@ -30,7 +30,7 @@ namespace webwork::thingamajig {
     const std::shared_ptr<MergeRules> &GetThingamajigMergeRules();
     const std::map<TokenT, TokenCreator<Token>> &GetThingamajigTokenMap();
 
-    std::shared_ptr<tokens::Root> ParseThingamajig(std::string_view text);
+    std::shared_ptr<Root> ParseThingamajig(std::string_view text);
 }
 
 #endif //THINGAMAJIG_H

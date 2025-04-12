@@ -7,7 +7,7 @@ namespace webwork {
     struct Chunk;
 }
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     class For final : public Token, public BlockBase {
     public:
         const std::string variable;

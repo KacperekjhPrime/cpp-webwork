@@ -3,7 +3,7 @@
 #include "../Token.h"
 #include "../../Chunk.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     class Text final : public Token {
     public:
         std::string text;

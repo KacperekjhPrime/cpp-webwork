@@ -4,7 +4,7 @@
 #include "../Token.h"
 #include "../../Expression/Tokens/Parenthesis.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     class If final : public Token, public BlockBase {
     public:
         const std::shared_ptr<expression::Parenthesis> expression;

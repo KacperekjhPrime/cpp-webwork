@@ -4,7 +4,7 @@
 #include "../Properties/Interfaces/IBoolean.h"
 #include "../../../Logging.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     If::If(size_t textIndex, const std::shared_ptr<expression::Parenthesis> &expression) : Token(textIndex), BlockBase(thingamajig::TokenType::TokenType::EndIf, "if"), expression(expression) {}
 
     std::string If::GetContent(const std::shared_ptr<Scope> &scope) const {

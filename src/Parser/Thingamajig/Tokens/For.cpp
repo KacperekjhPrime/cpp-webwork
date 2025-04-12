@@ -8,7 +8,7 @@
 #include "../../Chunk.h"
 #include "../../../Logging.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     For::For(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), BlockBase(thingamajig::TokenType::EndFor, "for"),
         variable(chunk.tokens[1].text), collection(chunk.tokens[chunk.tokens.size() == 5 ? 3 : 5].text),
         index(chunk.tokens.size() == 5 ? std::nullopt : std::optional<std::string>(chunk.tokens[5].text)) {

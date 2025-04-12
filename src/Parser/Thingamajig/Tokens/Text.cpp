@@ -2,7 +2,7 @@
 
 #include "../../Parser.h"
 
-namespace webwork::tokens {
+namespace webwork::thingamajig {
     Text::Text(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), text(chunk.GetText()) {}
 
     std::string Text::GetContent(const std::shared_ptr<Scope> &) const {
