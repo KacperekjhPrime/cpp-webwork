@@ -1,50 +1,64 @@
 #include "Parenthesis.h"
 
 #include "../Expression.h"
-#include "IBinaryOperator.h"
+#include "Interfaces/IBinaryOperator.h"
+#include "Interfaces/IUnaryOperator.h"
 
 namespace webwork::expression {
-    // TODO: Add Block::OnChildAdd(), Block::OnClose() to handle invalid expressions
-
     Parenthesis::Parenthesis() : Block(ExpressionToken::RightParenthesis, "parenthesis"), startIndex(0) {}
 
     Parenthesis::Parenthesis(std::string_view text, const Chunk &chunk) : Block(ExpressionToken::RightParenthesis, "parenthesis"), startIndex(chunk.GetTextIndex(text)) {}
 
     std::shared_ptr<const Property> Parenthesis::Evaluate(const std::shared_ptr<const Scope> &scope) const {
-        if (children.empty()) {
-            throw std::runtime_error(std::format("Cannot evaluate an empty exception at {}", startIndex));
-        }
+        auto lhs = initialExpression->Evaluate(scope);
+        if (initialUnary) lhs = initialUnary->Calculate(lhs);
 
-        if (children.size() == 1) {
-            const auto value = std::dynamic_pointer_cast<IEvaluable>(children[0]);
-            if (!value) {
-                throw std::runtime_error("Only child of Parenthesis in not IEvaluable.");
+        for (const auto &operation : operations) {
+            auto rhs = operation.expression->Evaluate(scope);
+            if (operation.unaryOperator) {
+                rhs = operation.unaryOperator->Calculate(rhs);
             }
-            return value->Evaluate(scope);
-        }
-
-        if (children.size() % 2 == 0) {
-            throw std::runtime_error("Cannot evaluate an expression with an even number of children");
-        }
-
-        auto lhs = std::dynamic_pointer_cast<IEvaluable>(children[0])->Evaluate(scope);
-        if (lhs == nullptr) throw std::runtime_error(std::format("Expression element at index 0 is not IEvaluable."));
-
-        for (size_t i = 1; i < children.size() - 1; i += 2) {
-            const auto op = std::dynamic_pointer_cast<IBinaryOperator>(children[i]);
-            if (op == nullptr) throw std::runtime_error(std::format("Expression element at index {} is not IBinaryOperator.", i));
-
-            const auto rhs = std::dynamic_pointer_cast<IEvaluable>(children[i + 1]);
-            if (rhs == nullptr) throw std::runtime_error(std::format("Expression element at index {} is not IEvaluable.", i + 1));
-
-            lhs = op->Calculate(lhs, rhs->Evaluate(scope));
+            lhs = operation.binaryOperator->Calculate(lhs, rhs);
         }
 
         return lhs;
     }
 
     void Parenthesis::AddChild(const std::shared_ptr<Token> &child) {
-        children.push_back(child);
+        if (!initialExpression) {
+            if (!initialUnary) {
+                initialUnary = std::dynamic_pointer_cast<const IUnaryOperator>(child);
+                if (initialUnary) return;
+            }
+            initialExpression = std::dynamic_pointer_cast<const IEvaluable>(child);
+            if (initialExpression) return;
+            throw std::runtime_error("Invalid expression token. IEvaluable expected.");
+        }
+
+        if (operations.empty() || operations.back().expression) {
+            operations.emplace_back();
+        }
+
+        auto &last = operations.back();
+        if (last.binaryOperator) {
+            if (!last.unaryOperator) {
+                last.unaryOperator = std::dynamic_pointer_cast<const IUnaryOperator>(child);
+                if (last.unaryOperator) return;
+            }
+            last.expression = std::dynamic_pointer_cast<const IEvaluable>(child);
+            if (last.expression) return;
+            throw std::runtime_error("Invalid expression token. IEvaluable expected.");
+        }
+
+        last.binaryOperator = std::dynamic_pointer_cast<const IBinaryOperator>(child);
+        if (last.binaryOperator) return;
+        throw std::runtime_error("Invalid expression token. IBinaryOperator expected.");
+    }
+
+    void Parenthesis::CloseBlock() {
+        if (!initialExpression) {
+            throw std::runtime_error("Empty parenthesis.");
+        }
     }
 }
 

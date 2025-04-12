@@ -1,7 +1,7 @@
 #ifndef EXPRESSION_VARIABLE_H
 #define EXPRESSION_VARIABLE_H
 
-#include "../IEvaluable.h"
+#include "Interfaces/IEvaluable.h"
 #include "../Token.h"
 #include "../../Chunk.h"
 

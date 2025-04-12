@@ -2,8 +2,8 @@
 #define IEVALUABLE_H
 #include <memory>
 
-#include "../Thingamajig/Property.h"
-#include "../Thingamajig/Scope.h"
+#include "../../../Thingamajig/Property.h"
+#include "../../../Thingamajig/Scope.h"
 
 namespace webwork::expression {
     class IEvaluable {

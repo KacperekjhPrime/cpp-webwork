@@ -5,12 +5,10 @@
 
 namespace webwork::expression {
     double Add(double lhs, double rhs);
-    double Subtract(double lhs, double rhs);
     double Multiply(double lhs, double rhs);
     double Divide(double lhs, double rhs);
 
     using AdditionOperator = NumericBinaryOperator<Add, "+">;
-    using SubtractionOperator = NumericBinaryOperator<Subtract, "-">;
     using MultiplicationOperator = NumericBinaryOperator<Multiply, "*">;
     using DivisionOperator = NumericBinaryOperator<Divide, "/">;
     using ModulusOperator = NumericBinaryOperator<std::fmod, "%">;

@@ -3,6 +3,7 @@
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
+#include "Tokens/Operators/SubtractionOperator.h"
 
 namespace webwork::expression {
     template <class T>

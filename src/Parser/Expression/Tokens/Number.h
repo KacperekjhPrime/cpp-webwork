@@ -1,6 +1,6 @@
 #ifndef EXPRESSION_NUMBER_H
 #define EXPRESSION_NUMBER_H
-#include "../IEvaluable.h"
+#include "Interfaces/IEvaluable.h"
 #include "../Token.h"
 #include "../../Chunk.h"
 #include "../../Thingamajig/Properties/Number.h"
