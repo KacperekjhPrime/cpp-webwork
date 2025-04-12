@@ -6,7 +6,7 @@
 namespace webwork::properties {
     class String final : public Property {
     public:
-        std::string data;
+        std::string value;
 
         explicit String(std::string_view data = "");
 

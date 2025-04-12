@@ -1,13 +1,13 @@
 #include "Number.h"
 
 namespace webwork::properties {
-    Number::Number(double data) : data(data) {}
+    Number::Number(double data) : value(data) {}
 
     std::string Number::ToString() const {
-        return std::format("{}", data);
+        return std::format("{}", value);
     }
 
     bool Number::GetBoolValue() const {
-        return static_cast<bool>(data);
+        return static_cast<bool>(value);
     }
 }

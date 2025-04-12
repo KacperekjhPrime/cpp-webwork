@@ -11,6 +11,6 @@ namespace webwork::expression {
             Log(LogLevel::Warning, "Operant of unary - operator is not required type {}.", GetTypeName<properties::Number>());
             return nullptr;
         }
-        return std::make_shared<properties::Number>(-number->data);
+        return std::make_shared<properties::Number>(-number->value);
     }
 }

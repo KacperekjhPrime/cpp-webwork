@@ -23,7 +23,7 @@ namespace webwork::expression {
                 return nullptr;
             }
 
-            return std::make_shared<properties::Number>(Calculate(left->data, right->data));
+            return std::make_shared<properties::Number>(Calculate(left->value, right->value));
         }
 
         static double Calculate(double lhs, double rhs) {

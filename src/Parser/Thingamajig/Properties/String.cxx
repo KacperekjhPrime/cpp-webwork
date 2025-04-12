@@ -5,9 +5,9 @@
 #include "String.h"
 
 namespace webwork::properties {
-    String::String(std::string_view data) : data(data) {}
+    String::String(std::string_view data) : value(data) {}
 
     std::string String::ToString() const {
-        return data;
+        return value;
     }
 } // webwork

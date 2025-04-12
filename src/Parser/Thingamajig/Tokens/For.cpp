@@ -28,10 +28,10 @@ namespace webwork::thingamajig {
 
         std::string text = "";
         const auto innerScope = std::make_shared<Scope>(object, scope);
-        for (size_t i = 0; i < array->array.size(); i++) {
-            object->GetProperty(variable) = array->array[i];
+        for (size_t i = 0; i < array->value.size(); i++) {
+            object->GetProperty(variable) = array->value[i];
             if (index) {
-                index->data = i;
+                index->value = i;
             }
 
             for (const auto &child : children) {

@@ -7,7 +7,7 @@
 namespace webwork::properties {
     class Number final : public Property, public IBoolean {
     public:
-        double data{};
+        double value{};
 
         explicit Number(double data = 0);
 

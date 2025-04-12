@@ -8,7 +8,7 @@
 namespace webwork::properties {
     class Array final : public Property {
     public:
-        std::vector<std::shared_ptr<Property>> array;
+        std::vector<std::shared_ptr<Property>> value;
 
         std::string ToString() const override;
     };
