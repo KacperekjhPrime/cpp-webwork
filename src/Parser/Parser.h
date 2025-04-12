@@ -42,19 +42,20 @@ namespace webwork {
         for (const auto &chunk : chunks) {
             const auto &top = children.top();
             if (chunk.type == top->closingToken) {
+                children.top()->CloseBlock();
                 children.pop();
             } else {
                 const auto creator = map.find(chunk.type);
                 if (creator != map.end()) {
                     const auto created = creator->second(text, chunk);
-                    top->children.push_back(created);
+                    top->AddChild(created);
 
                     const auto block = std::dynamic_pointer_cast<Block<Token>>(created);
                     if (block) {
                         children.push(block);
                     }
                 } else if ((chunk.type & TokenStrayToTextBit) > 0) {
-                    top->children.push_back(std::make_shared<Text>(text, chunk));
+                    top->AddChild(std::make_shared<Text>(text, chunk));
                 } else {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", chunk.GetTextIndex(text), chunk.GetText()));
                 }

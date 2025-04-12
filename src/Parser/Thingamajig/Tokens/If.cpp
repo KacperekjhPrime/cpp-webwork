@@ -5,7 +5,7 @@
 #include "../../../Logging.h"
 
 namespace webwork::tokens {
-    If::If(size_t textIndex, const std::shared_ptr<expression::Parenthesis> &expression) : Token(textIndex), Block(thingamajig::TokenType::TokenType::EndIf, "if"), expression(expression) {}
+    If::If(size_t textIndex, const std::shared_ptr<expression::Parenthesis> &expression) : Token(textIndex), BlockBase(thingamajig::TokenType::TokenType::EndIf, "if"), expression(expression) {}
 
     std::string If::GetContent(const std::shared_ptr<Scope> &scope) const {
         // TODO: Parse condition properly instead of treating it as a property name

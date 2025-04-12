@@ -12,11 +12,13 @@ namespace webwork {
         Block(TokenT closingToken, std::string_view name) : closingToken(closingToken), name(name) {}
 
     public:
-        std::vector<std::shared_ptr<T>> children;
         const TokenT closingToken;
         const std::string name;
 
         virtual ~Block() = default;
+
+        virtual void AddChild(const std::shared_ptr<T> &child) = 0;
+        virtual void CloseBlock() {}
     };
 }
 

@@ -1,14 +1,14 @@
 #ifndef THINGAMAJIG_FOR_H
 #define THINGAMAJIG_FOR_H
+#include "BlockBase.h"
 #include "../Token.h"
-#include "../../Block.h"
 
 namespace webwork {
     struct Chunk;
 }
 
 namespace webwork::tokens {
-    class For final : public Token, public Block<Token> {
+    class For final : public Token, public BlockBase {
     public:
         const std::string variable;
         const std::string collection;

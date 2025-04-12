@@ -42,6 +42,10 @@ namespace webwork::expression {
 
         return lhs;
     }
+
+    void Parenthesis::AddChild(const std::shared_ptr<Token> &child) {
+        children.push_back(child);
+    }
 }
 
 

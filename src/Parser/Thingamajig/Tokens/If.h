@@ -1,12 +1,11 @@
 #ifndef THINGAMAJIG_IF_H
 #define THINGAMAJIG_IF_H
+#include "BlockBase.h"
 #include "../Token.h"
-#include "../../Block.h"
-#include "../../Chunk.h"
 #include "../../Expression/Tokens/Parenthesis.h"
 
 namespace webwork::tokens {
-    class If final : public Token, public Block<Token> {
+    class If final : public Token, public BlockBase {
     public:
         const std::shared_ptr<expression::Parenthesis> expression;
 

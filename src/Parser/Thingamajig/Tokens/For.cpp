@@ -9,7 +9,7 @@
 #include "../../../Logging.h"
 
 namespace webwork::tokens {
-    For::For(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), Block(thingamajig::TokenType::EndFor, "for"),
+    For::For(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), BlockBase(thingamajig::TokenType::EndFor, "for"),
         variable(chunk.tokens[1].text), collection(chunk.tokens[chunk.tokens.size() == 5 ? 3 : 5].text),
         index(chunk.tokens.size() == 5 ? std::nullopt : std::optional<std::string>(chunk.tokens[5].text)) {
         assert(chunk.tokens.size() == 5 || chunk.tokens.size() == 7);
