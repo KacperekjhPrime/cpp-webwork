@@ -1,4 +1,5 @@
 #include "SubtractionOperator.h"
+#include "NumericBinaryOperator.h"
 
 namespace webwork::expression {
     double Subtract(double lhs, double rhs) {
@@ -12,5 +13,16 @@ namespace webwork::expression {
             return nullptr;
         }
         return std::make_shared<properties::Number>(-number->GetNumberValue());
+    }
+
+    std::shared_ptr<const Property> SubtractionOperator::Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const {
+        return NumericBinaryOperator<Subtract, "subtraction">::CalculateImpl(a, b);
+    }
+
+    std::shared_ptr<SubtractionOperator> SubtractionOperator::GetInstance() {
+        if (!instance) {
+            instance = std::make_shared<SubtractionOperator>();
+        }
+        return instance;
     }
 }

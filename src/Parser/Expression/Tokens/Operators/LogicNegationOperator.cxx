@@ -10,4 +10,11 @@ namespace webwork::expression {
         }
         return std::make_shared<properties::Boolean>(!boolean->GetBoolValue());
     }
+
+    const std::shared_ptr<LogicNegationOperator> &LogicNegationOperator::GetInstance() {
+        if (!instance) {
+            instance = std::make_shared<LogicNegationOperator>();
+        }
+        return instance;
+    }
 }

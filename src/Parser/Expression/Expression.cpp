@@ -9,8 +9,14 @@
 
 namespace webwork::expression {
     template <class T>
+    concept OperatorToken = requires()
+    {
+        { T::GetInstance() } -> std::convertible_to<std::shared_ptr<T>>;
+    };
+
+    template <OperatorToken T>
     constexpr TokenCreator<Token> GetOperatorCreator() {
-        return [](std::string_view, const Chunk &){ return std::make_shared<T>(); };
+        return [](std::string_view, const Chunk &){ return T::GetInstance(); };
     }
 
     std::shared_ptr<TokenTree> MakeTokenTree() {
