@@ -36,13 +36,13 @@ namespace webwork {
     template <class Token, class Root, class Text>
     std::shared_ptr<Root> AssembleTree(std::string_view text, const std::vector<Chunk> &chunks, const std::map<TokenT, TokenCreator<Token>> &map) {
         const auto root = std::make_shared<Root>();
-        std::stack<std::shared_ptr<Block<Token>>> children;
-        children.push(root);
+        std::stack<std::pair<std::shared_ptr<Block<Token>>, size_t>> children;
+        children.push({root, 0});
 
         for (const auto &chunk : chunks) {
-            const auto &top = children.top();
+            const auto &top = children.top().first;
             if (chunk.type == top->closingToken) {
-                children.top()->CloseBlock();
+                children.top().first->CloseBlock();
                 children.pop();
             } else {
                 const auto creator = map.find(chunk.type);
@@ -52,7 +52,7 @@ namespace webwork {
 
                     const auto block = std::dynamic_pointer_cast<Block<Token>>(created);
                     if (block) {
-                        children.push(block);
+                        children.push({block, chunk.GetTextIndex(text)});
                     }
                 } else if ((chunk.type & TokenStrayToTextBit) > 0) {
                     top->AddChild(std::make_shared<Text>(text, chunk));
@@ -63,10 +63,8 @@ namespace webwork {
         }
 
         if (children.size() > 1) {
-            const auto &block = children.top();
-            // TODO: Fix names
-            // const auto &token = std::dynamic_pointer_cast<Token>(block);
-            throw std::runtime_error(std::format("Unclosed {} block", block->name));
+            const auto &[block, index] = children.top();
+            throw std::runtime_error(std::format("Unclosed {} block at {}.", block->name, index));
         }
 
         root->CloseBlock();

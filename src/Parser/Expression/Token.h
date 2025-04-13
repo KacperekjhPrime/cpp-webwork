@@ -1,9 +1,5 @@
 #ifndef EXPRESSION_TOKEN_H
 #define EXPRESSION_TOKEN_H
-#include <memory>
-
-#include "../Thingamajig/Property.h"
-#include "../Thingamajig/Scope.h"
 
 namespace webwork::expression {
     class Token {
@@ -12,4 +8,4 @@ namespace webwork::expression {
     };
 }
 
-#endif //TOKEN_H
+#endif //EXPRESSION_TOKEN_H

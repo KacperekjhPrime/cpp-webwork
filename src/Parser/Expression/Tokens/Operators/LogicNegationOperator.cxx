@@ -1,5 +1,7 @@
 #include "LogicNegationOperator.h"
 #include "../../../Thingamajig/Properties/Boolean.h"
+#include "../../../../Logging.h"
+#include "../../../../Helper.h"
 
 namespace webwork::expression {
     std::shared_ptr<const Property> LogicNegationOperator::Calculate(const std::shared_ptr<const Property> &prop) const {
