@@ -7,7 +7,7 @@
 namespace webwork::properties {
     String::String(std::string_view data) : value(data) {}
 
-    std::string String::ToString() const {
+    std::string String::GetStringValue() const {
         return value;
     }
-} // webwork
+}

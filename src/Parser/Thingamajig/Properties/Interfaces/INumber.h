@@ -7,6 +7,8 @@ namespace webwork::properties {
         virtual ~INumber() = default;
 
         virtual double GetNumberValue() const = 0;
+
+        static double GetValue(const INumber &prop);
     };
 }
 

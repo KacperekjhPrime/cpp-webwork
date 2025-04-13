@@ -7,6 +7,8 @@ namespace webwork::properties {
         virtual ~IBoolean() = default;
 
         virtual bool GetBoolValue() const = 0;
+
+        static bool GetValue(const IBoolean &prop);
     };
 }
 

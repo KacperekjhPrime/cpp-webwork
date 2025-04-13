@@ -87,6 +87,14 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Operators/LogicNegationOperator.h
         src/Parser/Expression/Tokens/Boolean.cxx
         src/Parser/Expression/Tokens/Boolean.h
+        src/Parser/Thingamajig/Properties/Interfaces/IFunction.h
+        src/Parser/Thingamajig/Properties/Function.h
+        src/Parser/Thingamajig/Properties/Function.cxx
+        src/Parser/Thingamajig/Properties/Helper.h
+        src/Parser/Thingamajig/Properties/Interfaces/IString.h
+        src/Parser/Thingamajig/Properties/Interfaces/IBoolean.cxx
+        src/Parser/Thingamajig/Properties/Interfaces/INumber.cxx
+        src/Parser/Thingamajig/Properties/Interfaces/IString.cxx
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

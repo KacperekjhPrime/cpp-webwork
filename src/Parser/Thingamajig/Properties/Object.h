@@ -12,8 +12,6 @@ namespace webwork::properties {
     public:
         std::shared_ptr<Property> &GetProperty(const std::string &key);
         std::shared_ptr<Property> GetProperty(const std::string &key) const;
-
-        std::string ToString() const override;
     };
 }
 

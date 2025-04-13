@@ -14,10 +14,4 @@ namespace webwork::properties {
         }
         return it->second;
     }
-
-    std::string Object::ToString() const {
-        Log(LogLevel::Warning, "Trying to convert an object into string.");
-        return "[Object]";
-    }
-
 }
