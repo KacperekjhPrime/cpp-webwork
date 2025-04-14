@@ -81,4 +81,25 @@ namespace webwork {
 
         return output;
     }
+
+    std::string_view TrimSpacesFront(std::string_view input) {
+        size_t i = 0;
+        for (; i < input.size(); i++) {
+            if (input[i] != ' ') break;
+        }
+        return input.substr(i, input.size() - i);
+    }
+
+    std::string_view TrimSpacesBack(std::string_view input) {
+        ssize_t i = input.size() - 1;
+        for (; i >= 0; i--) {
+            if (input[i] != ' ') break;
+        }
+        return input.substr(0, i + 1);
+    }
+
+    std::string_view TrimSpaces(std::string_view input) {
+        return TrimSpacesFront(TrimSpacesBack(input));
+    }
+
 }
