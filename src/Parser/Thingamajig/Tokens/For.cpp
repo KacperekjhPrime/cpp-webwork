@@ -23,7 +23,7 @@ namespace webwork::thingamajig {
         std::shared_ptr<properties::Number> index = nullptr;
         if (this->index.has_value()) {
             index = std::make_shared<properties::Number>(0);
-            object->GetProperty("index") = index;
+            object->GetProperty(*this->index) = index;
         }
 
         std::string text = "";
