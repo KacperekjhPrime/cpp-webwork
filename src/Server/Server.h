@@ -8,6 +8,7 @@ namespace webwork {
     void RunServer(const ServerConfig &config);
     Response CreateResponse(const Request &request);
     Request ParseRequest(std::string_view requestString);
+    void ParseCookies(const Request &request, std::string_view cookieString);
     void StopServer();
 }
 

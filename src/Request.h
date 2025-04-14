@@ -35,6 +35,7 @@ namespace webwork {
         URL url;
         std::optional<std::string> body;
         std::map<std::string, std::string> headers;
+        std::map<std::string, std::string> cookies;
     };
 } // webwork
 

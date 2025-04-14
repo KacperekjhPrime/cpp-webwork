@@ -98,7 +98,16 @@ namespace webwork {
             request.headers[splitHeader[0]] = splitHeader[1];
         }
 
+        auto cookieHeaderIndex = request.headers.find("Cookie");
+        if (cookieHeaderIndex != request.headers.end()) {
+            ParseCookies(request, cookieHeaderIndex->second);
+        }
+
         return request;
+    }
+
+    void ParseCookies(const Request &request, std::string_view cookieString) {
+        auto splitCookies = SplitString(cookieString, ";");
     }
 
     void StopServer() {
