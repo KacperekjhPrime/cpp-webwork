@@ -1,5 +1,6 @@
 #include "Helper.h"
 
+#include <cassert>
 #include <cstring>
 #include <string>
 #include <map>
@@ -102,4 +103,40 @@ namespace webwork {
         return TrimSpacesFront(TrimSpacesBack(input));
     }
 
+    bool IsValidHexCharacter(char input) {
+        return (input >= 48 && input <= 57) || (input >= 65 && input <= 70) || (input >= 97 && input <= 102);
+    }
+
+    char HexCharacterToValue(char input) {
+        if (input >= 97 && input <= 102) return input - 87;
+        return input - 48;
+    }
+
+    char HexToChar(std::string_view input) {
+        assert(input.size() == 2);
+        if (!IsValidHexCharacter(input[0]) || !IsValidHexCharacter(input[1])) return - 1;
+        return 16 * HexCharacterToValue(tolower(input[0])) + tolower(HexCharacterToValue(tolower(input[1])));
+    }
+
+    std::string PercentDecode(std::string_view input) {
+        if (input.size() < 3) return std::string(input);
+        std::string output;
+        output.reserve(input.size());
+        for (size_t i = 0; i < input.size() - 2; i++) {
+            if (input[i] == '%') {
+                char character = HexToChar(input.substr(i + 1, 2));
+                output += character;
+                i += 2;
+            }
+            else output += input[i];
+        }
+
+        return output;
+    }
+
+    void PlusToSpace(std::string& input) {
+        for (size_t i = 0; i < input.size(); i++) {
+            if (input[i] == '+') input[i] = ' ';
+        }
+    }
 }
