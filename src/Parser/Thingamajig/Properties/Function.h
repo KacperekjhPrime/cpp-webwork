@@ -41,13 +41,9 @@ namespace webwork::properties {
         const FunctionT function;
 
         explicit Function(const FunctionT &function);
+        explicit Function(const auto &function) : function(detail::WrapFunction(std::function(function))) {}
 
         std::shared_ptr<const Property> Execute(std::span<std::shared_ptr<const Property>> properties) const override;
-
-        template <class T>
-        static std::shared_ptr<Function> CreateFrom(const T &function) {
-            return std::make_shared<Function>(detail::WrapFunction(std::function(function)));
-        }
     };
 }
 
