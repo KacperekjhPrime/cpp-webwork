@@ -2,7 +2,7 @@
 #define THINGAMAJIG_TOKEN_H
 #include <string>
 
-#include "Scope.h"
+#include "../../Properties/Scope.h"
 
 namespace webwork {
     class Token {
@@ -17,7 +17,7 @@ namespace webwork {
         /**
          * Generates and returns content of this Token
          */
-        virtual std::string GetContent(const std::shared_ptr<Scope> &scope) const = 0;
+        virtual std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const = 0;
     };
 }
 

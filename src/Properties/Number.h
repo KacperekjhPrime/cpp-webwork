@@ -1,16 +1,17 @@
-#ifndef BOOLEAN_H
-#define BOOLEAN_H
-#include "../Property.h"
+#ifndef NUMBER_H
+#define NUMBER_H
+#include <memory>
+#include "Property.h"
 #include "Interfaces/IBoolean.h"
 #include "Interfaces/INumber.h"
 #include "Interfaces/IString.h"
 
 namespace webwork::properties {
-    class Boolean final : public Property, public IBoolean, public INumber, public IString {
+    class Number final : public Property, public IBoolean, public INumber, public IString {
     public:
-        bool value;
+        double value{};
 
-        explicit Boolean(bool value = false);
+        explicit Number(double data = 0);
 
         bool GetBoolValue() const override;
         double GetNumberValue() const override;
@@ -18,4 +19,4 @@ namespace webwork::properties {
     };
 }
 
-#endif //BOOLEAN_H
+#endif //NUMBER_H

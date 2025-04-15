@@ -1,6 +1,6 @@
 #include "Scope.h"
 
-namespace webwork {
+namespace webwork::properties {
     Scope::Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous) : object(object), previous(previous) {}
 
     std::shared_ptr<const Property> Scope::GetProperty(const std::string &name) const {

@@ -1,13 +1,13 @@
 #include "If.h"
 
 #include "../Thingamajig.h"
-#include "../Properties/Interfaces/IBoolean.h"
+#include "../../../Properties/Interfaces/IBoolean.h"
 #include "../../../Logging.h"
 
 namespace webwork::thingamajig {
     If::If(size_t textIndex, const std::shared_ptr<expression::Parenthesis> &expression) : Token(textIndex), BlockBase(TokenType::EndIf, "if"), expression(expression) {}
 
-    std::string If::GetContent(const std::shared_ptr<Scope> &scope) const {
+    std::string If::GetContent(const std::shared_ptr<properties::Scope> &scope) const {
         const auto result = expression->Evaluate(scope);
         const auto boolean = std::dynamic_pointer_cast<const properties::IBoolean>(result);
         if (!boolean) {

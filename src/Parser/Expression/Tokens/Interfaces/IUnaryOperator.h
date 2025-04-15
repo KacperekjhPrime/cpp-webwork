@@ -2,7 +2,7 @@
 #define IBINARYOPERATOR_H
 #include <memory>
 
-#include "../../../Thingamajig/Property.h"
+#include "../../../../Properties/Property.h"
 
 namespace webwork {
     class IUnaryOperator {

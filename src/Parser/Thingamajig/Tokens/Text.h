@@ -10,7 +10,7 @@ namespace webwork::thingamajig {
 
         Text(std::string_view text, const Chunk &chunk);
 
-        std::string GetContent(const std::shared_ptr<Scope> &) const override;
+        std::string GetContent(const std::shared_ptr<properties::Scope> &) const override;
     };
 }
 

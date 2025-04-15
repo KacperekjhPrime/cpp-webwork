@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Helper.h"
-#include "../Property.h"
+#include "Property.h"
 
 namespace webwork::properties {
     template <class T>

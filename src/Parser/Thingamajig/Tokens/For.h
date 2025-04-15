@@ -13,7 +13,7 @@ namespace webwork::thingamajig {
 
         For(size_t textIndex, std::string_view variable, const std::optional<std::string_view> &index, const std::shared_ptr<expression::Parenthesis> &expression);
 
-        std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
+        std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const override;
     };
 } // webwork
 

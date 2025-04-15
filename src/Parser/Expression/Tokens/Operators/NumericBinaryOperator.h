@@ -3,7 +3,7 @@
 
 #include "../../Token.h"
 #include "../Interfaces/IBinaryOperator.h"
-#include "../../../Thingamajig/Properties/Number.h"
+#include "../../../../Properties/Number.h"
 #include "../../../../Helper.h"
 #include "../../../../Logging.h"
 

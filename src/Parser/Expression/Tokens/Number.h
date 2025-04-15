@@ -3,7 +3,7 @@
 #include "Interfaces/IEvaluable.h"
 #include "../Token.h"
 #include "../../Chunk.h"
-#include "../../Thingamajig/Properties/Number.h"
+#include "../../../Properties/Number.h"
 
 namespace webwork::expression {
     class Number final : public Token, public IEvaluable {
@@ -12,7 +12,7 @@ namespace webwork::expression {
 
         Number(std::string_view text, const Chunk &chunk);
 
-        std::shared_ptr<const Property> Evaluate(const std::shared_ptr<const Scope> &scope) const override;
+        std::shared_ptr<const Property> Evaluate(const std::shared_ptr<const properties::Scope> &scope) const override;
     };
 }
 

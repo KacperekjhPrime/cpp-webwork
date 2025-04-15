@@ -2,7 +2,7 @@
 
 #include "Comma.h"
 #include "../Expression.h"
-#include "../../Thingamajig/Properties/Interfaces/IFunction.h"
+#include "../../../Properties/Interfaces/IFunction.h"
 
 namespace webwork::expression {
     Function::Function(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightParenthesis, "function parameters"),
@@ -22,7 +22,7 @@ namespace webwork::expression {
         }
     }
 
-    std::shared_ptr<const Property> Function::Evaluate(const std::shared_ptr<const Scope> &scope) const {
+    std::shared_ptr<const Property> Function::Evaluate(const std::shared_ptr<const properties::Scope> &scope) const {
         const auto function = scope->GetProperty<properties::IFunction>(functionName);
         if (!function) {
             return nullptr;

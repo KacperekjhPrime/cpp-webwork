@@ -9,7 +9,7 @@ namespace webwork::expression {
 
     Parenthesis::Parenthesis(std::string_view text, const Chunk &chunk) : Block(ExpressionToken::RightParenthesis, "parenthesis"), startIndex(chunk.GetTextIndex(text)) {}
 
-    std::shared_ptr<const Property> Parenthesis::Evaluate(const std::shared_ptr<const Scope> &scope) const {
+    std::shared_ptr<const Property> Parenthesis::Evaluate(const std::shared_ptr<const properties::Scope> &scope) const {
         auto lhs = initialExpression->Evaluate(scope);
         if (initialUnary) lhs = initialUnary->Calculate(lhs);
 

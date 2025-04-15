@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "../Property.h"
+#include "Property.h"
 #include "Interfaces/IString.h"
 
 namespace webwork::properties {

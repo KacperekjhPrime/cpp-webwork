@@ -1,5 +1,5 @@
 #include "LogicNegationOperator.h"
-#include "../../../Thingamajig/Properties/Boolean.h"
+#include "../../../../Properties/Boolean.h"
 #include "../../../../Logging.h"
 #include "../../../../Helper.h"
 

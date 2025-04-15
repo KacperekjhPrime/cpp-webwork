@@ -34,9 +34,6 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Parser.cpp
         src/Parser/TokenTypeConstants.h
         src/Parser/Tree.h
-        src/Parser/Thingamajig/Property.h
-        src/Parser/Thingamajig/Scope.cxx
-        src/Parser/Thingamajig/Scope.h
         src/Parser/Thingamajig/Thingamajig.cpp
         src/Parser/Thingamajig/Thingamajig.h
         src/Parser/Thingamajig/Token.cpp
@@ -49,17 +46,6 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Thingamajig/Tokens/Root.h
         src/Parser/Thingamajig/Tokens/Text.cpp
         src/Parser/Thingamajig/Tokens/Text.h
-        src/Parser/Thingamajig/Properties/Array.cxx
-        src/Parser/Thingamajig/Properties/Array.h
-        src/Parser/Thingamajig/Properties/Boolean.cxx
-        src/Parser/Thingamajig/Properties/Boolean.h
-        src/Parser/Thingamajig/Properties/Number.cpp
-        src/Parser/Thingamajig/Properties/Number.h
-        src/Parser/Thingamajig/Properties/Object.cpp
-        src/Parser/Thingamajig/Properties/Object.h
-        src/Parser/Thingamajig/Properties/String.cxx
-        src/Parser/Thingamajig/Properties/String.h
-        src/Parser/Thingamajig/Properties/Interfaces/IBoolean.h
         src/Parser/Expression/Expression.cpp
         src/Parser/Expression/Expression.h
         src/Parser/Expression/Token.h
@@ -81,20 +67,11 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Interfaces/IEvaluable.h
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.cpp
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.h
-        src/Parser/Thingamajig/Properties/Interfaces/INumber.h
         src/Parser/Expression/Tokens/Operators/BoolBinaryOperator.h
         src/Parser/Expression/Tokens/Operators/LogicNegationOperator.cxx
         src/Parser/Expression/Tokens/Operators/LogicNegationOperator.h
         src/Parser/Expression/Tokens/Boolean.cxx
         src/Parser/Expression/Tokens/Boolean.h
-        src/Parser/Thingamajig/Properties/Interfaces/IFunction.h
-        src/Parser/Thingamajig/Properties/Function.h
-        src/Parser/Thingamajig/Properties/Function.cxx
-        src/Parser/Thingamajig/Properties/Helper.h
-        src/Parser/Thingamajig/Properties/Interfaces/IString.h
-        src/Parser/Thingamajig/Properties/Interfaces/IBoolean.cxx
-        src/Parser/Thingamajig/Properties/Interfaces/INumber.cxx
-        src/Parser/Thingamajig/Properties/Interfaces/IString.cxx
         src/Parser/Expression/Tokens/Function.cxx
         src/Parser/Expression/Tokens/Function.h
         src/Parser/Expression/Tokens/Comma.h
@@ -109,6 +86,17 @@ add_executable(cpp-webwork src/main.cpp
         src/Helper.h
         src/Response.cpp
         src/HTTPException.h
+        src/Properties/Scope.cxx
+        src/Properties/Scope.h
+        src/Properties/Interfaces/IBoolean.cxx
+        src/Properties/Interfaces/INumber.cxx
+        src/Properties/Interfaces/IString.cxx
+        src/Properties/Array.cxx
+        src/Properties/Boolean.cxx
+        src/Properties/Function.cxx
+        src/Properties/Number.cpp
+        src/Properties/Object.cpp
+        src/Properties/String.cxx
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

@@ -7,7 +7,7 @@ namespace webwork::expression {
         assert(chunk.tokens.size() == 1);
     }
 
-    std::shared_ptr<const Property> Number::Evaluate(const std::shared_ptr<const Scope> &) const {
+    std::shared_ptr<const Property> Number::Evaluate(const std::shared_ptr<const properties::Scope> &) const {
         return value;
     }
 }

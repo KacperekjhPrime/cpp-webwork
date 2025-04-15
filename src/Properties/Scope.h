@@ -2,17 +2,17 @@
 #define SCOPE_H
 #include <memory>
 
-#include "Properties/Object.h"
-#include "../../Logging.h"
-#include "../../Helper.h"
+#include "Object.h"
+#include "../Logging.h"
+#include "../Helper.h"
 
-namespace webwork {
+namespace webwork::properties {
     class Scope {
     public:
-        std::shared_ptr<const properties::Object> object;
+        std::shared_ptr<const Object> object;
         std::shared_ptr<const Scope> previous;
 
-        explicit Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous = nullptr);
+        explicit Scope(const std::shared_ptr<const Object> &object, const std::shared_ptr<const Scope> &previous = nullptr);
 
         std::shared_ptr<const Property> GetProperty(const std::string &name) const;
 

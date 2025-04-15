@@ -2,7 +2,7 @@
 #define EXPRESSION_BOOLEAN_H
 #include "../Token.h"
 #include "Interfaces/IEvaluable.h"
-#include "../../Thingamajig/Properties/Boolean.h"
+#include "../../../Properties/Boolean.h"
 
 namespace webwork::expression {
     class Boolean final : public Token, public IEvaluable{
@@ -11,7 +11,7 @@ namespace webwork::expression {
 
         explicit Boolean(bool value);
 
-        std::shared_ptr<const Property> Evaluate(const std::shared_ptr<const Scope> &scope) const override;
+        std::shared_ptr<const Property> Evaluate(const std::shared_ptr<const properties::Scope> &scope) const override;
     };
 }
 

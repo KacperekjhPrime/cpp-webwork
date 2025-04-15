@@ -2,7 +2,7 @@
 #define IFUNCTION_H
 #include <memory>
 
-#include "../../Property.h"
+#include "../Property.h"
 
 namespace webwork::properties {
     class IFunction {

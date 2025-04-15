@@ -10,7 +10,7 @@ namespace webwork::thingamajig {
 
         Expression(size_t textIndex, const std::shared_ptr<const expression::Parenthesis> &expression);
 
-        std::string GetContent(const std::shared_ptr<Scope> &scope) const override;
+        std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const override;
     };
 }
 

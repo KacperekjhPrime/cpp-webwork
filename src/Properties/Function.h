@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "Helper.h"
-#include "../../../Helper.h"
+#include "../Helper.h"
 #include "Interfaces/IFunction.h"
 
 namespace webwork::properties {

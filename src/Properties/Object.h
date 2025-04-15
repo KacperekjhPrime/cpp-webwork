@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 
-#include "../Property.h"
+#include "Property.h"
 
 namespace webwork::properties {
     class Object final : public Property {

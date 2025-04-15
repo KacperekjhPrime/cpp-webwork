@@ -1,6 +1,6 @@
 #include "Object.h"
 
-#include "../../../Logging.h"
+#include "../Logging.h"
 
 namespace webwork::properties {
     std::shared_ptr<Property> &Object::GetProperty(const std::string &key) {
