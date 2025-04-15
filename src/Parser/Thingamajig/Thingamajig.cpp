@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "../Expression/Expression.h"
+#include "Tokens/Component.h"
 #include "Tokens/Expression.h"
 #include "Tokens/If.h"
 #include "Tokens/For.h"
@@ -11,15 +12,9 @@ namespace webwork::thingamajig {
     std::shared_ptr<TokenTree> MakeThingamajigTreeTree() {
         const auto tree = std::make_shared<TokenTree>();
 
-        const auto recursiveIfEnding = MakeRecursiveTrailingSpace(TokenType::If);
-        const auto recursiveForEnding = MakeRecursiveTrailingSpace(TokenType::For);
-        const auto recursiveInEnding = MakeRecursiveTrailingSpace(TokenType::In);
-
         const auto in = std::make_shared<TokenTree>();
         in->children[' '] = in;
-        in->AddBranch(std::string("in"), {recursiveInEnding});
-
-        const auto recursiveCommaEnding = MakeRecursiveTrailingSpace(TokenType::Comma);
+        in->AddBranch(std::string("in"), MakeRecursiveTrailingSpace(TokenType::In));
 
         tree->children = {
             {'{', TokenType::VariableOpening},
@@ -28,11 +23,13 @@ namespace webwork::thingamajig {
             {' ', in}
         };
 
-        tree->AddBranch(std::string_view("{if"), {recursiveIfEnding});
-        tree->AddBranch(std::string_view("{for"), {recursiveForEnding});
+        tree->AddBranch(std::string_view("{if"), MakeRecursiveTrailingSpace(TokenType::If));
+        tree->AddBranch(std::string_view("{for"), MakeRecursiveTrailingSpace(TokenType::For));
+        tree->AddBranch(std::string_view("{@"), TokenType::Component);
         tree->AddBranch(std::string_view("{endif}"), {TokenType::EndIf});
         tree->AddBranch(std::string_view("{endfor}"), {TokenType::EndFor});
-        tree->AddBranch(std::string_view(","), {recursiveCommaEnding});
+        tree->AddBranch(std::string_view(","), MakeRecursiveTrailingSpace(TokenType::Comma));
+        tree->AddBranch(std::string_view("="), MakeRecursiveTrailingSpace(TokenType::Equals));
 
         return tree;
     }
@@ -59,6 +56,27 @@ namespace webwork::thingamajig {
 
         constexpr auto forTokensIndexed = std::array<TokenT, 5>{TokenType::For, TokenType::Text, TokenType::Comma, TokenType::Text, TokenType::In};
         rules->AddBranch(forTokensIndexed, forBranchEnding);
+
+        const auto componentParameterStart = std::make_shared<MergeRules>();
+
+        const auto componentParameterEnding = std::make_shared<MergeRules>();
+        componentParameterEnding->children = {
+            {TokenType::Comma, componentParameterStart},
+            {TokenType::VariableClosing, TokenType::Component},
+            {TokenType::Text, componentParameterEnding}
+        };
+
+        constexpr auto componentParameterStartTokens = std::array<TokenT, 3>{TokenType::Text, TokenType::Equals, TokenType::Text};
+        componentParameterStart->AddBranch(componentParameterStartTokens, componentParameterEnding);
+
+        const auto componentEnding = std::make_shared<MergeRules>();
+        componentEnding->children = {
+            {TokenType::Comma, componentParameterStart},
+            {TokenType::VariableClosing, TokenType::Component}
+        };
+
+        constexpr auto componentTokens = std::array<TokenT, 2>{TokenType::Component, TokenType::Text};
+        rules->AddBranch(componentTokens, componentEnding);
 
         return rules;
     }
@@ -95,6 +113,26 @@ namespace webwork::thingamajig {
 
             return std::make_shared<For>(chunk.GetTextIndex(text), tokens[1].text, index, expression);
         }},
+        {TokenType::Component, [](std::string_view text, const Chunk &chunk) {
+            const auto &tokens = chunk.tokens;
+
+            assert(tokens.size() > 2);
+            std::vector<Component::Value> values;
+
+            if (tokens.size() > 3) {
+                size_t valueStart = 3;
+                for (size_t i = 5; i < tokens.size(); i++) {
+                    if (tokens[i].type == TokenType::Comma || tokens[i].type == TokenType::VariableClosing) {
+                        const auto expression = expression::ParseExpression(chunk.GetText(valueStart + 2, i - 1));
+                        values.push_back({std::string(tokens[valueStart].text), expression});
+                        valueStart = i + 1;
+                        i++;
+                    }
+                }
+            }
+
+            return std::make_shared<Component>(chunk.GetTextIndex(text), chunk.tokens[1].text, values);
+        }}
     };
 
     const std::shared_ptr<TokenTree> &GetThingamajigTokenTree() {

@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "Logging.h"
 #include "Loading/Loader.h"
 #include "Parser/Thingamajig/Thingamajig.h"
@@ -5,7 +7,7 @@
 #include "Properties/Function.h"
 #include "Server/Server.h"
 
-const std::string text = "\n{for value, index in array}{Foo(index, value)}\n{endfor}";
+const std::string text = "\n{@componentName.html, a=29+3, b=7, c=nyaa}";
 
 using namespace webwork;
 

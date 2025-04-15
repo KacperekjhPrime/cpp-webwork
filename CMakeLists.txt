@@ -97,6 +97,8 @@ add_executable(cpp-webwork src/main.cpp
         src/Properties/Number.cpp
         src/Properties/Object.cpp
         src/Properties/String.cxx
+        src/Parser/Thingamajig/Tokens/Component.h
+        src/Parser/Thingamajig/Tokens/Component.cxx
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
