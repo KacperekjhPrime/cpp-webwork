@@ -37,20 +37,28 @@ namespace webwork::thingamajig {
         return tree;
     }
 
+    std::shared_ptr<MergeRules> MakeRecursiveText(TokenT endingToken, const MergeRules::Child &ending) {
+        const auto tree = std::make_shared<MergeRules>();
+        tree->children[TokenType::Text] = tree;
+        tree->children[endingToken] = ending;
+        return tree;
+    }
+
     std::shared_ptr<MergeRules> MakeThingamajigMergeRules() {
         const auto rules = std::make_shared<MergeRules>();
 
-        constexpr auto variableTokens = std::array<TokenT, 3>{TokenType::VariableOpening, TokenType::Text, TokenType::VariableClosing};
-        rules->AddBranch(variableTokens, TokenType::VariableOpening);
+        rules->children = {
+            {TokenType::VariableOpening, MakeRecursiveText(TokenType::VariableClosing, TokenType::VariableOpening)},
+            {TokenType::If, MakeRecursiveText(TokenType::VariableClosing, TokenType::If)},
+        };
 
-        constexpr auto ifTokens = std::array<TokenT, 3>{TokenType::If, TokenType::Text, TokenType::VariableClosing};
-        rules->AddBranch(ifTokens, TokenType::If);
+        const auto forBranchEnding = MakeRecursiveText(TokenType::VariableClosing, TokenType::For);
 
-        constexpr auto indexlessForTokens = std::array<TokenT, 5>{TokenType::For, TokenType::Text, TokenType::In, TokenType::Text, TokenType::VariableClosing};
-        rules->AddBranch(indexlessForTokens, TokenType::For);
+        constexpr auto forTokensIndexless = std::array<TokenT, 3>{TokenType::For, TokenType::Text, TokenType::In};
+        rules->AddBranch(forTokensIndexless, forBranchEnding);
 
-        constexpr auto indexedForTokens = std::array<TokenT, 7>{TokenType::For, TokenType::Text, TokenType::Comma, TokenType::Text, TokenType::In, TokenType::Text, TokenType::VariableClosing};
-        rules->AddBranch(indexedForTokens, TokenType::For);
+        constexpr auto forTokensIndexed = std::array<TokenT, 5>{TokenType::For, TokenType::Text, TokenType::Comma, TokenType::Text, TokenType::In};
+        rules->AddBranch(forTokensIndexed, forBranchEnding);
 
         return rules;
     }
@@ -60,14 +68,33 @@ namespace webwork::thingamajig {
 
     const auto tokenMap = std::map<TokenT, TokenCreator<Token>> {
         {TokenType::VariableOpening, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
-            assert(chunk.tokens.size() == 3);
-            return std::make_shared<Expression>(chunk.GetTextIndex(text), expression::ParseExpression(chunk.tokens[1].text));
+            assert(chunk.tokens.size() > 2);
+            const auto expression = chunk.GetText(1, chunk.tokens.size() - 2);
+            return std::make_shared<Expression>(chunk.GetTextIndex(text), expression::ParseExpression(expression));
         }},
         {TokenType::If, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
-            assert(chunk.tokens.size() == 3);
-            return std::make_shared<If>(chunk.GetTextIndex(text), expression::ParseExpression(chunk.tokens[1].text));
+            assert(chunk.tokens.size() > 2);
+            const auto expression = chunk.GetText(1, chunk.tokens.size() - 2);
+            return std::make_shared<If>(chunk.GetTextIndex(text), expression::ParseExpression(expression));
         }},
-        {TokenType::For, GetTokenCreator<For>()},
+        {TokenType::For, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+            const auto &tokens = chunk.tokens;
+
+            assert(tokens.size() > 3);
+            const bool hasIndex = tokens[2].type == TokenType::Comma;
+
+            std::optional<std::string_view> index;
+            size_t expressionStart = hasIndex ? 5 : 3;
+            if (hasIndex) {
+                index = tokens[3].text;
+                expressionStart = 5;
+            }
+
+            const size_t expressionEnd = tokens.size() - 2;
+            const auto expression = expression::ParseExpression(chunk.GetText(expressionStart, expressionEnd));
+
+            return std::make_shared<For>(chunk.GetTextIndex(text), tokens[1].text, index, expression);
+        }},
     };
 
     const std::shared_ptr<TokenTree> &GetThingamajigTokenTree() {

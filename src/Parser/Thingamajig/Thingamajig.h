@@ -20,9 +20,9 @@ namespace webwork::thingamajig {
             For,
             EndIf,
             EndFor,
-            Comma,
 
-            In = TokenStrayToTextBit | TokenInescapableBit | TokensStart
+            Comma = TokenTextBit | TokenInescapableBit | TokensStart,
+            In
         };
     }
 

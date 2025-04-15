@@ -1,6 +1,8 @@
 #include "Expression.h"
 
 #include "Tokens/Boolean.h"
+#include "Tokens/Comma.h"
+#include "Tokens/Function.h"
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
@@ -63,9 +65,21 @@ namespace webwork::expression {
         return tree;
     }
 
+    std::shared_ptr<MergeRules> MakeMergeRules() {
+        const auto rules = std::make_shared<MergeRules>();
+
+        const auto function = std::make_shared<MergeRules>();
+        function->type = ExpressionToken::Text;
+        function->children[ExpressionToken::LeftParenthesis] = ExpressionToken::FunctionCall;
+
+        rules->children[ExpressionToken::Text] = function;
+
+        return rules;
+    }
+
     const auto tree = MakeTokenTree();
 
-    const auto rules = std::make_shared<MergeRules>();
+    const auto rules = MakeMergeRules();
 
     const std::map<TokenT, TokenCreator<Token>> map = {
         {ExpressionToken::Addition, GetOperatorCreator<AdditionOperator>()},
@@ -79,12 +93,14 @@ namespace webwork::expression {
         {ExpressionToken::LogicOr, GetOperatorCreator<LogicOrOperator>()},
         {ExpressionToken::LogicXor, GetOperatorCreator<LogicXorOperator>()},
         {ExpressionToken::LogicNegation, GetOperatorCreator<LogicNegationOperator>()},
+        {ExpressionToken::Comma, GetOperatorCreator<Comma>()},
         {ExpressionToken::True, [](std::string_view, const Chunk &) {
             return std::make_shared<Boolean>(true);
         }},
         {ExpressionToken::False, [](std::string_view, const Chunk &) {
             return std::make_shared<Boolean>(false);
-        }}
+        }},
+        {ExpressionToken::FunctionCall, GetTokenCreator<Function>()}
     };
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree() {

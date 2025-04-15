@@ -6,8 +6,12 @@ namespace webwork {
     }
 
     std::string_view Chunk::GetText() const {
-        const auto start = tokens.front().text.data();
-        const auto end = tokens.back().text;
+        return GetText(0, tokens.size() - 1);
+    }
+
+    std::string_view Chunk::GetText(size_t from, size_t to) const {
+        const auto start = tokens[from].text.data();
+        const auto end = tokens[to].text;
         return std::string_view(start, end.data() - start + end.size());
     }
 }

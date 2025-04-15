@@ -117,12 +117,17 @@ namespace webwork {
                 continue;
             }
 
-            const auto nextTree = currentRules->children.find(tokens[i].type);
+            auto nextTree = currentRules->children.find(tokens[i].type);
+            if (nextTree == currentRules->children.end() && (tokens[i].type & TokenTextBit) > 0) {
+                nextTree = currentRules->children.find(TokenText);
+            }
+
             if (nextTree == currentRules->children.end()) {
                 if (lastValidChunk.has_value()) {
                     const auto [index, type] = *lastValidChunk;
                     PushChunk(chunks, tokens, index, depth + index - i, type, escapeNext);
                     i = index;
+                    lastValidChunk.reset();
                 } else if (currentRules == rules) {
                     PushChunk(chunks, tokens, i, 0, tokens[i].type, escapeNext);
                 } else {
@@ -138,16 +143,19 @@ namespace webwork {
                         lastValidChunk = std::make_pair(i, tree->type.value());
                     }
                     currentRules = tree;
+                    depth++;
                 } else {
                     PushChunk(chunks, tokens, i, depth, std::get<TokenT>(value), escapeNext);
                     depth = 0;
                     currentRules = rules;
                 }
-                depth++;
             }
         }
 
-        if (escapeNext) {
+        if (lastValidChunk.has_value()) {
+            const auto [index, type] = lastValidChunk.value();
+            PushChunk(chunks, tokens, index, depth + index - tokens.size(), type, escapeNext);
+        } else if (escapeNext) {
             PushTextChunk(chunks, tokens, tokens.size(), 0);
         }
 

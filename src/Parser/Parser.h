@@ -54,7 +54,7 @@ namespace webwork {
                     if (block) {
                         children.push({block, chunk.GetTextIndex(text)});
                     }
-                } else if ((chunk.type & TokenStrayToTextBit) > 0) {
+                } else if ((chunk.type & TokenTextBit) > 0) {
                     top->AddChild(std::make_shared<Text>(text, chunk));
                 } else {
                     throw std::runtime_error(std::format("Unexpected token at {}: {}", chunk.GetTextIndex(text), chunk.GetText()));

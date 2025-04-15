@@ -9,14 +9,11 @@
 #include "../../../Logging.h"
 
 namespace webwork::thingamajig {
-    For::For(std::string_view text, const Chunk &chunk) : Token(chunk.GetTextIndex(text)), BlockBase(thingamajig::TokenType::EndFor, "for"),
-        variable(chunk.tokens[1].text), collection(chunk.tokens[chunk.tokens.size() == 5 ? 3 : 5].text),
-        index(chunk.tokens.size() == 5 ? std::nullopt : std::optional<std::string>(chunk.tokens[5].text)) {
-        assert(chunk.tokens.size() == 5 || chunk.tokens.size() == 7);
-    }
+    For::For(size_t textIndex, std::string_view variable, const std::optional<std::string_view> &index, const std::shared_ptr<expression::Parenthesis> &expression)
+        : Token(textIndex), BlockBase(TokenType::EndFor, "for"), variable(variable), index(index), expression(expression) {}
 
     std::string For::GetContent(const std::shared_ptr<Scope> &scope) const {
-        const auto array = scope->GetProperty<properties::Array>(collection);
+        const auto array = std::dynamic_pointer_cast<const properties::Array>(expression->Evaluate(scope));
         if (!array) return "";
 
         const auto object = std::make_shared<properties::Object>();

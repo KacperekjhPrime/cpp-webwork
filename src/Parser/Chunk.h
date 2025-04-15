@@ -18,9 +18,15 @@ namespace webwork {
 
         /**
          * Concatenates text of all tokens
-         * @return concatenated tokens
+         * @return concatenated tokens' text
          */
         std::string_view GetText() const;
+
+        /**
+         * Contatenates text of tokens bettwen <c>from</c> and <c>to</c> (inclusive);
+         * @return concatenated tokens' text
+         */
+        std::string_view GetText(size_t from, size_t to) const;
     };
 }
 

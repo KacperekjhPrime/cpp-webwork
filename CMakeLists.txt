@@ -95,6 +95,10 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Thingamajig/Properties/Interfaces/IBoolean.cxx
         src/Parser/Thingamajig/Properties/Interfaces/INumber.cxx
         src/Parser/Thingamajig/Properties/Interfaces/IString.cxx
+        src/Parser/Expression/Tokens/Function.cxx
+        src/Parser/Expression/Tokens/Function.h
+        src/Parser/Expression/Tokens/Comma.h
+        src/Parser/Expression/Tokens/Comma.cxx
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

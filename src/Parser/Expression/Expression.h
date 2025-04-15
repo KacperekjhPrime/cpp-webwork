@@ -27,7 +27,9 @@ namespace webwork::expression {
             Number,
             Comma,
             True,
-            False
+            False,
+
+            FunctionCall
         };
     }
 
