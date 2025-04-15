@@ -92,7 +92,7 @@ namespace webwork {
         request.url = URL(splitRequestStartLine[1]);
 
         auto splitHeaders = SplitString(requestString.substr(requestStartLineLength + 2, requestHeaderLength - requestStartLineLength - 2), "\r\n");
-        for (auto header : splitHeaders) {
+        for (const auto &header : splitHeaders) {
             auto splitHeader = SplitString(header, ": ");
             if (splitHeader.size() != 2) throw HTTPException(StatusCode::BadRequest);
             request.headers[splitHeader[0]] = splitHeader[1];
@@ -100,14 +100,23 @@ namespace webwork {
 
         auto cookieHeaderIndex = request.headers.find("Cookie");
         if (cookieHeaderIndex != request.headers.end()) {
-            ParseCookies(request, cookieHeaderIndex->second);
+            request.cookies = ParseCookies(cookieHeaderIndex->second);
         }
 
         return request;
     }
 
-    void ParseCookies(const Request &request, std::string_view cookieString) {
+    std::map<std::string, std::string> ParseCookies(std::string_view cookieString) {
+        std::map<std::string, std::string> output;
+
         auto splitCookies = SplitString(cookieString, ";");
+        for (const auto &cookie : splitCookies) {
+            auto splitCookie = SplitString(cookie, "=");
+            if (splitCookie.size() != 2) continue;
+            output[splitCookie[0]] = splitCookie[1];
+        }
+
+        return output;
     }
 
     void StopServer() {
