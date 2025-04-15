@@ -1,19 +1,15 @@
 #ifndef ROUTE_H
 #define ROUTE_H
+#include <functional>
 #include <memory>
-
-#include "Response.h"
+#include <vector>
+#include "Request.h"
 
 namespace webwork {
-
-class Route {
-public:
-    virtual Response GetContent() = 0;
-    virtual std::shared_ptr<Route> GetRoute(std::string_view name) = 0;
-
-    virtual ~Route() = default;
-};
-
+    struct Route {
+        std::function<void(const Request &)> RequestHandler;
+        std::function<std::shared_ptr<Route>(std::vector<std::string>)> GetRoutes;
+    };
 } // webwork
 
 #endif //ROUTE_H

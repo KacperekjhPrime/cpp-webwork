@@ -99,6 +99,16 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Function.h
         src/Parser/Expression/Tokens/Comma.h
         src/Parser/Expression/Tokens/Comma.cxx
+        src/Mime.cpp
+        src/Server/Server.h
+        src/Server/Server.cpp
+        src/StatusCodes.h
+        src/URL.cpp
+        src/URL.h
+        src/Helper.cpp
+        src/Helper.h
+        src/Response.cpp
+        src/HTTPException.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
