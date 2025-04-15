@@ -95,6 +95,7 @@ namespace webwork {
 
         if (lastValidToken.has_value()) {
             const auto [index, type] = lastValidToken.value();
+            PushTextToken(tokens, text, index, depth - text.size() + index, tokenStart);
             PushToken(tokens, text, type, text.length(), depth);
         } else {
             PushTextToken(tokens, text, text.length(), 0, tokenStart);
@@ -131,6 +132,7 @@ namespace webwork {
                 } else if (currentRules == rules) {
                     PushChunk(chunks, tokens, i, 0, tokens[i].type, escapeNext);
                 } else {
+                    PushChunk(chunks, tokens, i - depth, 0, tokens[i - depth].type, escapeNext);
                     i -= depth;
                 }
                 currentRules = rules;
@@ -155,6 +157,10 @@ namespace webwork {
         if (lastValidChunk.has_value()) {
             const auto [index, type] = lastValidChunk.value();
             PushChunk(chunks, tokens, index, depth + index - tokens.size(), type, escapeNext);
+        } else if (depth > 0) {
+            for (size_t i = tokens.size() - depth - 1; i < tokens.size(); i++) {
+                PushChunk(chunks, tokens, i, 0, tokens[i].type, escapeNext);
+            }
         } else if (escapeNext) {
             PushTextChunk(chunks, tokens, tokens.size(), 0);
         }
