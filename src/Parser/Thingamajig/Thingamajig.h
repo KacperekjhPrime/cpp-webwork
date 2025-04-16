@@ -10,23 +10,32 @@
 
 namespace webwork::thingamajig {
     namespace TokenType {
-        // TODO: Add separate values for merged tokens
-
-        enum TokenType : unsigned int {
+        enum TokenType : TokenT {
             Text = TokenText,
             Escape = TokenEscape,
 
-            VariableOpening = TokensStart,
-            VariableClosing,
-            If,
-            For,
+            ExpressionOpening = TokensStart,
+            ExpressionClosing,
+            IfOpening,
+            ForOpening,
             EndIf,
             EndFor,
-            Component,
+            ComponentOpening,
 
             Comma = TokenTextBit | TokenInescapableBit | TokensStart,
             In,
             Equals
+        };
+    }
+
+    namespace MergedToken {
+        enum MergedToken : TokenT {
+            Text = TokenText,
+
+            Expression = TokensStart,
+            If,
+            For,
+            Component
         };
     }
 

@@ -9,7 +9,7 @@
 
 namespace webwork::expression {
     namespace ExpressionToken {
-        enum ExpressionToken : unsigned {
+        enum ExpressionToken : TokenT {
             Text = TokenText,
 
             Addition = TokensStart,

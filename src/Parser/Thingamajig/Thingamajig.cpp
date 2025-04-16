@@ -17,15 +17,15 @@ namespace webwork::thingamajig {
         in->AddBranch(std::string("in"), MakeRecursiveTrailingSpace(TokenType::In));
 
         tree->children = {
-            {'{', TokenType::VariableOpening},
-            {'}', TokenType::VariableClosing},
+            {'{', TokenType::ExpressionOpening},
+            {'}', TokenType::ExpressionClosing},
             {'\\', TokenType::Escape},
             {' ', in}
         };
 
-        tree->AddBranch(std::string_view("{if"), MakeRecursiveTrailingSpace(TokenType::If));
-        tree->AddBranch(std::string_view("{for"), MakeRecursiveTrailingSpace(TokenType::For));
-        tree->AddBranch(std::string_view("{@"), TokenType::Component);
+        tree->AddBranch(std::string_view("{if"), MakeRecursiveTrailingSpace(TokenType::IfOpening));
+        tree->AddBranch(std::string_view("{for"), MakeRecursiveTrailingSpace(TokenType::ForOpening));
+        tree->AddBranch(std::string_view("{@"), TokenType::ComponentOpening);
         tree->AddBranch(std::string_view("{endif}"), {TokenType::EndIf});
         tree->AddBranch(std::string_view("{endfor}"), {TokenType::EndFor});
         tree->AddBranch(std::string_view(","), MakeRecursiveTrailingSpace(TokenType::Comma));
@@ -45,16 +45,16 @@ namespace webwork::thingamajig {
         const auto rules = std::make_shared<MergeRules>();
 
         rules->children = {
-            {TokenType::VariableOpening, MakeRecursiveText(TokenType::VariableClosing, TokenType::VariableOpening)},
-            {TokenType::If, MakeRecursiveText(TokenType::VariableClosing, TokenType::If)},
+            {TokenType::ExpressionOpening, MakeRecursiveText(TokenType::ExpressionClosing, MergedToken::Expression)},
+            {TokenType::IfOpening, MakeRecursiveText(TokenType::ExpressionClosing, MergedToken::If)},
         };
 
-        const auto forBranchEnding = MakeRecursiveText(TokenType::VariableClosing, TokenType::For);
+        const auto forBranchEnding = MakeRecursiveText(TokenType::ExpressionClosing, MergedToken::For);
 
-        constexpr auto forTokensIndexless = std::array<TokenT, 3>{TokenType::For, TokenType::Text, TokenType::In};
+        constexpr auto forTokensIndexless = std::array<TokenT, 3>{TokenType::ForOpening, TokenType::Text, TokenType::In};
         rules->AddBranch(forTokensIndexless, forBranchEnding);
 
-        constexpr auto forTokensIndexed = std::array<TokenT, 5>{TokenType::For, TokenType::Text, TokenType::Comma, TokenType::Text, TokenType::In};
+        constexpr auto forTokensIndexed = std::array<TokenT, 5>{TokenType::ForOpening, TokenType::Text, TokenType::Comma, TokenType::Text, TokenType::In};
         rules->AddBranch(forTokensIndexed, forBranchEnding);
 
         const auto componentParameterStart = std::make_shared<MergeRules>();
@@ -62,7 +62,7 @@ namespace webwork::thingamajig {
         const auto componentParameterEnding = std::make_shared<MergeRules>();
         componentParameterEnding->children = {
             {TokenType::Comma, componentParameterStart},
-            {TokenType::VariableClosing, TokenType::Component},
+            {TokenType::ExpressionClosing, MergedToken::Component},
             {TokenType::Text, componentParameterEnding}
         };
 
@@ -72,10 +72,10 @@ namespace webwork::thingamajig {
         const auto componentEnding = std::make_shared<MergeRules>();
         componentEnding->children = {
             {TokenType::Comma, componentParameterStart},
-            {TokenType::VariableClosing, TokenType::Component}
+            {TokenType::ExpressionClosing, MergedToken::Component}
         };
 
-        constexpr auto componentTokens = std::array<TokenT, 2>{TokenType::Component, TokenType::Text};
+        constexpr auto componentTokens = std::array<TokenT, 2>{TokenType::ComponentOpening, TokenType::Text};
         rules->AddBranch(componentTokens, componentEnding);
 
         return rules;
@@ -85,17 +85,17 @@ namespace webwork::thingamajig {
     const auto rules = MakeThingamajigMergeRules();
 
     const auto tokenMap = std::map<TokenT, TokenCreator<Token>> {
-        {TokenType::VariableOpening, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+        {MergedToken::Expression, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
             assert(chunk.tokens.size() > 2);
             const auto expression = chunk.GetText(1, chunk.tokens.size() - 2);
             return std::make_shared<Expression>(chunk.GetTextIndex(text), expression::ParseExpression(expression));
         }},
-        {TokenType::If, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+        {MergedToken::If, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
             assert(chunk.tokens.size() > 2);
             const auto expression = chunk.GetText(1, chunk.tokens.size() - 2);
             return std::make_shared<If>(chunk.GetTextIndex(text), expression::ParseExpression(expression));
         }},
-        {TokenType::For, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
+        {MergedToken::For, [](std::string_view text, const Chunk &chunk) -> std::shared_ptr<Token> {
             const auto &tokens = chunk.tokens;
 
             assert(tokens.size() > 3);
@@ -113,7 +113,7 @@ namespace webwork::thingamajig {
 
             return std::make_shared<For>(chunk.GetTextIndex(text), tokens[1].text, index, expression);
         }},
-        {TokenType::Component, [](std::string_view text, const Chunk &chunk) {
+        {MergedToken::Component, [](std::string_view text, const Chunk &chunk) {
             const auto &tokens = chunk.tokens;
 
             assert(tokens.size() > 2);
@@ -122,7 +122,7 @@ namespace webwork::thingamajig {
             if (tokens.size() > 3) {
                 size_t valueStart = 3;
                 for (size_t i = 5; i < tokens.size(); i++) {
-                    if (tokens[i].type == TokenType::Comma || tokens[i].type == TokenType::VariableClosing) {
+                    if (tokens[i].type == TokenType::Comma || tokens[i].type == TokenType::ExpressionClosing) {
                         const auto expression = expression::ParseExpression(chunk.GetText(valueStart + 2, i - 1));
                         values.push_back({std::string(tokens[valueStart].text), expression});
                         valueStart = i + 1;
