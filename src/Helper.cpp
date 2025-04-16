@@ -139,4 +139,16 @@ namespace webwork {
             if (input[i] == '+') input[i] = ' ';
         }
     }
+
+    std::string Join(std::span<std::string> input, std::string_view delimiter) {
+        std::string output;
+
+        for (const auto &string : input) {
+            if (&string == &input.back()) break;
+            output += delimiter;
+            output += string;
+        }
+
+        return output;
+    }
 }
