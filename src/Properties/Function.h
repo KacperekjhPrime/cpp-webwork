@@ -19,7 +19,7 @@ namespace webwork::properties {
         template <class ...Ts>
         constexpr auto GetPropertyValues(std::span<std::shared_ptr<const Property>> props) {
             constexpr auto fn = []<size_t ...I>(std::span<std::shared_ptr<const Property>> props, std::index_sequence<I...>) {
-                return std::make_tuple(GetPropertyValue<Ts>(props, I)...);
+                return std::make_tuple(GetPropertyValue<std::remove_const_t<std::remove_reference_t<Ts>>>(props, I)...);
             };
             return fn(props, std::make_index_sequence<sizeof...(Ts)>());
         }
