@@ -14,9 +14,7 @@ namespace webwork::thingamajig {
             Text = TokenText,
             Escape = TokenEscape,
 
-            ExpressionOpening = TokensStart,
-            ExpressionClosing,
-            IfOpening,
+            IfOpening = TokensStart,
             ForOpening,
             EndIf,
             EndFor,
@@ -24,7 +22,11 @@ namespace webwork::thingamajig {
 
             Comma = TokenTextBit | TokenInescapableBit | TokensStart,
             In,
-            Equals
+            Equals,
+            ExpressionOpening,
+            ExpressionClosing,
+
+            NewLine = TokenAllowStrayBit | TokenInescapableBit
         };
     }
 
@@ -32,7 +34,7 @@ namespace webwork::thingamajig {
         enum MergedToken : TokenT {
             Text = TokenText,
 
-            Expression = TokensStart,
+            Expression = 999,
             If,
             For,
             Component

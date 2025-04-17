@@ -20,7 +20,8 @@ namespace webwork::thingamajig {
             {'{', TokenType::ExpressionOpening},
             {'}', TokenType::ExpressionClosing},
             {'\\', TokenType::Escape},
-            {' ', in}
+            {' ', in},
+            {'\n', TokenType::NewLine}
         };
 
         tree->AddBranch(std::string_view("{if"), MakeRecursiveTrailingSpace(TokenType::IfOpening));
