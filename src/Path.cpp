@@ -1,12 +1,12 @@
-#include "URL.h"
+#include "Path.h"
 #include "Helper.h"
 #include "Logging.h"
 
 namespace webwork {
-    URL::URL() {}
+    Path::Path() {}
 
-    URL::URL(std::string_view url) {
-        this -> url = url;
+    Path::Path(std::string_view url) {
+        this -> pathString = url;
 
         size_t parametersIndex = url.find('?');
         if (parametersIndex != std::string_view::npos) {

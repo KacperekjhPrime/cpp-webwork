@@ -3,7 +3,7 @@
 #include <map>
 #include <optional>
 #include <string>
-#include "URL.h"
+#include "Path.h"
 
 namespace webwork {
     enum class RequestType {
@@ -32,7 +32,8 @@ namespace webwork {
 
     struct Request {
         RequestType method;
-        URL url;
+        Path path;
+        std::map<std::string, std::string> slugs;
         std::optional<std::string> body;
         std::map<std::string, std::string> headers;
         std::map<std::string, std::string> cookies;

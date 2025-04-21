@@ -9,7 +9,7 @@ namespace webwork {
     std::vector<std::string> SplitString(std::string_view input, char delimiter);
     std::vector<std::string> SplitString(std::string_view input, std::string delimiter);
     std::multimap<std::string, std::string> ParseParameters(std::string_view parametersString);
-    std::string VectorToPath(std::span<std::string> input);
+    std::string VectorToPath(std::span<const std::string> input);
     std::string_view TrimSpacesFront(std::string_view input);
     std::string_view TrimSpacesBack(std::string_view input);
     std::string_view TrimSpaces(std::string_view input);

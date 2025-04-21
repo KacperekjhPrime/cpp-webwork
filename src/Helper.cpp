@@ -63,7 +63,7 @@ namespace webwork {
         return output;
     }
 
-    std::string VectorToPath(std::vector<std::string> input) {
+    std::string VectorToPath(std::span<const std::string> input) {
         std::string output;
 
         for (const auto &string : input) {

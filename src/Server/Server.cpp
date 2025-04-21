@@ -52,7 +52,7 @@ namespace webwork {
     Response CreateResponse(const Request &request) {
         Response response{StatusCode::OK};
 
-        std::filesystem::path filePath = VectorToPath(request.url.path);
+        std::filesystem::path filePath = VectorToPath(request.path.path);
         std::ifstream file{filePath, std::ios::binary};
         if (!file.is_open()) throw HTTPException(StatusCode::NotFound);
 
@@ -89,7 +89,7 @@ namespace webwork {
         if (requestMethodIterator == RequestMethods.end()) throw HTTPException(StatusCode::BadRequest);
         request.method = RequestMethods.at(requestMethod);
 
-        request.url = URL(splitRequestStartLine[1]);
+        request.path = Path(splitRequestStartLine[1]);
 
         auto splitHeaders = SplitString(requestString.substr(requestStartLineLength + 2, requestHeaderLength - requestStartLineLength - 2), "\r\n");
         for (const auto &header : splitHeaders) {
