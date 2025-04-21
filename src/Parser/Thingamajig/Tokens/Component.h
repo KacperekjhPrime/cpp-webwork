@@ -2,6 +2,7 @@
 #define COMPONENT_H
 #include "../Token.h"
 #include "../../Expression/Tokens/Parenthesis.h"
+#include "../ComponentData.h"
 
 namespace webwork::thingamajig {
     class Component final : public Token {
@@ -11,11 +12,11 @@ namespace webwork::thingamajig {
             std::shared_ptr<const expression::Parenthesis> expression;
         };
 
-        const std::string componentName;
+        const std::shared_ptr<const ComponentData> component;
         const std::vector<Value> values;
 
         Component(size_t startIndex, std::string_view componentName, const std::vector<Value> &values);
-        std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const override;
+        std::string GetContent(const std::shared_ptr<const properties::Scope> &scope) const override;
     };
 }
 

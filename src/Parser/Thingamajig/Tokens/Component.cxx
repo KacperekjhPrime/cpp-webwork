@@ -1,15 +1,16 @@
 #include "Component.h"
+#include "../../../ModuleConfig.h"
 
 namespace webwork::thingamajig {
-    Component::Component(size_t startIndex, std::string_view componentName, const std::vector<Value> &values) : Token(startIndex), componentName(componentName), values(values) {}
+    Component::Component(size_t startIndex, std::string_view componentName, const std::vector<Value> &values) : Token(startIndex),
+        component(GetCurrentModuleConfig()->components.GetComponent(componentName)), values(values) {}
 
-    std::string Component::GetContent(const std::shared_ptr<properties::Scope> &scope) const {
-        // TODO: Render components
-        const auto object = std::make_shared<properties::Object>();
+    std::string Component::GetContent(const std::shared_ptr<const properties::Scope> &scope) const {
+        const auto properties = std::make_shared<properties::Object>();
         for (const auto &[name, expression] : values) {
-            object->GetProperty(name) = expression->Evaluate(scope);
+            properties->Set(name, expression->Evaluate(scope));
         }
-        return std::format("Rendered {}.", componentName);
+        return component->GetContent(scope, properties);
     }
 
 }

@@ -6,6 +6,7 @@ namespace webwork {
 
     constexpr TokenT TokenTextBit = 1<<16;
     constexpr TokenT TokenInescapableBit = 1<<17;
+    constexpr TokenT TokenAllowStrayBit = 1<<18;
 
     constexpr TokenT TokenText = TokenTextBit | TokenInescapableBit;
     constexpr TokenT TokenEscape = 1;

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <cxxabi.h>
+#include <filesystem>
 #include <string_view>
 #include <vector>
 #include <map>
@@ -14,6 +15,14 @@ namespace webwork {
 
         constexpr ConstString(const char (&str)[Size]) {
             std::copy_n(str, Size, data);
+        }
+
+        constexpr operator std::string_view() const {
+            return std::string_view(data, Size);
+        }
+
+        constexpr operator std::string() const {
+            return std::string(data, Size);
         }
     };
 
@@ -29,6 +38,9 @@ namespace webwork {
         return name;
     }
 
+    template <class ...Ts>
+    struct Types;
+
     std::vector<std::string> SplitString(const std::string_view input, const char delimiter);
     std::vector<std::string> SplitString(const std::string_view input, const std::string delimiter);
     std::multimap<std::string, std::string> ParseParameters(std::string_view parametersString);
@@ -36,6 +48,7 @@ namespace webwork {
     std::string_view TrimSpacesFront(std::string_view input);
     std::string_view TrimSpacesBack(std::string_view input);
     std::string_view TrimSpaces(std::string_view input);
+    std::string ReadTextFile(const std::filesystem::path &path);
 }
 
 #endif //HELPER_H

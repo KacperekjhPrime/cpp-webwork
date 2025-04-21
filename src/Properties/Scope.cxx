@@ -1,21 +1,13 @@
 #include "Scope.h"
 
 namespace webwork::properties {
-    Scope::Scope(const std::shared_ptr<const properties::Object> &object, const std::shared_ptr<const Scope> &previous) : object(object), previous(previous) {}
+    Scope::Scope(const std::shared_ptr<Object> &object, const std::shared_ptr<const Scope> &previous) : object(object), previous(previous) {}
 
-    std::shared_ptr<const Property> Scope::GetProperty(const std::string &name) const {
-        if (object) {
-            const auto property = object->GetProperty(name);
-            if (property) {
-                return property;
-            }
-        }
+    std::shared_ptr<const Object> Scope::GetObject() const {
+        return object;
+    }
 
-        if (previous) {
-            return previous->GetProperty(name);
-        }
-
-        Log(LogLevel::Warning, "Property {} is undefined.", name);
-        return nullptr;
+    std::shared_ptr<Object> &Scope::GetObject() {
+        return object;
     }
 }

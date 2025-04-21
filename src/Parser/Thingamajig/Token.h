@@ -17,7 +17,7 @@ namespace webwork {
         /**
          * Generates and returns content of this Token
          */
-        virtual std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const = 0;
+        virtual std::string GetContent(const std::shared_ptr<const properties::Scope> &scope) const = 0;
     };
 }
 

@@ -1,12 +1,12 @@
 #ifndef THINGAMAJIG_H
 #define THINGAMAJIG_H
 #include <memory>
+#include <filesystem>
 
 #include "Token.h"
 #include "../Parser.h"
 #include "../TokenTypeConstants.h"
 #include "Tokens/Root.h"
-#include "Tokens/Text.h"
 
 namespace webwork::thingamajig {
     namespace TokenType {
@@ -46,6 +46,8 @@ namespace webwork::thingamajig {
     const std::map<TokenT, TokenCreator<Token>> &GetThingamajigTokenMap();
 
     std::shared_ptr<Root> ParseThingamajig(std::string_view text);
+
+    std::shared_ptr<Root> ParseThingamajigFromFile(const std::filesystem::path &path);
 }
 
 #endif //THINGAMAJIG_H

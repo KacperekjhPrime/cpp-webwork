@@ -1,8 +1,8 @@
 #include "Helper.h"
 
-#include <cstring>
 #include <string>
 #include <map>
+#include <fstream>
 
 namespace webwork {
     std::vector<std::string> SplitString(std::string_view input, char delimiter) {
@@ -102,4 +102,19 @@ namespace webwork {
         return TrimSpacesFront(TrimSpacesBack(input));
     }
 
+    std::string ReadTextFile(const std::filesystem::path &path) {
+        if (!is_regular_file(path)) {
+            throw std::runtime_error(std::format("{} does not exist or is not a file.", path.string()));
+        }
+
+        std::ifstream file(path.string(), std::ifstream::ate | std::ifstream::binary);
+        size_t size = file.tellg();
+
+        auto content = std::string(size, '\0');
+
+        file.seekg(0);
+        file.read(content.data(), content.size());
+
+        return content;
+    }
 }

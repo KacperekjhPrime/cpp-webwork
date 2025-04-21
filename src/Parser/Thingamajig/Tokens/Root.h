@@ -8,7 +8,7 @@ namespace webwork::thingamajig {
     public:
         Root();
 
-        std::string GetContent(const std::shared_ptr<properties::Scope> &scope) const override;
+        std::string GetContent(const std::shared_ptr<const properties::Scope> &scope) const override;
     };
 }
 

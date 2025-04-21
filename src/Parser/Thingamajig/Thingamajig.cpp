@@ -7,6 +7,7 @@
 #include "Tokens/Expression.h"
 #include "Tokens/If.h"
 #include "Tokens/For.h"
+#include "Tokens/Text.h"
 
 namespace webwork::thingamajig {
     std::shared_ptr<TokenTree> MakeThingamajigTreeTree() {

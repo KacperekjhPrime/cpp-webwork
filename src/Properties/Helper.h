@@ -11,7 +11,10 @@ namespace webwork::properties {
     concept Numeric = std::is_floating_point_v<T> || std::is_integral_v<T>;
 
     template <class T>
-    concept Stringable = std::same_as<T, std::string> || std::same_as<T, std::string_view> || std::same_as<T, char *>;
+    concept Stringable = requires(const T &v)
+    {
+        std::string(v);
+    };
 
     template <class T>
     struct PropertyType;

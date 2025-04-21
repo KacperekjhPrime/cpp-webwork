@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28.3)
 project(cpp-webwork)
 
 set(CMAKE_CXX_STANDARD 23)
+add_compile_options(-Wall)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Windows")
     set(CMAKE_SYSTEM_NAME Windows)
@@ -99,6 +100,12 @@ add_executable(cpp-webwork src/main.cpp
         src/Properties/String.cxx
         src/Parser/Thingamajig/Tokens/Component.h
         src/Parser/Thingamajig/Tokens/Component.cxx
+        src/Parser/Thingamajig/ComponentData.cxx
+        src/Parser/Thingamajig/ComponentData.h
+        src/Parser/Thingamajig/Components.cxx
+        src/Parser/Thingamajig/Components.h
+        src/ModuleConfig.h
+        src/ModuleConfig.cxx
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
