@@ -1,11 +1,9 @@
 #include "SubtractionOperator.h"
-#include "NumericBinaryOperator.h"
+#include "../../../../Properties/Number.h"
+#include "../../../../Helper.h"
+#include "../../../../Logging.h"
 
 namespace webwork::expression {
-    double Subtract(double lhs, double rhs) {
-        return lhs - rhs;
-    }
-
     std::shared_ptr<const Property> SubtractionOperator::Calculate(const std::shared_ptr<const Property> &prop) const {
         const auto number = std::dynamic_pointer_cast<const properties::INumber>(prop);
         if (number == nullptr) {
@@ -16,7 +14,19 @@ namespace webwork::expression {
     }
 
     std::shared_ptr<const Property> SubtractionOperator::Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const {
-        return NumericBinaryOperator<Subtract, "subtraction">::CalculateImpl(a, b);
+        const auto interfaceA = std::dynamic_pointer_cast<const properties::INumber>(a);
+        if (!interfaceA) {
+            Log(LogLevel::Warning, "Left side of binary subtraction operator is not of required type INumber.");
+            return nullptr;
+        }
+
+        const auto interfaceB = std::dynamic_pointer_cast<const properties::INumber>(b);
+        if (!interfaceB) {
+            Log(LogLevel::Warning, "Right side of binary subtraction operator is not of required type INumber.");
+            return nullptr;
+        }
+
+        return std::make_shared<properties::Number>(interfaceA->GetNumberValue() - interfaceB->GetNumberValue());
     }
 
     std::shared_ptr<SubtractionOperator> SubtractionOperator::GetInstance() {

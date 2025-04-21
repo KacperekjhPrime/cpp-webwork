@@ -1,5 +1,5 @@
-#ifndef IBINARYOPERATOR_H
-#define IBINARYOPERATOR_H
+#ifndef IUNARYOPERATOR_H
+#define IUNARYOPERATOR_H
 #include <memory>
 
 #include "../../../../Properties/Property.h"
@@ -13,4 +13,4 @@ namespace webwork {
     };
 }
 
-#endif //IBINARYOPERATOR_H
+#endif //IUNARYOPERATOR_H

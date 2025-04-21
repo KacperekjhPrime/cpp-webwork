@@ -1,5 +1,5 @@
-#ifndef BINARYOPERATOR_H
-#define BINARYOPERATOR_H
+#ifndef IBINARYOPERATOR_H
+#define IBINARYOPERATOR_H
 #include <memory>
 
 #include "../../../../Properties/Property.h"

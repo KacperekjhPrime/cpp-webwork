@@ -17,10 +17,18 @@ namespace webwork::expression {
             Multiplication,
             Division,
             Modulus,
+
             LogicAnd,
             LogicOr,
             LogicXor,
             LogicNegation,
+
+            GreaterThan,
+            LessThan,
+            GreaterOrEqualTo,
+            LessOrEqualTo,
+            EqualTo,
+            NotEqualTo,
 
             LeftParenthesis,
             RightParenthesis,

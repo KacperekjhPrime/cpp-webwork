@@ -50,7 +50,6 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Expression.cpp
         src/Parser/Expression/Expression.h
         src/Parser/Expression/Token.h
-        src/Parser/Expression/Tokens/Operators/NumericBinaryOperator.h
         src/Helper.h
         src/Parser/Expression/Tokens/Operators/BinaryOperators.h
         src/Parser/Expression/Tokens/Operators/BinaryOperators.cxx
@@ -68,7 +67,6 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Interfaces/IEvaluable.h
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.cpp
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.h
-        src/Parser/Expression/Tokens/Operators/BoolBinaryOperator.h
         src/Parser/Expression/Tokens/Operators/LogicNegationOperator.cxx
         src/Parser/Expression/Tokens/Operators/LogicNegationOperator.h
         src/Parser/Expression/Tokens/Boolean.cxx
@@ -106,6 +104,7 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Thingamajig/Components.h
         src/ModuleConfig.h
         src/ModuleConfig.cxx
+        src/Parser/Expression/Tokens/Operators/BinaryOperator.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

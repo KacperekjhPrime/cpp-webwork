@@ -48,13 +48,20 @@ namespace webwork::expression {
             {')', ExpressionToken::RightParenthesis},
             {',', ExpressionToken::Comma},
             {'^', ExpressionToken::LogicXor},
-            {'!', ExpressionToken::LogicNegation}
+            {'!', ExpressionToken::LogicNegation},
+            {'>', ExpressionToken::GreaterThan},
+            {'<', ExpressionToken::LessThan},
         };
 
         tree->AddBranch(std::string_view("&&"), ExpressionToken::LogicAnd);
         tree->AddBranch(std::string_view("||"), ExpressionToken::LogicOr);
         tree->AddBranch(std::string_view("true"), ExpressionToken::True);
         tree->AddBranch(std::string_view("false"), ExpressionToken::False);
+
+        tree->AddBranch(std::string_view(">="), ExpressionToken::GreaterOrEqualTo);
+        tree->AddBranch(std::string_view("<="), ExpressionToken::LessOrEqualTo);
+        tree->AddBranch(std::string_view("=="), ExpressionToken::EqualTo);
+        tree->AddBranch(std::string_view("!="), ExpressionToken::NotEqualTo);
 
         for (auto digit : digits) {
             tree->children[digit] = number;
@@ -92,6 +99,12 @@ namespace webwork::expression {
         {ExpressionToken::LogicAnd, GetOperatorCreator<LogicAndOperator>()},
         {ExpressionToken::LogicOr, GetOperatorCreator<LogicOrOperator>()},
         {ExpressionToken::LogicXor, GetOperatorCreator<LogicXorOperator>()},
+        {ExpressionToken::GreaterThan, GetOperatorCreator<GreaterThanOperator>()},
+        {ExpressionToken::LessThan, GetOperatorCreator<LessThanOperator>()},
+        {ExpressionToken::GreaterOrEqualTo, GetOperatorCreator<GreaterOrEqualToOperator>()},
+        {ExpressionToken::LessOrEqualTo, GetOperatorCreator<LessOrEqualToOperator>()},
+        {ExpressionToken::EqualTo, GetOperatorCreator<EqualToOperator>()},
+        {ExpressionToken::NotEqualTo, GetOperatorCreator<NotEqualToOperator>()},
         {ExpressionToken::LogicNegation, GetOperatorCreator<LogicNegationOperator>()},
         {ExpressionToken::Comma, GetOperatorCreator<Comma>()},
         {ExpressionToken::True, [](std::string_view, const Chunk &) {

@@ -1,6 +1,6 @@
 #include "BinaryOperators.h"
 
-namespace webwork::expression {
+namespace webwork::expression::detail {
     double Add(double lhs, double rhs) {
         return lhs + rhs;
     }
@@ -23,5 +23,29 @@ namespace webwork::expression {
 
     bool LogicXor(bool lhs, bool rhs) {
         return lhs ^ rhs;
+    }
+
+    bool GreaterThan(double lhs, double rhs) {
+        return lhs > rhs;
+    }
+
+    bool LessThan(double lhs, double rhs) {
+        return lhs < rhs;
+    }
+
+    bool GreaterOrEqualTo(double lhs, double rhs) {
+        return lhs >= rhs;
+    }
+
+    bool LessOrEqualTo(double lhs, double rhs) {
+        return lhs <= rhs;
+    }
+
+    bool EqualTo(double lhs, double rhs) {
+        return lhs == rhs;
+    }
+
+    bool NotEqualTo(double lhs, double rhs) {
+        return lhs != rhs;
     }
 }
