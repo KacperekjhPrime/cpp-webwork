@@ -3,6 +3,7 @@
 #include "Tokens/Boolean.h"
 #include "Tokens/Comma.h"
 #include "Tokens/Function.h"
+#include "Tokens/Indexing.h"
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
@@ -46,6 +47,8 @@ namespace webwork::expression {
             {'%', ExpressionToken::Modulus},
             {'(', ExpressionToken::LeftParenthesis},
             {')', ExpressionToken::RightParenthesis},
+            {'[', ExpressionToken::LeftSquareParenthesis},
+            {']', ExpressionToken::RightSquareParenthesis},
             {',', ExpressionToken::Comma},
             {'^', ExpressionToken::LogicXor},
             {'!', ExpressionToken::LogicNegation},
@@ -75,11 +78,15 @@ namespace webwork::expression {
     std::shared_ptr<MergeRules> MakeMergeRules() {
         const auto rules = std::make_shared<MergeRules>();
 
-        const auto function = std::make_shared<MergeRules>();
-        function->type = ExpressionToken::Text;
-        function->children[ExpressionToken::LeftParenthesis] = ExpressionToken::FunctionCall;
+        const auto startsWithText = std::make_shared<MergeRules>();
 
-        rules->children[ExpressionToken::Text] = function;
+        startsWithText->type = ExpressionToken::Text;
+        startsWithText->children = {
+            {ExpressionToken::LeftParenthesis, ExpressionToken::FunctionCall},
+            {ExpressionToken::LeftSquareParenthesis, ExpressionToken::Indexing},
+        };
+
+        rules->children[ExpressionToken::Text] = startsWithText;
 
         return rules;
     }
@@ -113,7 +120,8 @@ namespace webwork::expression {
         {ExpressionToken::False, [](std::string_view, const Chunk &) {
             return std::make_shared<Boolean>(false);
         }},
-        {ExpressionToken::FunctionCall, GetTokenCreator<Function>()}
+        {ExpressionToken::FunctionCall, GetTokenCreator<Function>()},
+        {ExpressionToken::Indexing, GetTokenCreator<Indexing>()}
     };
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree() {

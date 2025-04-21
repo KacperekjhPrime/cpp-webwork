@@ -150,6 +150,7 @@ namespace webwork {
                     PushChunk(chunks, tokens, i, depth, std::get<TokenT>(value), escapeNext);
                     depth = 0;
                     currentRules = rules;
+                    lastValidChunk.reset();
                 }
             }
         }

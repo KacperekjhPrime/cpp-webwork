@@ -32,12 +32,15 @@ namespace webwork::expression {
 
             LeftParenthesis,
             RightParenthesis,
+            LeftSquareParenthesis,
+            RightSquareParenthesis,
             Number,
             Comma,
             True,
             False,
 
-            FunctionCall
+            FunctionCall,
+            Indexing
         };
     }
 
