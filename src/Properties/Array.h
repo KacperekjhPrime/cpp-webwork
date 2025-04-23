@@ -8,6 +8,13 @@
 #include "Property.h"
 
 namespace webwork::properties {
+    namespace detail {
+        template <class T>
+        constexpr bool IsAssignableToConstProperty = requires(std::shared_ptr<const Property> property, const T &t) {
+            property = t;
+        };
+    }
+
     template <class T>
     concept Iterable = requires (const T collection)
     {
@@ -30,10 +37,19 @@ namespace webwork::properties {
             }
         }
 
+        template <class T>
+        void PushElement(const T &element) {
+            if constexpr (detail::IsAssignableToConstProperty<T>) {
+                value.push_back(element);
+            } else {
+                value.push_back(CreateProperty(element));
+            }
+        }
+
         template <class ...Ts>
         explicit Array(const Ts ...parameters) {
             value.reserve(sizeof...(parameters));
-            (value.push_back(CreateProperty(parameters)), ...);
+            (PushElement(parameters), ...);
         }
     };
 }
