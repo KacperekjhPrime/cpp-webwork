@@ -107,6 +107,7 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Operators/BinaryOperator.h
         src/Parser/Expression/Tokens/Indexing.cxx
         src/Parser/Expression/Tokens/Indexing.h
+        src/Properties/Interfaces/IDotAccessible.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

@@ -17,7 +17,7 @@ namespace webwork::properties {
         template <class T = Property>
         std::shared_ptr<std::add_const_t<T>> GetProperty(const std::string &name) const {
             if (object) {
-                const auto property = std::dynamic_pointer_cast<std::add_const_t<T>>(object->Get(name));
+                const auto property = std::dynamic_pointer_cast<std::add_const_t<T>>(object->GetProperty(name));
                 if (property) {
                     return property;
                 }

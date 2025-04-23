@@ -8,7 +8,7 @@ namespace webwork::thingamajig {
     std::string Component::GetContent(const std::shared_ptr<const properties::Scope> &scope) const {
         const auto properties = std::make_shared<properties::Object>();
         for (const auto &[name, expression] : values) {
-            properties->Set(name, expression->Evaluate(scope));
+            properties->SetProperty(name, expression->Evaluate(scope));
         }
         return component->GetContent(scope, properties);
     }

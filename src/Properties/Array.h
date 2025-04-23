@@ -6,6 +6,7 @@
 
 #include "Helper.h"
 #include "Property.h"
+#include "Interfaces/IDotAccessible.h"
 
 namespace webwork::properties {
     namespace detail {
@@ -23,11 +24,13 @@ namespace webwork::properties {
         ++std::declval<decltype(std::begin(collection))&>();
     };
 
-    class Array final : public Property {
+    class Array final : public Property, public IDotAccessible {
     public:
         std::vector<std::shared_ptr<Property>> value;
 
         Array();
+
+        std::shared_ptr<const Property> GetProperty(const std::string &key) const override;
 
         template <Iterable T>
         explicit Array(const T &collection) {

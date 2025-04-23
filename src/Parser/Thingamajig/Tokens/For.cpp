@@ -17,13 +17,13 @@ namespace webwork::thingamajig {
         std::shared_ptr<properties::Number> index = nullptr;
         if (this->index.has_value()) {
             index = std::make_shared<properties::Number>(0);
-            object->Set(*this->index, index);
+            object->SetProperty(*this->index, index);
         }
 
         std::string text = "";
         const auto innerScope = std::make_shared<properties::Scope>(object, scope);
         for (size_t i = 0; i < array->value.size(); i++) {
-            object->Set(variable, array->value[i]);
+            object->SetProperty(variable, array->value[i]);
             if (index) {
                 index->value = i;
             }
