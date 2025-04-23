@@ -2,48 +2,52 @@
 
 #include "../Expression.h"
 #include "Interfaces/IBinaryOperator.h"
-#include "Interfaces/IUnaryOperator.h"
+#include "Interfaces/IPrefixUnaryOperator.h"
 
 namespace webwork::expression {
+
     Parenthesis::Parenthesis() : Block(ExpressionToken::RightParenthesis, "parenthesis"), startIndex(0) {}
 
     Parenthesis::Parenthesis(std::string_view text, const Chunk &chunk) : Block(ExpressionToken::RightParenthesis, "parenthesis"), startIndex(chunk.GetTextIndex(text)) {}
 
     std::shared_ptr<const Property> Parenthesis::Evaluate(const std::shared_ptr<const properties::Scope> &scope) const {
-        auto lhs = initialExpression->Evaluate(scope);
-        if (initialUnary) lhs = initialUnary->Calculate(lhs);
+        bool hasLhs = false;
+        std::shared_ptr<const Property> lhs = nullptr;
 
         for (const auto &operation : operations) {
             auto rhs = operation.expression->Evaluate(scope);
-            if (operation.unaryOperator) {
-                rhs = operation.unaryOperator->Calculate(rhs);
+            if (operation.prefixOperator) {
+                rhs = operation.prefixOperator->CalculatePrefix(lhs);
             }
-            lhs = operation.binaryOperator->Calculate(lhs, rhs);
+            if (operation.postfixOperator) {
+                rhs = operation.postfixOperator->CalculatePostfix(lhs);
+            }
+            if (hasLhs) {
+                lhs = operation.binaryOperator->Calculate(lhs, rhs);
+            } else {
+                lhs = rhs;
+                hasLhs = true;
+            }
         }
 
         return lhs;
     }
 
     void Parenthesis::AddChild(const std::shared_ptr<Token> &child) {
-        if (!initialExpression) {
-            if (!initialUnary) {
-                initialUnary = std::dynamic_pointer_cast<const IUnaryOperator>(child);
-                if (initialUnary) return;
+        if (operations.back().expression) {
+            if (!operations.back().postfixOperator) {
+                const auto postfix = std::dynamic_pointer_cast<IPostfixUnaryOperator>(child);
+                operations.back().postfixOperator = postfix;
+                if (postfix) return;
             }
-            initialExpression = std::dynamic_pointer_cast<const IEvaluable>(child);
-            if (initialExpression) return;
-            throw std::runtime_error("Invalid expression token. IEvaluable expected.");
-        }
-
-        if (operations.empty() || operations.back().expression) {
             operations.emplace_back();
         }
 
         auto &last = operations.back();
-        if (last.binaryOperator) {
-            if (!last.unaryOperator) {
-                last.unaryOperator = std::dynamic_pointer_cast<const IUnaryOperator>(child);
-                if (last.unaryOperator) return;
+        if (last.binaryOperator || operations.size() == 1) {
+            if (!last.prefixOperator) {
+                last.prefixOperator = std::dynamic_pointer_cast<const IPrefixUnaryOperator>(child);
+                if (last.prefixOperator) return;
             }
             last.expression = std::dynamic_pointer_cast<const IEvaluable>(child);
             if (last.expression) return;
@@ -56,7 +60,7 @@ namespace webwork::expression {
     }
 
     void Parenthesis::CloseBlock() {
-        if (!initialExpression) {
+        if (!operations.back().expression) {
             throw std::runtime_error("Empty parenthesis.");
         }
     }
