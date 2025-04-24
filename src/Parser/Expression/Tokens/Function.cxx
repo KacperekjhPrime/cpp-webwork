@@ -10,16 +10,18 @@ namespace webwork::expression {
 
 
     void Function::AddChild(const std::shared_ptr<Token> &child) {
-        if (expectsComma) {
-            const auto comma = std::dynamic_pointer_cast<Comma>(child);
-            if (!comma) throw std::runtime_error("Invalid function parameter token. Comma expected.");
-            expectsComma = false;
+        const auto comma = std::dynamic_pointer_cast<const Comma>(child);
+        if (comma) {
+            params.back().CloseExpression();
+            params.emplace_back();
         } else {
-            const auto expression = std::dynamic_pointer_cast<IEvaluable>(child);
-            if (!expression) throw std::runtime_error("Invalid function parameter token. IEvaluable expected.");
-            params.push_back(expression);
-            expectsComma = true;
+            if (params.size() == 0) params.emplace_back();
+            params.back().AddElement(child);
         }
+    }
+
+    void Function::CloseBlock() {
+        params.back().CloseExpression();
     }
 
     std::shared_ptr<const Property> Function::Evaluate(const std::shared_ptr<const properties::Scope> &scope) const {
@@ -32,7 +34,7 @@ namespace webwork::expression {
         properties.reserve(params.size());
 
         for (const auto &param : params) {
-            properties.push_back(param->Evaluate(scope));
+            properties.push_back(param.Evaluate(scope));
         }
 
         return function->Execute(properties);
