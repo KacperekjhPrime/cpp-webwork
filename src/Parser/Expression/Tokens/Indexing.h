@@ -1,5 +1,6 @@
 #ifndef INDEXING_H
 #define INDEXING_H
+#include "../Operations.h"
 #include "../Token.h"
 #include "../../Block.h"
 #include "../../Chunk.h"
@@ -8,7 +9,7 @@
 
 namespace webwork::expression {
     class Indexing final : public Token, public Block<Token>, public IPostfixUnaryOperator {
-        std::shared_ptr<const IEvaluable> indexExpression;
+        Operations operations;
 
     public:
         Indexing(std::string_view, const Chunk &chunk);

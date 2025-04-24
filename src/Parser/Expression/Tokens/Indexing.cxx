@@ -8,20 +8,11 @@ namespace webwork::expression {
     Indexing::Indexing(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightSquareParenthesis, "indexing") {}
 
     void Indexing::AddChild(const std::shared_ptr<Token> &child) {
-        if (indexExpression) {
-            throw std::runtime_error("Cannot add more than one index expression.");
-        }
-        const auto evaluable = std::dynamic_pointer_cast<const IEvaluable>(child);
-        if (!evaluable) {
-            throw std::runtime_error("Index expression is not IEvaluable.");
-        }
-        indexExpression = evaluable;
+        operations.AddElement(child);
     }
 
     void Indexing::CloseBlock() {
-        if (!indexExpression) {
-            throw std::runtime_error("Missing index expression.");
-        }
+        operations.CloseExpression();
     }
 
     std::shared_ptr<const Property> Indexing::CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const {
@@ -31,7 +22,7 @@ namespace webwork::expression {
             return nullptr;
         }
 
-        const auto interface = std::dynamic_pointer_cast<const properties::INumber>(indexExpression->Evaluate(scope));
+        const auto interface = std::dynamic_pointer_cast<const properties::INumber>(operations.Evaluate(scope));
         if (!interface) {
             Log(LogLevel::Warning, "Index expression is not a number.");
             return nullptr;
