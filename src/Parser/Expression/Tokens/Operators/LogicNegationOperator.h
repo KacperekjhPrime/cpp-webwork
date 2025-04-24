@@ -8,7 +8,7 @@ namespace webwork::expression {
         static inline std::shared_ptr<LogicNegationOperator> instance;
 
     public:
-        std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop) const override;
+        std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &) const override;
 
         static const std::shared_ptr<LogicNegationOperator> &GetInstance();
     };

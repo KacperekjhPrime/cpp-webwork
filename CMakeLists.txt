@@ -63,7 +63,7 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Thingamajig/Tokens/BlockBase.cpp
         src/Parser/Thingamajig/Tokens/BlockBase.h
         src/Parser/Expression/Tokens/Interfaces/IBinaryOperator.h
-        src/Parser/Expression/Tokens/Interfaces/IUnaryOperator.h
+        src/Parser/Expression/Tokens/Interfaces/IPrefixUnaryOperator.h
         src/Parser/Expression/Tokens/Interfaces/IEvaluable.h
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.cpp
         src/Parser/Expression/Tokens/Operators/SubtractionOperator.h
@@ -108,6 +108,9 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Indexing.cxx
         src/Parser/Expression/Tokens/Indexing.h
         src/Properties/Interfaces/IDotAccessible.h
+        src/Parser/Expression/Tokens/Interfaces/IPostfixUnaryOperator.h
+        src/Parser/Expression/Tokens/Operators/DotAccessOperator.cxx
+        src/Parser/Expression/Tokens/Operators/DotAccessOperator.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})

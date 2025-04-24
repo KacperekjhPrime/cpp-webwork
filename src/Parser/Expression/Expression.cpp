@@ -7,6 +7,7 @@
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
+#include "Tokens/Operators/DotAccessOperator.h"
 #include "Tokens/Operators/LogicNegationOperator.h"
 #include "Tokens/Operators/SubtractionOperator.h"
 
@@ -50,6 +51,7 @@ namespace webwork::expression {
             {'[', ExpressionToken::LeftSquareParenthesis},
             {']', ExpressionToken::RightSquareParenthesis},
             {',', ExpressionToken::Comma},
+            {'.', ExpressionToken::Dot},
             {'^', ExpressionToken::LogicXor},
             {'!', ExpressionToken::LogicNegation},
             {'>', ExpressionToken::GreaterThan},
@@ -82,11 +84,25 @@ namespace webwork::expression {
 
         startsWithText->type = ExpressionToken::Text;
         startsWithText->children = {
-            {ExpressionToken::LeftParenthesis, ExpressionToken::FunctionCall},
-            {ExpressionToken::LeftSquareParenthesis, ExpressionToken::Indexing},
+            {ExpressionToken::LeftParenthesis, ExpressionToken::FunctionCall}
         };
 
-        rules->children[ExpressionToken::Text] = startsWithText;
+        const auto dotAccess = std::make_shared<MergeRules>();
+
+        const auto dotAccessEnding = std::make_shared<MergeRules>();
+        dotAccessEnding->children = {
+            {ExpressionToken::Dot, dotAccess},
+        };
+        dotAccessEnding->type = ExpressionToken::DotAccess;
+
+        dotAccess->children = {
+            {ExpressionToken::Text, dotAccessEnding}
+        };
+
+        rules->children = {
+            {ExpressionToken::Text, startsWithText},
+            {ExpressionToken::Dot, dotAccess},
+        };
 
         return rules;
     }
@@ -121,7 +137,8 @@ namespace webwork::expression {
             return std::make_shared<Boolean>(false);
         }},
         {ExpressionToken::FunctionCall, GetTokenCreator<Function>()},
-        {ExpressionToken::Indexing, GetTokenCreator<Indexing>()}
+        {ExpressionToken::LeftSquareParenthesis, GetTokenCreator<Indexing>()},
+        {ExpressionToken::DotAccess, GetTokenCreator<DotAccessOperator>()}
     };
 
     const std::shared_ptr<TokenTree> &GetExpressionTokenTree() {

@@ -17,13 +17,13 @@ namespace webwork::expression {
         for (const auto &operation : operations) {
             auto rhs = operation.expression->Evaluate(scope);
             if (operation.prefixOperator) {
-                rhs = operation.prefixOperator->CalculatePrefix(lhs);
+                rhs = operation.prefixOperator->CalculatePrefix(rhs, scope);
             }
             if (operation.postfixOperator) {
-                rhs = operation.postfixOperator->CalculatePostfix(lhs);
+                rhs = operation.postfixOperator->CalculatePostfix(rhs, scope);
             }
             if (hasLhs) {
-                lhs = operation.binaryOperator->Calculate(lhs, rhs);
+                lhs = operation.binaryOperator->Calculate(lhs, rhs, scope);
             } else {
                 lhs = rhs;
                 hasLhs = true;

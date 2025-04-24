@@ -3,13 +3,14 @@
 #include <memory>
 
 #include "../../../../Properties/Property.h"
+#include "../../../../Properties/Scope.h"
 
 namespace webwork {
     class IPrefixUnaryOperator {
     public:
         virtual ~IPrefixUnaryOperator() = default;
 
-        virtual std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop) const = 0;
+        virtual std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const = 0;
     };
 }
 

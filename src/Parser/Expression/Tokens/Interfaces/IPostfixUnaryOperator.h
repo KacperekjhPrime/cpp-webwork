@@ -3,13 +3,14 @@
 #include <memory>
 
 #include "../../../../Properties/Property.h"
+#include "../../../../Properties/Scope.h"
 
 namespace webwork {
     class IPostfixUnaryOperator {
     public:
         virtual ~IPostfixUnaryOperator() = default;
 
-        virtual std::shared_ptr<const Property> CalculatePostfix(const std::shared_ptr<const Property> &prop) const = 0;
+        virtual std::shared_ptr<const Property> CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const = 0;
     };
 }
 

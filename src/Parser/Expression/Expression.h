@@ -36,11 +36,12 @@ namespace webwork::expression {
             RightSquareParenthesis,
             Number,
             Comma,
+            Dot,
             True,
             False,
 
             FunctionCall,
-            Indexing
+            DotAccess
         };
     }
 

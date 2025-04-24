@@ -5,7 +5,7 @@
 #include "../../../Properties/Array.h"
 
 namespace webwork::expression {
-    Indexing::Indexing(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightSquareParenthesis, "indexing"), arrayName(chunk.tokens[0].text) {}
+    Indexing::Indexing(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightSquareParenthesis, "indexing") {}
 
     void Indexing::AddChild(const std::shared_ptr<Token> &child) {
         if (indexExpression) {
@@ -24,9 +24,10 @@ namespace webwork::expression {
         }
     }
 
-    std::shared_ptr<const Property> Indexing::Evaluate(const std::shared_ptr<const properties::Scope> &scope) const {
-        const auto array = scope->GetProperty<properties::Array>(arrayName);
+    std::shared_ptr<const Property> Indexing::CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const {
+        const auto array = std::dynamic_pointer_cast<const properties::Array>(prop);
         if (!array) {
+            Log(LogLevel::Warning, "Left side of unary index operator is not a number");
             return nullptr;
         }
 

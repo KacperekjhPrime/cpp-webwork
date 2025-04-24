@@ -4,7 +4,7 @@
 #include "../../../../Logging.h"
 
 namespace webwork::expression {
-    std::shared_ptr<const Property> SubtractionOperator::CalculatePrefix(const std::shared_ptr<const Property> &prop) const {
+    std::shared_ptr<const Property> SubtractionOperator::CalculatePrefix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &) const {
         const auto number = std::dynamic_pointer_cast<const properties::INumber>(prop);
         if (number == nullptr) {
             Log(LogLevel::Warning, "Operand of unary negation operator is not required type {}.", GetTypeName<properties::INumber>());
@@ -13,7 +13,7 @@ namespace webwork::expression {
         return std::make_shared<properties::Number>(-number->GetNumberValue());
     }
 
-    std::shared_ptr<const Property> SubtractionOperator::Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const {
+    std::shared_ptr<const Property> SubtractionOperator::Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b, const std::shared_ptr<const properties::Scope> &) const {
         const auto interfaceA = std::dynamic_pointer_cast<const properties::INumber>(a);
         if (!interfaceA) {
             Log(LogLevel::Warning, "Left side of binary subtraction operator is not of required type INumber.");

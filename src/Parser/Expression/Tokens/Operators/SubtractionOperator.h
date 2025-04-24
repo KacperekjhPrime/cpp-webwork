@@ -10,8 +10,8 @@ namespace webwork::expression {
         static inline std::shared_ptr<SubtractionOperator> instance;
 
     public:
-        std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop) const override;
-        std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const override;
+        std::shared_ptr<const Property> CalculatePrefix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &) const override;
+        std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b, const std::shared_ptr<const properties::Scope> &) const override;
 
         static std::shared_ptr<SubtractionOperator> GetInstance();
     };

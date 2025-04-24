@@ -4,10 +4,10 @@
 #include "../../Block.h"
 #include "../../Chunk.h"
 #include "Interfaces/IEvaluable.h"
+#include "Interfaces/IPostfixUnaryOperator.h"
 
 namespace webwork::expression {
-    class Indexing final : public Token, public Block<Token>, public IEvaluable {
-        const std::string arrayName;
+    class Indexing final : public Token, public Block<Token>, public IPostfixUnaryOperator {
         std::shared_ptr<const IEvaluable> indexExpression;
 
     public:
@@ -16,7 +16,7 @@ namespace webwork::expression {
         void AddChild(const std::shared_ptr<Token> &child) override;
         void CloseBlock() override;
 
-        std::shared_ptr<const Property> Evaluate(const std::shared_ptr<const properties::Scope> &scope) const override;
+        std::shared_ptr<const Property> CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const override;
     };
 }
 

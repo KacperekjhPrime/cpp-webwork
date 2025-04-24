@@ -12,7 +12,7 @@ namespace webwork::expression {
         static inline std::shared_ptr<BinaryOperator> instance;
 
     public:
-        std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b) const override {
+        std::shared_ptr<const Property> Calculate(const std::shared_ptr<const Property> &a, const std::shared_ptr<const Property> &b, const std::shared_ptr<const properties::Scope> &) const override {
             using InterfaceA = properties::PropertyInterfaceT<A>;
             using InterfaceB = properties::PropertyInterfaceT<B>;
 
