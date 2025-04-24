@@ -3,7 +3,7 @@
 #include "Tokens/Boolean.h"
 #include "Tokens/Comma.h"
 #include "Tokens/Function.h"
-#include "Tokens/Indexing.h"
+#include "Tokens/Operators/IndexingOperator.h"
 #include "Tokens/Number.h"
 #include "Tokens/Variable.h"
 #include "Tokens/Operators/BinaryOperators.h"
@@ -137,7 +137,7 @@ namespace webwork::expression {
             return std::make_shared<Boolean>(false);
         }},
         {ExpressionToken::FunctionCall, GetTokenCreator<Function>()},
-        {ExpressionToken::LeftSquareParenthesis, GetTokenCreator<Indexing>()},
+        {ExpressionToken::LeftSquareParenthesis, GetTokenCreator<IndexingOperator>()},
         {ExpressionToken::DotAccess, GetTokenCreator<DotAccessOperator>()}
     };
 

@@ -1,21 +1,21 @@
 #include <cmath>
-#include "Indexing.h"
+#include "IndexingOperator.h"
 
-#include "../Expression.h"
-#include "../../../Properties/Array.h"
+#include "../../Expression.h"
+#include "../../../../Properties/Array.h"
 
 namespace webwork::expression {
-    Indexing::Indexing(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightSquareParenthesis, "indexing") {}
+    IndexingOperator::IndexingOperator(std::string_view, const Chunk &chunk) : Block(ExpressionToken::RightSquareParenthesis, "indexing") {}
 
-    void Indexing::AddChild(const std::shared_ptr<Token> &child) {
+    void IndexingOperator::AddChild(const std::shared_ptr<Token> &child) {
         operations.AddElement(child);
     }
 
-    void Indexing::CloseBlock() {
+    void IndexingOperator::CloseBlock() {
         operations.CloseExpression();
     }
 
-    std::shared_ptr<const Property> Indexing::CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const {
+    std::shared_ptr<const Property> IndexingOperator::CalculatePostfix(const std::shared_ptr<const Property> &prop, const std::shared_ptr<const properties::Scope> &scope) const {
         const auto array = std::dynamic_pointer_cast<const properties::Array>(prop);
         if (!array) {
             Log(LogLevel::Warning, "Left side of unary index operator is not a number");

@@ -105,8 +105,8 @@ add_executable(cpp-webwork src/main.cpp
         src/ModuleConfig.h
         src/ModuleConfig.cxx
         src/Parser/Expression/Tokens/Operators/BinaryOperator.h
-        src/Parser/Expression/Tokens/Indexing.cxx
-        src/Parser/Expression/Tokens/Indexing.h
+        src/Parser/Expression/Tokens/Operators/IndexingOperator.cxx
+        src/Parser/Expression/Tokens/Operators/IndexingOperator.h
         src/Properties/Interfaces/IDotAccessible.h
         src/Parser/Expression/Tokens/Interfaces/IPostfixUnaryOperator.h
         src/Parser/Expression/Tokens/Operators/DotAccessOperator.cxx
