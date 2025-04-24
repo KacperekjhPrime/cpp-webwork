@@ -4,22 +4,11 @@
 #include "../Token.h"
 #include "../../Chunk.h"
 #include "../../Block.h"
-#include "Interfaces/IBinaryOperator.h"
-#include "Interfaces/IPostfixUnaryOperator.h"
-#include "Interfaces/IPrefixUnaryOperator.h"
+#include "../Operations.h"
 
 namespace webwork::expression {
     class Parenthesis final : public Token, public Block<Token>, public IEvaluable {
-        struct Operation {
-            std::shared_ptr<const IBinaryOperator> binaryOperator;
-            std::shared_ptr<const IPrefixUnaryOperator> prefixOperator;
-            std::shared_ptr<const IPostfixUnaryOperator> postfixOperator;
-            std::shared_ptr<const IEvaluable> expression;
-        };
-
-        std::vector<Operation> operations = {{}};
-
-        std::shared_ptr<const Property> Evaluate(const Operation &op, const std::shared_ptr<const properties::Scope> &scope);
+        Operations operations;
 
     public:
         const size_t startIndex;

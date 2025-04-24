@@ -111,6 +111,10 @@ add_executable(cpp-webwork src/main.cpp
         src/Parser/Expression/Tokens/Interfaces/IPostfixUnaryOperator.h
         src/Parser/Expression/Tokens/Operators/DotAccessOperator.cxx
         src/Parser/Expression/Tokens/Operators/DotAccessOperator.h
+        src/Parser/Expression/Operations.cxx
+        src/Parser/Expression/Operations.h
+        src/Parser/Expression/Tokens/Operators/Noop.cxx
+        src/Parser/Expression/Tokens/Operators/Noop.h
 )
 
 include_directories(cpp-webwork ${ASIO_INCLUDE_DIRS} ${MAGIC_INCLUDE_DIRS})
